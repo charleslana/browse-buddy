@@ -1,0 +1,32 @@
+export default {
+  en: {
+    themes: 'Themes',
+    lightTheme: 'Light theme',
+    darkTheme: 'Dark theme',
+    systemTheme: 'System theme',
+    languages: 'Languages',
+    langEnglish: 'English',
+    langSpanish: 'Spanish',
+    langPortuguese: 'Portuguese',
+  },
+  es: {
+    themes: 'Temas',
+    lightTheme: 'Tema claro',
+    darkTheme: 'Tema oscuro',
+    systemTheme: 'Tema del sistema',
+    languages: 'Idiomas',
+    langEnglish: 'Inglés',
+    langSpanish: 'Español',
+    langPortuguese: 'Portugués',
+  },
+  pt: {
+    themes: 'Temas',
+    lightTheme: 'Tema claro',
+    darkTheme: 'Tema escuro',
+    systemTheme: 'Tema do sistema',
+    languages: 'Idiomas',
+    langEnglish: 'Inglês',
+    langSpanish: 'Espanhol',
+    langPortuguese: 'Português',
+  },
+};

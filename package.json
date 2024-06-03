@@ -1,0 +1,51 @@
+{
+  "name": "browse-buddy",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "npm run clean && vite",
+    "build": "npm run clean && vue-tsc && vite build && electron-builder",
+    "build-linux": "npm run clean && vue-tsc && vite build && electron-builder -l",
+    "preview": "vite preview",
+    "clean": "rm -rf dist-electron",
+    "script": "ts-node -P tsconfig.script.json ./puppeteer/test/script.ts"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.5.2",
+    "@fortawesome/free-brands-svg-icons": "^6.5.2",
+    "@fortawesome/free-regular-svg-icons": "^6.5.2",
+    "@fortawesome/free-solid-svg-icons": "^6.5.2",
+    "@fortawesome/vue-fontawesome": "^3.0.8",
+    "bulma": "^1.0.1",
+    "electron-store": "^8.2.0",
+    "electron-updater": "^6.1.8",
+    "floating-vue": "^5.2.2",
+    "jspdf": "^2.5.1",
+    "jspdf-autotable": "^3.8.2",
+    "puppeteer": "^22.10.0",
+    "vue": "^3.4.27",
+    "vue-draggable-next": "^2.2.1",
+    "vue-i18n": "^9.13.1",
+    "vue-loading-overlay": "^6.0.4",
+    "winston": "^3.13.0"
+  },
+  "devDependencies": {
+    "@rushstack/eslint-patch": "^1.10.3",
+    "@vitejs/plugin-vue": "^5.0.4",
+    "bufferutil": "^4.0.8",
+    "electron": "^30.0.9",
+    "electron-builder": "^24.13.3",
+    "eslint": "^9.4.0",
+    "eslint-plugin-vue": "^9.26.0",
+    "pinia": "^2.1.7",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.4.5",
+    "utf-8-validate": "^6.0.4",
+    "vite": "^5.2.12",
+    "vite-plugin-electron": "^0.28.7",
+    "vite-plugin-electron-renderer": "^0.14.5",
+    "vue-tsc": "^2.0.19"
+  },
+  "main": "dist-electron/main.js"
+}
