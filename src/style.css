@@ -16,6 +16,15 @@ body {
   padding-top: 80px !important;
 }
 
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+}
+
 .logo {
   font-family: 'Bebas';
 }

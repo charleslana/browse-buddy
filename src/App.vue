@@ -1,6 +1,6 @@
 <template>
-  <div class="container">
-    <div class="is-size-1">{{ $t('importTest') }}</div>
+  <Home />
+  <div class="container mt-5">
     <button class="button" @click="run">Click</button>
   </div>
 </template>
@@ -9,6 +9,7 @@
 import { onBeforeUnmount, onMounted } from 'vue';
 import translate from './translate';
 import { SupportedLanguages } from 'electron/types/supported-languages';
+import Home from './Home.vue';
 
 // const t = translate.global.t;
 

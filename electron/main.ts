@@ -1,6 +1,7 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
 import { createMenu } from './menu';
 import { getLanguage } from './translate';
+import { openDialog } from './dialog';
 import { run } from './run';
 import { setTheme } from './theme';
 import { fileURLToPath } from 'node:url';
@@ -62,4 +63,9 @@ ipcMain.on('run', (_, message: string) => {
   run().then(() => {
     win?.webContents.send('run-success', 'success');
   });
+});
+
+ipcMain.on('open-file', () => {
+  const response = openDialog();
+  win?.webContents.send('set-session', response);
 });
