@@ -1,5 +1,7 @@
+import { addUrlPreference, deleteUrlPreference, getUrlsPreference } from './utils/store';
 import { app, BrowserWindow, ipcMain } from 'electron';
 import { createMenu } from './menu';
+import { exportReport } from './report';
 import { getLanguage } from './translate';
 import { openDialog } from './dialog';
 import { run } from './run';
@@ -32,6 +34,7 @@ function createWindow() {
   win.webContents.on('did-finish-load', () => {
     win?.webContents.send('main-process-message', new Date().toLocaleString());
     win?.webContents.send('set-language', getLanguage());
+    win?.webContents.send('set-url', getUrlsPreference());
   });
   if (VITE_DEV_SERVER_URL) {
     win.webContents.openDevTools();
@@ -68,4 +71,18 @@ ipcMain.on('run', (_, message: string) => {
 ipcMain.on('open-file', () => {
   const response = openDialog();
   win?.webContents.send('set-session', response);
+});
+
+ipcMain.on('export-report', (_, jsonData: string) => {
+  exportReport(jsonData);
+});
+
+ipcMain.on('add-url', (_, url: string) => {
+  addUrlPreference(url);
+  win?.webContents.send('set-url', getUrlsPreference());
+});
+
+ipcMain.on('delete-url', (_, url: string) => {
+  deleteUrlPreference(url);
+  win?.webContents.send('set-url', getUrlsPreference());
 });

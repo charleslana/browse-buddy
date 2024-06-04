@@ -17,6 +17,20 @@
             </div>
           </div>
         </div>
+        <Notification
+          :type="isNotificationType"
+          :message="isNotificationMessage"
+          @close="handleNotification"
+          v-if="isNotification"
+        />
+        <input
+          class="input is-large mb-5"
+          type="text"
+          :class="{ 'is-skeleton': isSkeleton }"
+          :placeholder="$t('testName')"
+          v-model.trim="name"
+        />
+        <BoxNavigate :is-skeleton="isSkeleton" @input-filled="handleInputFilled" />
       </div>
     </div>
   </div>
@@ -31,8 +45,18 @@
 import { onBeforeUnmount, onMounted, ref } from 'vue';
 import NavBar from './components/NavBar.vue';
 import ModalConfirm from './components/ModalConfirm.vue';
+import Notification from './components/Notification.vue';
+import translate from './translate';
+import BoxNavigate from './components/BoxNavigate.vue';
 
+const t = translate.global.t;
 const isConfirmModalActive = ref(false);
+const isNotification = ref(false);
+const isNotificationType = ref<'is-danger' | 'is-success'>('is-success');
+const isNotificationMessage = ref(t('testSuccessNotification'));
+const isSkeleton = ref(false);
+const isInputFilled = ref(false);
+const name = ref(t('inputTestName'));
 
 onMounted(() => {
   window.ipcRenderer.on('set-session', (_, response) => handleSession(response));
@@ -56,6 +80,14 @@ function confirmAction(): void {
 
 function closeConfirmModal(): void {
   isConfirmModalActive.value = false;
+}
+
+function handleNotification(): void {
+  isNotification.value = false;
+}
+
+function handleInputFilled(value: boolean): void {
+  isInputFilled.value = value;
 }
 </script>
 

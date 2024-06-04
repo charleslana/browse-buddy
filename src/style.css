@@ -37,3 +37,21 @@ body {
 .modal-card-foot {
   border-radius: 0 !important;
 }
+
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+  outline: none !important;
+  border-color: hsl(221, 14%, calc(24% + 0%)) !important;
+  box-shadow: none !important;
+}
+
+input:active,
+select:active,
+textarea:active,
+button:active {
+  outline: none !important;
+  border-color: hsl(221, 14%, calc(90% + 0%)) !important;
+  box-shadow: none !important;
+}

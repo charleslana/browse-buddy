@@ -6,6 +6,7 @@ const store = new Store();
 
 const themeKey = 'theme';
 const langKey = 'lang';
+const urlsKey = 'urls';
 
 export function setThemeModePreference(mode: ThemeMode): void {
   store.set(themeKey, mode);
@@ -23,4 +24,26 @@ export function setLangPreference(lang: SupportedLanguages): void {
 export function getLangPreference(): SupportedLanguages | undefined {
   const lang = store.get(langKey) as SupportedLanguages | undefined;
   return lang;
+}
+
+export function getUrlsPreference(): string[] {
+  const urls = store.get(urlsKey) as string[] | undefined;
+  return urls !== undefined ? urls : [];
+}
+
+export function addUrlPreference(url: string): void {
+  const urls = getUrlsPreference();
+  if (!urls.includes(url)) {
+    urls.unshift(url);
+    store.set(urlsKey, urls);
+  }
+}
+
+export function deleteUrlPreference(url: string): void {
+  const urls = getUrlsPreference();
+  const index = urls.indexOf(url);
+  if (index !== -1) {
+    urls.splice(index, 1);
+    store.set(urlsKey, urls);
+  }
 }
