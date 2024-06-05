@@ -168,8 +168,8 @@ watch(
 function handleSession(session: RunTest | undefined) {
   if (session) {
     store.saveRunTest(session);
+    isNotification.value = false;
   }
-  isNotification.value = false;
   isSkeleton.value = false;
   isLoading.value = false;
 }

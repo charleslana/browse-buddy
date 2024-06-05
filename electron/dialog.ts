@@ -6,7 +6,7 @@ import { RunTest } from './interfaces/run-test';
 
 const defaultPath = app.getPath('downloads');
 
-export function openFileDialog(): string | undefined {
+export function openFileDialog(): RunTest | undefined {
   const filePaths = dialog.showOpenDialogSync({
     title: 'Open File',
     defaultPath: defaultPath,
@@ -15,7 +15,10 @@ export function openFileDialog(): string | undefined {
   if (filePaths && filePaths.length > 0) {
     const filePath = filePaths[0];
     const fileData = readJsonFile(filePath);
-    return fileData;
+    if (!fileData || !isValidJsonStructure(fileData)) {
+      return undefined;
+    }
+    return JSON.parse(fileData) as RunTest;
   } else {
     return undefined;
   }
@@ -46,11 +49,45 @@ export function readJsonFile(filePath: string): string | undefined {
   }
 }
 
-export function saveJsonFile(filePath: string, jsonData: string): void {
+function saveJsonFile(filePath: string, jsonData: string): void {
   try {
     fs.writeFileSync(filePath, jsonData, { encoding: 'utf-8' });
     logger.info('File successfully saved in:', filePath);
   } catch (error) {
     logger.error('Error saving file:', error);
+  }
+}
+
+export function isValidJsonStructure(data: string): boolean {
+  try {
+    const jsonData = JSON.parse(data);
+    const requiredFields = [
+      'name',
+      'url',
+      'isSaveLastScreenshot',
+      'isSaveEveryScreenshot',
+      'isHeadless',
+      'defaultTimeout',
+      'actions',
+    ];
+    if (typeof jsonData !== 'object' || jsonData === null) {
+      return false;
+    }
+    for (const field of requiredFields) {
+      if (!jsonData.hasOwnProperty(field)) {
+        return false;
+      }
+    }
+    return (
+      typeof jsonData.name === 'string' &&
+      typeof jsonData.url === 'string' &&
+      typeof jsonData.isSaveLastScreenshot === 'boolean' &&
+      typeof jsonData.isSaveEveryScreenshot === 'boolean' &&
+      typeof jsonData.isHeadless === 'boolean' &&
+      typeof jsonData.defaultTimeout === 'number' &&
+      Array.isArray(jsonData.actions)
+    );
+  } catch (error) {
+    return false;
   }
 }
