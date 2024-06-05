@@ -1,11 +1,18 @@
-import { addUrlPreference, deleteUrlPreference, getUrlsPreference } from './utils/store';
 import { app, BrowserWindow, ipcMain } from 'electron';
 import { createMenu } from './menu';
 import { exportReport } from './report';
 import { getLanguage } from './translate';
-import { openDialog } from './dialog';
+import { openFileDialog, saveFileDialog } from './dialog';
 import { run } from './run';
 import { setTheme } from './theme';
+import {
+  addUrlPreference,
+  deleteSessionPreference,
+  deleteUrlPreference,
+  getSessionPreference,
+  getUrlsPreference,
+  saveSessionPreference,
+} from './utils/store';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 
@@ -35,6 +42,7 @@ function createWindow() {
     win?.webContents.send('main-process-message', new Date().toLocaleString());
     win?.webContents.send('set-language', getLanguage());
     win?.webContents.send('set-url', getUrlsPreference());
+    win?.webContents.send('set-session', getSessionPreference());
   });
   if (VITE_DEV_SERVER_URL) {
     win.webContents.openDevTools();
@@ -62,15 +70,18 @@ app.on('activate', () => {
 app.whenReady().then(createWindow);
 
 ipcMain.on('run', (_, message: string) => {
-  console.log(message);
-  run().then(() => {
-    win?.webContents.send('run-success', 'success');
+  run(message).then((response) => {
+    win?.webContents.send('run-complete', response);
   });
 });
 
 ipcMain.on('open-file', () => {
-  const response = openDialog();
+  const response = openFileDialog();
   win?.webContents.send('set-session', response);
+});
+
+ipcMain.on('save-file', (_, jsonData: string) => {
+  saveFileDialog(jsonData);
 });
 
 ipcMain.on('export-report', (_, jsonData: string) => {
@@ -85,4 +96,12 @@ ipcMain.on('add-url', (_, url: string) => {
 ipcMain.on('delete-url', (_, url: string) => {
   deleteUrlPreference(url);
   win?.webContents.send('set-url', getUrlsPreference());
+});
+
+ipcMain.on('save-session', (_, jsonData: string) => {
+  saveSessionPreference(jsonData);
+});
+
+ipcMain.on('delete-session', () => {
+  deleteSessionPreference();
 });

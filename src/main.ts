@@ -4,6 +4,8 @@ import { createApp } from 'vue';
 import { createPinia } from 'pinia';
 import { Tooltip, vTooltip } from 'floating-vue';
 import './style.css';
+import './assets/lib/bulma-timeline.min.css';
+import './assets/lib/modal-fx.min.css';
 import 'bulma/css/bulma.css';
 import 'floating-vue/dist/style.css';
 import 'vue-loading-overlay/dist/css/index.css';

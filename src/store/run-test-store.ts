@@ -1,11 +1,14 @@
+import translate from '@/translate';
 import { Action } from 'electron/interfaces/action';
 import { defineStore } from 'pinia';
 import { RunTest } from 'electron/interfaces/run-test';
 
+const t = translate.global.t;
+
 export const runTestStore = defineStore('runTest', {
   state: (): { runTest: RunTest } => ({
     runTest: {
-      name: '',
+      name: t('inputTestName'),
       url: '',
       isSaveLastScreenshot: true,
       isSaveEveryScreenshot: true,

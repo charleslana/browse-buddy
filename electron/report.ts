@@ -2,6 +2,7 @@ import autoTable from 'jspdf-autotable';
 import fs from 'fs';
 import jsPDF from 'jspdf';
 import logger from './utils/logger';
+import path from 'path';
 import translate from './translate';
 import { app, dialog } from 'electron';
 import { generateDateTime } from './utils/utils';
@@ -12,16 +13,25 @@ export function exportReport(jsonData: string): void {
   const results: NavigationResult[] = JSON.parse(jsonData);
   const doc = generateDocument(results);
   const name = generateDateTime();
-  const filePath = dialog.showSaveDialogSync({
-    title: name,
-    defaultPath: `${defaultPath}/${name}.pdf`,
-    filters: [{ name: 'PDF', extensions: ['pdf'] }],
-  });
-  if (filePath && filePath.length > 0) {
+  dialog
+    .showSaveDialog({
+      title: name,
+      defaultPath: path.join(defaultPath, `${name}.pdf`),
+      filters: [{ name: 'PDF', extensions: ['pdf'] }],
+    })
+    .then((fileName) => {
+      if (fileName && fileName.filePath.length > 0) {
+        savePdfFile(fileName.filePath, doc);
+      }
+    });
+}
+
+export function savePdfFile(filePath: string, doc: jsPDF): void {
+  try {
     fs.writeFileSync(filePath, Buffer.from(doc.output('arraybuffer')));
-    logger.info('Report successfully saved to:', filePath);
-  } else {
-    logger.info('No files selected or operation canceled.');
+    logger.info('File successfully saved in:', filePath);
+  } catch (error) {
+    logger.error('Error saving file:', error);
   }
 }
 

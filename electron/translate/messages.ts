@@ -65,6 +65,7 @@ export default {
     updateReadyMessage: 'A new version of the application is ready. Quit and install now?',
     updateYesButton: 'Yes',
     updateLaterButton: 'Later',
+    startMenu: 'Start',
   },
   es: {
     themes: 'Temas',
@@ -131,6 +132,7 @@ export default {
     updateReadyMessage: 'Una nueva versión de la aplicación está lista. ¿Salir e instalar ahora?',
     updateYesButton: 'Sí',
     updateLaterButton: 'Más tarde',
+    startMenu: 'Comenzar',
   },
   pt: {
     themes: 'Temas',
@@ -197,5 +199,6 @@ export default {
     updateReadyMessage: 'Uma nova versão do aplicativo está pronta. Sair e instalar agora?',
     updateYesButton: 'Sim',
     updateLaterButton: 'Depois',
+    startMenu: 'Início',
   },
 };

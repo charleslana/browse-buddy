@@ -1,42 +1,26 @@
+import packageJson from '../package.json';
 import translate, { setLanguage } from './translate';
-import { BrowserWindow, Menu, nativeTheme } from 'electron';
+import { BrowserWindow, dialog, Menu, nativeTheme, shell } from 'electron';
 import { setThemeModePreference } from './utils/store';
 
 export function createMenu(win: BrowserWindow): void {
   const t = translate.global.t;
   const menuTemplate: Electron.MenuItemConstructorOptions[] = [
     {
-      label: 'File',
+      label: t('startMenu'),
       submenu: [
         {
-          label: 'Exit',
+          label: t('reloadMenu'),
+          role: 'reload',
+        },
+        {
+          label: t('openDevToolsMenu'),
+          role: 'toggleDevTools',
+        },
+        {
+          label: t('closeMenu'),
           role: 'quit',
         },
-      ],
-    },
-    {
-      label: 'Edit',
-      submenu: [
-        { role: 'undo' },
-        { role: 'redo' },
-        { type: 'separator' },
-        { role: 'cut' },
-        { role: 'copy' },
-        { role: 'paste' },
-      ],
-    },
-    {
-      label: 'View',
-      submenu: [
-        { role: 'reload' },
-        { role: 'forceReload' },
-        { role: 'toggleDevTools' },
-        { type: 'separator' },
-        { role: 'resetZoom' },
-        { role: 'zoomIn' },
-        { role: 'zoomOut' },
-        { type: 'separator' },
-        { role: 'togglefullscreen' },
       ],
     },
     {
@@ -95,17 +79,78 @@ export function createMenu(win: BrowserWindow): void {
       ],
     },
     {
-      label: 'Window',
-      submenu: [{ role: 'minimize' }, { role: 'zoom' }, { type: 'separator' }, { role: 'close' }],
-    },
-    {
-      label: 'Help',
+      label: t('exampleMenu'),
       submenu: [
         {
-          label: 'Learn More',
-          click: async () => {
-            const { shell } = require('electron');
-            await shell.openExternal('https://electronjs.org');
+          label: t('actionWaitClick'),
+          click: () => {},
+        },
+        {
+          label: t('actionClick'),
+          click: () => {},
+        },
+        {
+          label: t('actionFill'),
+          click: () => {},
+        },
+        {
+          label: t('actionType'),
+          click: () => {},
+        },
+        {
+          label: t('actionClear'),
+          click: () => {},
+        },
+        {
+          label: t('actionWaitVisible'),
+          click: () => {},
+        },
+        {
+          label: t('actionWaitHidden'),
+          click: () => {},
+        },
+        {
+          label: t('actionClickWaitResponse'),
+          click: () => {},
+        },
+      ],
+    },
+    {
+      label: t('helpMenu'),
+      submenu: [
+        {
+          label: t('documentationMenu'),
+          click: () => {
+            shell.openExternal('https://github.com/charleslana/browse-buddy');
+          },
+        },
+        {
+          label: 'GitHub',
+          click: () => {
+            shell.openExternal('https://github.com/charleslana/browse-buddy');
+          },
+        },
+        {
+          label: 'Discord',
+          click: () => {
+            shell.openExternal('https://discord.gg/rWYTH7qNZ3');
+          },
+        },
+        {
+          label: t('issueMenu'),
+          click: () => {
+            shell.openExternal('https://github.com/charleslana/browse-buddy/issues');
+          },
+        },
+        {
+          label: t('aboutMenu'),
+          click: () => {
+            const projectVersion = packageJson.version;
+            dialog.showMessageBox({
+              type: 'info',
+              title: 'Browse Buddy',
+              message: `${t('developedBy')} Charles Lana\n${t('version')}: ${projectVersion}`,
+            });
           },
         },
       ],

@@ -1,4 +1,4 @@
-import { Action } from 'electron/types/action';
+import { ActionType } from 'electron/types/action-type';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import {
   faRoute,
@@ -17,8 +17,8 @@ export function formatBreakLines(text: string): string {
   return text;
 }
 
-export function getIcon(action: Action): IconDefinition {
-  switch (action) {
+export function getIcon(actionType: ActionType): IconDefinition {
+  switch (actionType) {
     case 'navigate':
       return faRoute;
     case 'wait-click':
