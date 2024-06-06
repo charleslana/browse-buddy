@@ -1,10 +1,233 @@
+import translate from './translate';
+import { Action } from './interfaces/action';
+import { Core } from '../puppeteer/core';
+import { generateUUID } from './utils/utils';
 import { NavigationResult } from './interfaces/navigation-result';
-// import { Core } from '../puppeteer/core';
-// import { Page } from '../puppeteer/page';
+import { Page } from '../puppeteer/page';
+import { RunTest } from './interfaces/run-test';
 
-export async function run(message: string): Promise<NavigationResult[]> {
-  console.log(message);
-  // const page = new Page(Core.getInstance());
-  // await page.navigate('https://practice.expandtesting.com/');
-  return [];
+const navigationResults: NavigationResult[] = [];
+const page = new Page(Core.getInstance());
+
+export async function run(jsonData: string): Promise<NavigationResult[]> {
+  const runTest: RunTest = JSON.parse(jsonData);
+  Core.setHeadless(runTest.isHeadless);
+  Core.setDefaultTimeout(runTest.defaultTimeout);
+  const repeatCount = runTest.repeat ?? 1;
+  let result: NavigationResult[] = [];
+  for (let i = 0; i < repeatCount; i++) {
+    result = await runTestFunction(runTest);
+    await page.closeBrowser();
+  }
+  navigationResults.length = 0;
+  return result;
+}
+
+async function runTestFunction(runTest: RunTest): Promise<NavigationResult[]> {
+  await navigate(runTest);
+  await handleActions(runTest.actions, runTest.isSaveEveryScreenshot);
+  await finish(runTest.isSaveLastScreenshot);
+  const resultsToReturn = navigationResults.slice();
+  return resultsToReturn;
+}
+
+async function navigate(runTest: RunTest): Promise<void> {
+  const t = translate.global.t;
+  const executionResult = await page.navigate(runTest.url, runTest.isSaveEveryScreenshot);
+  navigationResults.push({
+    action: 'navigate',
+    title: t('navigateTo'),
+    message: t('navigateMessage', [runTest.url]),
+    screenshot: executionResult.screenshot,
+    duration: parseFloat(executionResult.duration.toFixed(2)),
+    error: executionResult.error,
+  });
+}
+
+async function handleActions(actions: Action[], isSaveEveryScreenshot?: boolean): Promise<void> {
+  for (const action of actions) {
+    switch (action.type) {
+      case 'wait-click':
+        await handleWaitClick(action, isSaveEveryScreenshot);
+        break;
+      case 'click':
+        await handleClick(action, isSaveEveryScreenshot);
+        break;
+      case 'fill':
+        await handleFill(action, isSaveEveryScreenshot);
+        break;
+      case 'type':
+        await handleType(action, isSaveEveryScreenshot);
+        break;
+      case 'clear':
+        await handleClear(action, isSaveEveryScreenshot);
+        break;
+      case 'wait-visible':
+        await handleWaitVisible(action, isSaveEveryScreenshot);
+        break;
+      case 'wait-hidden':
+        await handleWaitHidden(action, isSaveEveryScreenshot);
+        break;
+      case 'click-wait-response':
+        await handleClickWaitResponse(action, isSaveEveryScreenshot);
+        break;
+      default:
+        break;
+    }
+  }
+}
+
+async function handleWaitClick(action: Action, isSaveEveryScreenshot?: boolean): Promise<void> {
+  const t = translate.global.t;
+  const input = action.inputs[0];
+  const element = `${input.select}${input.value}`;
+  const executionResult = await page.waitForClick(element, action.id, isSaveEveryScreenshot);
+  navigationResults.push({
+    action: 'wait-click',
+    title: t('actionWaitClick'),
+    message: t('waitClickMessage', [element]),
+    screenshot: executionResult.screenshot,
+    duration: parseFloat(executionResult.duration.toFixed(2)),
+    error: executionResult.error,
+  });
+}
+
+async function handleClick(action: Action, isSaveEveryScreenshot?: boolean): Promise<void> {
+  const t = translate.global.t;
+  const input = action.inputs[0];
+  const element = `${input.select}${input.value}`;
+  const executionResult = await page.click(element, action.id, isSaveEveryScreenshot);
+  navigationResults.push({
+    action: 'click',
+    title: t('actionClick'),
+    message: t('clickMessage', [element]),
+    screenshot: executionResult.screenshot,
+    duration: parseFloat(executionResult.duration.toFixed(2)),
+    error: executionResult.error,
+  });
+}
+
+async function handleFill(action: Action, isSaveEveryScreenshot?: boolean): Promise<void> {
+  const t = translate.global.t;
+  const input = action.inputs[0];
+  const secondInput = action.inputs[1];
+  const element = `${input.select}${input.value}`;
+  const executionResult = await page.fill(
+    element,
+    secondInput.value!,
+    action.id,
+    isSaveEveryScreenshot
+  );
+  navigationResults.push({
+    action: 'fill',
+    title: t('actionFill'),
+    message: t('fillMessage', [secondInput.value, element]),
+    screenshot: executionResult.screenshot,
+    duration: parseFloat(executionResult.duration.toFixed(2)),
+    error: executionResult.error,
+  });
+}
+
+async function handleType(action: Action, isSaveEveryScreenshot?: boolean): Promise<void> {
+  const t = translate.global.t;
+  const input = action.inputs[0];
+  const secondInput = action.inputs[1];
+  const element = `${input.select}${input.value}`;
+  const executionResult = await page.type(
+    element,
+    secondInput.value!,
+    action.id,
+    isSaveEveryScreenshot
+  );
+  navigationResults.push({
+    action: 'type',
+    title: t('actionType'),
+    message: t('typeMessage', [secondInput.value, element]),
+    screenshot: executionResult.screenshot,
+    duration: parseFloat(executionResult.duration.toFixed(2)),
+    error: executionResult.error,
+  });
+}
+
+async function handleClear(action: Action, isSaveEveryScreenshot?: boolean): Promise<void> {
+  const t = translate.global.t;
+  const input = action.inputs[0];
+  const element = `${input.select}${input.value}`;
+  const executionResult = await page.clear(element, action.id, isSaveEveryScreenshot);
+  navigationResults.push({
+    action: 'clear',
+    title: t('actionClear'),
+    message: t('clearMessage', [element]),
+    screenshot: executionResult.screenshot,
+    duration: parseFloat(executionResult.duration.toFixed(2)),
+    error: executionResult.error,
+  });
+}
+
+async function handleWaitVisible(action: Action, isSaveEveryScreenshot?: boolean): Promise<void> {
+  const t = translate.global.t;
+  const input = action.inputs[0];
+  const element = `${input.select}${input.value}`;
+  const executionResult = await page.waitForVisible(element, action.id, isSaveEveryScreenshot);
+  navigationResults.push({
+    action: 'wait-visible',
+    title: t('actionWaitVisible'),
+    message: t('waitVisibleMessage', [element]),
+    screenshot: executionResult.screenshot,
+    duration: parseFloat(executionResult.duration.toFixed(2)),
+    error: executionResult.error,
+  });
+}
+
+async function handleWaitHidden(action: Action, isSaveEveryScreenshot?: boolean): Promise<void> {
+  const t = translate.global.t;
+  const input = action.inputs[0];
+  const element = `${input.select}${input.value}`;
+  const executionResult = await page.waitForHidden(element, action.id, isSaveEveryScreenshot);
+  navigationResults.push({
+    action: 'wait-hidden',
+    title: t('actionWaitHidden'),
+    message: t('waitHiddenMessage', [element]),
+    screenshot: executionResult.screenshot,
+    duration: parseFloat(executionResult.duration.toFixed(2)),
+    error: executionResult.error,
+  });
+}
+
+async function handleClickWaitResponse(
+  action: Action,
+  isSaveEveryScreenshot?: boolean
+): Promise<void> {
+  const t = translate.global.t;
+  const input = action.inputs[0];
+  const element = `${input.select}${input.value}`;
+  const urlPattern = `${action.inputs[1].value}`;
+  const executionResult = await page.clickWaitForResponse(
+    element,
+    urlPattern,
+    action.id,
+    isSaveEveryScreenshot
+  );
+  navigationResults.push({
+    action: 'click-wait-response',
+    title: t('actionClickWaitResponse'),
+    message: t('clickWaitResponseMessage', [element, urlPattern]),
+    screenshot: executionResult.screenshot,
+    duration: parseFloat(executionResult.duration.toFixed(2)),
+    error: executionResult.error,
+  });
+}
+
+async function finish(isSaveLastScreenshot: boolean): Promise<void> {
+  const t = translate.global.t;
+  let screenshot: string | undefined;
+  if (isSaveLastScreenshot) {
+    screenshot = await page.screenshot(generateUUID());
+  }
+  navigationResults.push({
+    action: 'end',
+    title: t('testCycleTitle'),
+    message: t('testCycleMessage'),
+    screenshot: screenshot,
+  });
 }

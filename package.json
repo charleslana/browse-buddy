@@ -8,7 +8,7 @@
     "build-linux": "npm run clean && vue-tsc && vite build && electron-builder -l",
     "preview": "vite preview",
     "clean": "rm -rf dist-electron",
-    "script": "ts-node -P tsconfig.script.json ./puppeteer/test/script.ts"
+    "test": "ts-node -P tsconfig.script.json ./puppeteer/test/script.test.ts"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.5.2",

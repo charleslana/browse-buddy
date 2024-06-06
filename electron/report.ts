@@ -29,9 +29,9 @@ export function exportReport(jsonData: string): void {
 export function savePdfFile(filePath: string, doc: jsPDF): void {
   try {
     fs.writeFileSync(filePath, Buffer.from(doc.output('arraybuffer')));
-    logger.info('File successfully saved in:', filePath);
+    logger.info('Arquivo salvo com sucesso em:', filePath);
   } catch (error) {
-    logger.error('Error saving file:', error);
+    logger.error('Erro ao salvar arquivo:', error);
   }
 }
 

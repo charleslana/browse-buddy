@@ -45,7 +45,7 @@ export function readJsonFile(filePath: string): string | undefined {
     const fileData = fs.readFileSync(filePath, 'utf-8');
     return fileData;
   } catch (error) {
-    logger.error('Error reading JSON file:', error);
+    logger.error('Erro ao ler arquivo JSON:', error);
     return undefined;
   }
 }
@@ -63,9 +63,9 @@ export function isValidJsonStructure(data: string): boolean {
 function saveJsonFile(filePath: string, jsonData: string): void {
   try {
     fs.writeFileSync(filePath, jsonData, { encoding: 'utf-8' });
-    logger.info('File successfully saved in:', filePath);
+    logger.info('Arquivo salvo com sucesso em:', filePath);
   } catch (error) {
-    logger.error('Error saving file:', error);
+    logger.error('Erro ao salvar arquivo:', error);
   }
 }
 

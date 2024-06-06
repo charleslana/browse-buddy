@@ -21,6 +21,7 @@ export default defineConfig({
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
       '@electron': fileURLToPath(new URL('./electron', import.meta.url)),
+      '@puppeteer': fileURLToPath(new URL('./puppeteer', import.meta.url)),
     },
   },
   build: {

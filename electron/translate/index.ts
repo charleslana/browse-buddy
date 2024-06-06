@@ -4,7 +4,7 @@ import { createI18n } from 'vue-i18n';
 import { getLangPreference, setLangPreference } from '../utils/store';
 import { SupportedLanguages } from '../types/supported-languages';
 
-const systemLanguage = getLangPreference() || app.getLocale().split('-')[0];
+const systemLanguage = getLangPreference() || (app ? app.getLocale().split('-')[0] : 'en');
 
 const defaultLocale = systemLanguage in messages ? systemLanguage : 'en';
 

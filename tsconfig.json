@@ -19,7 +19,8 @@
     "baseUrl": "./",
     "paths": {
       "@/*": ["src/*"],
-      "@electron/*": ["electron/*"]
+      "@electron/*": ["electron/*"],
+      "@puppeteer/*": ["puppeteer/*"]
     }
   },
   "include": [
