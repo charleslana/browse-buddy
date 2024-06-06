@@ -27,7 +27,8 @@
     "vue-draggable-next": "^2.2.1",
     "vue-i18n": "^9.13.1",
     "vue-loading-overlay": "^6.0.4",
-    "winston": "^3.13.0"
+    "winston": "^3.13.0",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.10.3",

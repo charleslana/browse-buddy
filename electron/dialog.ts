@@ -3,6 +3,7 @@ import logger from './utils/logger';
 import path from 'path';
 import { app, dialog } from 'electron';
 import { RunTest } from './interfaces/run-test';
+import { z } from 'zod';
 
 const defaultPath = app.getPath('downloads');
 
@@ -49,6 +50,16 @@ export function readJsonFile(filePath: string): string | undefined {
   }
 }
 
+export function isValidJsonStructure(data: string): boolean {
+  try {
+    const jsonData = JSON.parse(data);
+    runTestSchema.parse(jsonData);
+    return true;
+  } catch (error) {
+    return false;
+  }
+}
+
 function saveJsonFile(filePath: string, jsonData: string): void {
   try {
     fs.writeFileSync(filePath, jsonData, { encoding: 'utf-8' });
@@ -58,36 +69,12 @@ function saveJsonFile(filePath: string, jsonData: string): void {
   }
 }
 
-export function isValidJsonStructure(data: string): boolean {
-  try {
-    const jsonData = JSON.parse(data);
-    const requiredFields = [
-      'name',
-      'url',
-      'isSaveLastScreenshot',
-      'isSaveEveryScreenshot',
-      'isHeadless',
-      'defaultTimeout',
-      'actions',
-    ];
-    if (typeof jsonData !== 'object' || jsonData === null) {
-      return false;
-    }
-    for (const field of requiredFields) {
-      if (!jsonData.hasOwnProperty(field)) {
-        return false;
-      }
-    }
-    return (
-      typeof jsonData.name === 'string' &&
-      typeof jsonData.url === 'string' &&
-      typeof jsonData.isSaveLastScreenshot === 'boolean' &&
-      typeof jsonData.isSaveEveryScreenshot === 'boolean' &&
-      typeof jsonData.isHeadless === 'boolean' &&
-      typeof jsonData.defaultTimeout === 'number' &&
-      Array.isArray(jsonData.actions)
-    );
-  } catch (error) {
-    return false;
-  }
-}
+const runTestSchema = z.object({
+  name: z.string(),
+  url: z.string(),
+  isSaveLastScreenshot: z.boolean(),
+  isSaveEveryScreenshot: z.boolean(),
+  isHeadless: z.boolean(),
+  defaultTimeout: z.number(),
+  actions: z.array(z.any()),
+});

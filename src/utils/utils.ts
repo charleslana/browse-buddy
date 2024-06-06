@@ -1,4 +1,4 @@
-import { ActionType } from 'electron/types/action-type';
+import { ActionType } from '@electron/types/action-type';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import {
   faRoute,

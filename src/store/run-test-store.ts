@@ -1,7 +1,7 @@
 import translate from '@/translate';
-import { Action } from 'electron/interfaces/action';
+import { Action } from '@electron/interfaces/action';
 import { defineStore } from 'pinia';
-import { RunTest } from 'electron/interfaces/run-test';
+import { RunTest } from '@electron/interfaces/run-test';
 
 const t = translate.global.t;
 

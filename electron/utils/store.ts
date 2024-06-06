@@ -1,7 +1,7 @@
 import Store from 'electron-store';
 import { RunTest } from '@electron/interfaces/run-test';
-import { SupportedLanguages } from 'electron/types/supported-languages';
-import { ThemeMode } from 'electron/types/theme-mode';
+import { SupportedLanguages } from '@electron/types/supported-languages';
+import { ThemeMode } from '@electron/types/theme-mode';
 
 const store = new Store();
 

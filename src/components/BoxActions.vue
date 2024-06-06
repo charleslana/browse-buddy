@@ -183,7 +183,7 @@ import ModalAction from './ModalAction.vue';
 import BoxAction from '@/interfaces/box-action';
 import { ActionCategory } from '@/types/action-category';
 import { runTestStore } from '@/store/run-test-store';
-import { Action } from 'electron/interfaces/action';
+import { Action } from '@electron/interfaces/action';
 import translate from '@/translate';
 import { getIcon } from '@/utils/utils';
 import { generateUUID } from '@electron/utils/utils';

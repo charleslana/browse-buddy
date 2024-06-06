@@ -58,7 +58,7 @@ import { computed, ref, onMounted } from 'vue';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { IconDefinition, faClock } from '@fortawesome/free-solid-svg-icons';
 import { runTestStore } from '@/store/run-test-store';
-import { Action } from 'electron/interfaces/action';
+import { Action } from '@electron/interfaces/action';
 import translate from '@/translate';
 import { SelectOption } from '@electron/types/select-option';
 import { Input } from '@electron/interfaces/input';
