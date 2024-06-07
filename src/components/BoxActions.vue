@@ -175,6 +175,7 @@ import {
   faEye,
   faEyeSlash,
   faReply,
+  faRoute,
 } from '@fortawesome/free-solid-svg-icons';
 import { computed, ref } from 'vue';
 import { VueDraggableNext } from 'vue-draggable-next';
@@ -324,6 +325,18 @@ const actions = computed<BoxAction[]>(() => {
         },
         {
           label: t('labelURLExpression'),
+          placeholder: 'url',
+        },
+      ],
+    },
+    {
+      label: t('navigateTo'),
+      icon: faRoute,
+      category: 'all',
+      type: 'navigate',
+      inputs: [
+        {
+          label: 'URL',
           placeholder: 'url',
         },
       ],
