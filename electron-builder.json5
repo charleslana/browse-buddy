@@ -1,13 +1,27 @@
 // @see - https://www.electron.build/configuration/configuration
 {
   $schema: 'https://raw.githubusercontent.com/electron-userland/electron-builder/master/packages/app-builder-lib/scheme.json',
-  appId: 'YourAppID',
+  appId: 'com.browse.buddy.charleslana',
+  publish: [
+    {
+      provider: 'github',
+      owner: 'charleslana',
+      repo: 'browse-buddy-vite',
+    },
+  ],
+  copyright: 'Copyright © 2024 ${author}',
   asar: true,
-  productName: 'YourAppName',
+  productName: 'Browse-Buddy',
   directories: {
     output: 'release/${version}',
   },
   files: ['dist', 'dist-electron'],
+  extraResources: [
+    {
+      from: 'resources/examples',
+      to: 'resources/examples',
+    },
+  ],
   mac: {
     target: ['dmg'],
     artifactName: '${productName}-Mac-${version}-Installer.${ext}',
@@ -20,12 +34,16 @@
       },
     ],
     artifactName: '${productName}-Windows-${version}-Setup.${ext}',
+    icon: 'src/assets/images/icon256x.ico',
     extraResources: [
       {
         from: 'resources/chrome-win',
         to: 'resources/chrome-win',
       },
     ],
+  },
+  portable: {
+    artifactName: '${productName}-Windows-${version}-Portable.${ext}',
   },
   nsis: {
     oneClick: false,
@@ -36,6 +54,7 @@
   linux: {
     target: ['AppImage'],
     artifactName: '${productName}-Linux-${version}.${ext}',
+    icon: 'src/assets/images/icon256x.png',
     extraResources: [
       {
         from: 'resources/chrome-linux',

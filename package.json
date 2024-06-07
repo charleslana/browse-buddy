@@ -2,12 +2,19 @@
   "name": "browse-buddy",
   "private": true,
   "version": "0.0.0",
+  "author": {
+    "name": "Charles Lana",
+    "email": "charleslanatester@gmail.com"
+  },
+  "description": "Easily set up test automation interface",
+  "homepage": "https://github.com/charleslana/browse-buddy",
   "scripts": {
-    "dev": "npm run clean && vite",
-    "build": "npm run clean && vue-tsc && vite build && electron-builder",
-    "build-linux": "npm run clean && vue-tsc && vite build && electron-builder -l",
+    "dev": "vite",
+    "build": "vue-tsc && vite build && electron-builder",
+    "build-linux": "vue-tsc && vite build && electron-builder -l",
+    "build-win": "vue-tsc && vite build && electron-builder -w",
+    "build-win-portable": "vue-tsc && vite build && electron-builder -w portable",
     "preview": "vite preview",
-    "clean": "rm -rf dist-electron",
     "test": "ts-node -P tsconfig.script.json ./puppeteer/test/script.test.ts"
   },
   "dependencies": {
@@ -33,7 +40,6 @@
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.10.3",
     "@vitejs/plugin-vue": "^5.0.4",
-    "bufferutil": "^4.0.8",
     "electron": "^30.0.9",
     "electron-builder": "^24.13.3",
     "eslint": "^9.4.0",
@@ -42,7 +48,6 @@
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.4.5",
-    "utf-8-validate": "^6.0.4",
     "vite": "^5.2.12",
     "vite-plugin-electron": "^0.28.7",
     "vite-plugin-electron-renderer": "^0.14.5",
