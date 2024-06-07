@@ -1,5 +1,6 @@
 import path from 'path';
 import puppeteer, { Browser, Page } from 'puppeteer';
+import { app } from 'electron';
 
 export class Core {
   private constructor() {}
@@ -52,12 +53,12 @@ export class Core {
   }
 
   private getExecutablePath(): string {
-    const resourcesPackaged =
-      process.platform === 'linux'
-        ? path.join('resources', 'chrome-linux', 'chrome')
-        : process.platform === 'win32'
-        ? path.join('resources', 'chrome-win', 'chrome.exe')
-        : '';
-    return resourcesPackaged;
+    const resourcePath = app?.isPackaged ? process.resourcesPath : '';
+    const platformPaths: { [key: string]: string } = {
+      linux: path.join(resourcePath, 'resources', 'chrome-linux', 'chrome'),
+      win32: path.join(resourcePath, 'resources', 'chrome-win', 'chrome.exe'),
+    };
+
+    return platformPaths[process.platform] || '';
   }
 }
