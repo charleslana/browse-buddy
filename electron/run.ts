@@ -32,16 +32,7 @@ async function runTestFunction(runTest: RunTest): Promise<NavigationResult[]> {
 }
 
 async function navigate(runTest: RunTest): Promise<void> {
-  const t = translate.global.t;
-  const executionResult = await page.navigate(runTest.url, runTest.isSaveEveryScreenshot);
-  navigationResults.push({
-    action: 'navigate',
-    title: t('navigateTo'),
-    message: t('navigateMessage', [runTest.url]),
-    screenshot: executionResult.screenshot,
-    duration: parseFloat(executionResult.duration.toFixed(2)),
-    error: executionResult.error,
-  });
+  await performNavigation(runTest.url, runTest.isSaveEveryScreenshot);
 }
 
 async function handleActions(actions: Action[], isSaveEveryScreenshot?: boolean): Promise<void> {
@@ -70,6 +61,9 @@ async function handleActions(actions: Action[], isSaveEveryScreenshot?: boolean)
         break;
       case 'click-wait-response':
         await handleClickWaitResponse(action, isSaveEveryScreenshot);
+        break;
+      case 'navigate':
+        await handleNavigate(action, isSaveEveryScreenshot);
         break;
       default:
         break;
@@ -212,6 +206,24 @@ async function handleClickWaitResponse(
     action: 'click-wait-response',
     title: t('actionClickWaitResponse'),
     message: t('clickWaitResponseMessage', [element, urlPattern]),
+    screenshot: executionResult.screenshot,
+    duration: parseFloat(executionResult.duration.toFixed(2)),
+    error: executionResult.error,
+  });
+}
+
+async function handleNavigate(action: Action, isSaveEveryScreenshot?: boolean): Promise<void> {
+  const input = action.inputs[0];
+  await performNavigation(input.value!, isSaveEveryScreenshot);
+}
+
+async function performNavigation(url: string, isSaveEveryScreenshot?: boolean): Promise<void> {
+  const t = translate.global.t;
+  const executionResult = await page.navigate(url, isSaveEveryScreenshot);
+  navigationResults.push({
+    action: 'navigate',
+    title: t('navigateTo'),
+    message: t('navigateMessage', [url]),
     screenshot: executionResult.screenshot,
     duration: parseFloat(executionResult.duration.toFixed(2)),
     error: executionResult.error,
