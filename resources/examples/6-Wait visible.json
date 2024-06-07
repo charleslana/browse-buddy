@@ -1,0 +1,36 @@
+{
+  "name": "6-Wait visible",
+  "url": "https://practice.expandtesting.com/add-remove-elements",
+  "isSaveLastScreenshot": true,
+  "isSaveEveryScreenshot": true,
+  "isHeadless": true,
+  "defaultTimeout": 15000,
+  "actions": [
+    {
+      "id": "3e6a0370-d068-4e7d-b7ab-68bd9311f54c",
+      "type": "click",
+      "inputs": [
+        {
+          "label": "The element selector text",
+          "placeholder": "element",
+          "select": "xpath/",
+          "value": "//button[contains(@class, \"btn-primary\")]"
+        }
+      ],
+      "title": "Click"
+    },
+    {
+      "id": "1b63015c-39f1-41e2-a32c-b6742a0560dc",
+      "type": "wait-visible",
+      "inputs": [
+        {
+          "label": "The element selector text",
+          "placeholder": "element",
+          "select": "xpath/",
+          "value": "//button[contains(@class, \"added-manuall\")]"
+        }
+      ],
+      "title": "Wait visible"
+    }
+  ]
+}

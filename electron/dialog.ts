@@ -15,11 +15,7 @@ export function openFileDialog(): RunTest | undefined {
   });
   if (filePaths && filePaths.length > 0) {
     const filePath = filePaths[0];
-    const fileData = readJsonFile(filePath);
-    if (!fileData || !isValidJsonStructure(fileData)) {
-      return undefined;
-    }
-    return JSON.parse(fileData) as RunTest;
+    return openJsonFile(filePath);
   } else {
     return undefined;
   }
@@ -27,6 +23,8 @@ export function openFileDialog(): RunTest | undefined {
 
 export function saveFileDialog(jsonData: string): void {
   const runTest: RunTest = JSON.parse(jsonData);
+  delete runTest.repeat;
+  const updatedJsonData = JSON.stringify(runTest, null, 2);
   dialog
     .showSaveDialog({
       title: runTest.name,
@@ -35,12 +33,20 @@ export function saveFileDialog(jsonData: string): void {
     })
     .then((fileName) => {
       if (fileName && fileName.filePath.length > 0) {
-        saveJsonFile(fileName.filePath, jsonData);
+        saveJsonFile(fileName.filePath, updatedJsonData);
       }
     });
 }
 
-export function readJsonFile(filePath: string): string | undefined {
+export function openJsonFile(filePath: string): RunTest | undefined {
+  const fileData = readJsonFile(filePath);
+  if (!fileData || !isValidJsonStructure(fileData)) {
+    return undefined;
+  }
+  return JSON.parse(fileData) as RunTest;
+}
+
+function readJsonFile(filePath: string): string | undefined {
   try {
     const fileData = fs.readFileSync(filePath, 'utf-8');
     return fileData;
@@ -50,7 +56,7 @@ export function readJsonFile(filePath: string): string | undefined {
   }
 }
 
-export function isValidJsonStructure(data: string): boolean {
+function isValidJsonStructure(data: string): boolean {
   try {
     const jsonData = JSON.parse(data);
     runTestSchema.parse(jsonData);

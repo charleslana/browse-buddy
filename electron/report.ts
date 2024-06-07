@@ -37,8 +37,8 @@ export function savePdfFile(filePath: string, doc: jsPDF): void {
 
 function generateDocument(results: NavigationResult[]): jsPDF {
   const doc = createPDF();
-  addTestResults(doc, results);
   addSummaryInfo(doc, results);
+  addTestResults(doc, results);
   addFooter(doc);
   return doc;
 }
@@ -62,7 +62,7 @@ function addTestResults(doc: jsPDF, results: NavigationResult[]): void {
     result.error || t('passedReport'),
   ]);
   autoTable(doc, {
-    startY: 35,
+    startY: 70,
     headStyles: {
       fillColor: [128, 128, 128],
     },
@@ -86,16 +86,16 @@ function addSummaryInfo(doc: jsPDF, results: NavigationResult[]): void {
     }
     return total;
   }, 0);
-  const finalY = (doc as any).lastAutoTable.finalY;
-  doc.text(t('totalTimeReport', [totalDuration.toFixed(2)]), 14, finalY + 10);
+  const positionY = 27;
+  doc.text(t('totalTimeReport', [totalDuration.toFixed(2)]), 14, positionY + 10);
   const totalTests = results.length;
   const totalPassedTests = calculatePassedTests(results);
   const testsPassedColor = totalPassedTests === totalTests ? 'green' : 'red';
   doc.setTextColor(testsPassedColor);
-  doc.text(t('passedTest', [totalPassedTests, totalTests]), 14, finalY + 20);
+  doc.text(t('passedTest', [totalPassedTests, totalTests]), 14, positionY + 20);
   doc.setTextColor(100);
   const currentDate = new Date().toLocaleString();
-  doc.text(t('exportDate', [currentDate]), 14, finalY + 30);
+  doc.text(t('exportDate', [currentDate]), 14, positionY + 30);
 }
 
 function calculatePassedTests(results: NavigationResult[]): number {

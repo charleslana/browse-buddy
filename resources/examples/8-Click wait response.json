@@ -1,0 +1,41 @@
+{
+  "name": "8-Click wait response",
+  "url": "https://practice.expandtesting.com/api/api-docs/#/Monitor%20Health/monitorHealth",
+  "isSaveLastScreenshot": true,
+  "isSaveEveryScreenshot": true,
+  "isHeadless": true,
+  "defaultTimeout": 15000,
+  "actions": [
+    {
+      "id": "2f0ce26b-6dd8-4040-965a-e52e820b7fdc",
+      "type": "click",
+      "inputs": [
+        {
+          "label": "The element selector text",
+          "placeholder": "element",
+          "select": "xpath/",
+          "value": "//button[contains(@class, \"try-out__btn\")]"
+        }
+      ],
+      "title": "Click"
+    },
+    {
+      "id": "29c0f972-03e5-4709-89c9-a29b16bb643e",
+      "type": "click-wait-response",
+      "inputs": [
+        {
+          "label": "The click element selector text",
+          "placeholder": "element",
+          "select": "xpath/",
+          "value": "//button[contains(@class, \"execute\")]"
+        },
+        {
+          "label": "URL (can use regular expression example: **/api/**/filter)",
+          "placeholder": "url",
+          "value": "**/api/health-check"
+        }
+      ],
+      "title": "Wait for click response"
+    }
+  ]
+}

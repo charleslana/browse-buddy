@@ -1,0 +1,41 @@
+{
+  "name": "5-Clear",
+  "url": "https://practice.expandtesting.com/inputs",
+  "isSaveLastScreenshot": true,
+  "isSaveEveryScreenshot": true,
+  "isHeadless": true,
+  "defaultTimeout": 15000,
+  "actions": [
+    {
+      "id": "14729513-30d8-4adc-8c5b-5ab95db4491e",
+      "type": "fill",
+      "inputs": [
+        {
+          "label": "The element selector text",
+          "placeholder": "element",
+          "select": "#",
+          "value": "input-text"
+        },
+        {
+          "label": "The text to fill (supports contenteditable, selectors and inputs)",
+          "placeholder": "text",
+          "value": "text example"
+        }
+      ],
+      "title": "Fill"
+    },
+    {
+      "id": "73aa0abe-68e0-4c7b-b351-07627511c963",
+      "type": "clear",
+      "inputs": [
+        {
+          "label": "The element selector text",
+          "placeholder": "element",
+          "select": "#",
+          "value": "input-text"
+        }
+      ],
+      "title": "Clear"
+    }
+  ]
+}

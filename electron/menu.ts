@@ -1,10 +1,13 @@
 import packageJson from '../package.json';
+import path from 'path';
 import translate, { setLanguage } from './translate';
 import { BrowserWindow, dialog, Menu, nativeTheme, shell } from 'electron';
+import { openJsonFile } from './dialog';
 import { setThemeModePreference } from './utils/store';
 
 export function createMenu(win: BrowserWindow): void {
   const t = translate.global.t;
+  const jsonPath = path.join('resources', 'examples');
   const menuTemplate: Electron.MenuItemConstructorOptions[] = [
     {
       label: t('startMenu'),
@@ -83,35 +86,59 @@ export function createMenu(win: BrowserWindow): void {
       submenu: [
         {
           label: t('actionWaitClick'),
-          click: () => {},
+          click: () => {
+            const text = openJsonFile(path.join(jsonPath, '1-Wait and click.json'));
+            win.webContents.send('set-session', text);
+          },
         },
         {
           label: t('actionClick'),
-          click: () => {},
+          click: () => {
+            const text = openJsonFile(path.join(jsonPath, '2-Click.json'));
+            win.webContents.send('set-session', text);
+          },
         },
         {
           label: t('actionFill'),
-          click: () => {},
+          click: () => {
+            const text = openJsonFile(path.join(jsonPath, '3-Fill.json'));
+            win.webContents.send('set-session', text);
+          },
         },
         {
           label: t('actionType'),
-          click: () => {},
+          click: () => {
+            const text = openJsonFile(path.join(jsonPath, '4-Type.json'));
+            win.webContents.send('set-session', text);
+          },
         },
         {
           label: t('actionClear'),
-          click: () => {},
+          click: () => {
+            const text = openJsonFile(path.join(jsonPath, '5-Clear.json'));
+            win.webContents.send('set-session', text);
+          },
         },
         {
           label: t('actionWaitVisible'),
-          click: () => {},
+          click: () => {
+            const text = openJsonFile(path.join(jsonPath, '6-Wait visible.json'));
+            win.webContents.send('set-session', text);
+          },
         },
         {
           label: t('actionWaitHidden'),
-          click: () => {},
+          click: () => {
+            const text = openJsonFile(path.join(jsonPath, '7-Wait hidden.json'));
+            win.webContents.send('set-session', text);
+          },
         },
         {
           label: t('actionClickWaitResponse'),
-          click: () => {},
+          click: () => {
+            const text = openJsonFile(path.join(jsonPath, '8-Click wait response.json'));
+            win.webContents.send('set-session', text);
+          },
         },
       ],
     },

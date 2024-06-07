@@ -1,0 +1,23 @@
+{
+  "name": "1-Wait and click",
+  "url": "https://practice.expandtesting.com/inputs",
+  "isSaveLastScreenshot": true,
+  "isSaveEveryScreenshot": true,
+  "isHeadless": true,
+  "defaultTimeout": 15000,
+  "actions": [
+    {
+      "id": "9b368bc4-7885-4e9f-968c-76dc2cb318ba",
+      "type": "wait-click",
+      "inputs": [
+        {
+          "label": "The element selector text",
+          "placeholder": "element",
+          "select": "#",
+          "value": "btn-display-inputs"
+        }
+      ],
+      "title": "Wait and click"
+    }
+  ]
+}
