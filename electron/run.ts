@@ -68,6 +68,9 @@ async function handleActions(actions: Action[], isSaveEveryScreenshot?: boolean)
       case 'enter':
         await handleEnter(action, isSaveEveryScreenshot);
         break;
+      case 'reload':
+        await handleReload(action, isSaveEveryScreenshot);
+        break;
       default:
         break;
     }
@@ -227,6 +230,19 @@ async function handleEnter(action: Action, isSaveEveryScreenshot?: boolean): Pro
     action: 'enter',
     title: t('actionEnter'),
     message: t('actionEnter'),
+    screenshot: executionResult.screenshot,
+    duration: parseFloat(executionResult.duration.toFixed(2)),
+    error: executionResult.error,
+  });
+}
+
+async function handleReload(action: Action, isSaveEveryScreenshot?: boolean): Promise<void> {
+  const t = translate.global.t;
+  const executionResult = await page.reload(action.id, isSaveEveryScreenshot);
+  navigationResults.push({
+    action: 'reload',
+    title: t('actionReload'),
+    message: t('actionReload'),
     screenshot: executionResult.screenshot,
     duration: parseFloat(executionResult.duration.toFixed(2)),
     error: executionResult.error,

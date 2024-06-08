@@ -1,0 +1,34 @@
+{
+  "name": "10-Reload page",
+  "url": "https://www.saucedemo.com/v1/",
+  "isSaveLastScreenshot": true,
+  "isSaveEveryScreenshot": true,
+  "isHeadless": true,
+  "defaultTimeout": 15000,
+  "actions": [
+    {
+      "id": "d66ad695-c2ec-44bd-8e1f-7c4692f032b2",
+      "type": "fill",
+      "inputs": [
+        {
+          "label": "The element selector text",
+          "placeholder": "element",
+          "select": "#",
+          "value": "user-name"
+        },
+        {
+          "label": "The text to fill (supports contenteditable, selectors and inputs)",
+          "placeholder": "text",
+          "value": "standard_user"
+        }
+      ],
+      "title": "Fill"
+    },
+    {
+      "id": "073e475e-7742-492a-8cee-2ea1d9f893b1",
+      "type": "reload",
+      "inputs": [],
+      "title": "Reload page"
+    }
+  ]
+}

@@ -73,6 +73,9 @@ export default {
     repeatTooltip: 'Set the test repetition quantity (min. 1, max. 100)',
     actionEnter: 'Press Enter',
     loadingText: 'Please wait, we are running the test...',
+    actionReload: 'Reload page',
+    activeText: 'Active',
+    inactiveText: 'Inactive',
   },
   es: {
     importTest: 'Importar una prueba ya configurada',
@@ -148,6 +151,9 @@ export default {
     repeatTooltip: 'Establezca la cantidad de repetición de la prueba (mín. 1, máx. 100)',
     actionEnter: 'Presione Entrar',
     loadingText: 'Espere, estamos realizando la prueba...',
+    actionReload: 'Actualizar página',
+    activeText: 'Activar',
+    inactiveText: 'Desactivar',
   },
   pt: {
     importTest: 'Importar um teste já configurado',
@@ -223,5 +229,8 @@ export default {
     repeatTooltip: 'Defina a quantidade de repetição do teste (min. 1 , máx 100)',
     actionEnter: 'Pressionar Enter',
     loadingText: 'Aguarde, estamos executando o teste...',
+    actionReload: 'Atualiza página',
+    activeText: 'Ativar',
+    inactiveText: 'Desativar',
   },
 };

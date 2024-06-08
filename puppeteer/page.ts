@@ -253,10 +253,30 @@ export class Page {
     let error: string | undefined;
     try {
       await this.page.keyboard.press('Enter');
-      logger.info('Sucesso ao pressionar a tecla Enter com seletor');
+      logger.info('Sucesso ao pressionar a tecla Enter');
     } catch (e) {
       error = this.t('enterError');
       logger.error(`Erro ao pressionar a tecla Enter: ${e}`);
+    } finally {
+      screenshot = await this.saveScreenshot(id, saveScreenshot);
+      const endTime = Date.now();
+      duration = (endTime - startTime) / 1000;
+    }
+    return { screenshot, duration, error };
+  }
+
+  public async reload(id: string, saveScreenshot?: boolean): Promise<ExecutionResult> {
+    logger.warn('Tentando atualizar a página ...');
+    let screenshot: string | undefined;
+    const startTime = Date.now();
+    let duration = 0;
+    let error: string | undefined;
+    try {
+      await this.page.reload({ waitUntil: 'domcontentloaded' });
+      logger.info('Sucesso ao atualizar a página');
+    } catch (e) {
+      error = this.t('reloadError');
+      logger.error(`Erro ao atualizar a página: ${e}`);
     } finally {
       screenshot = await this.saveScreenshot(id, saveScreenshot);
       const endTime = Date.now();
