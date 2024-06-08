@@ -139,6 +139,13 @@ export function createMenu(win: BrowserWindow): void {
             win.webContents.send('set-session', text);
           },
         },
+        {
+          label: t('actionEnter'),
+          click: () => {
+            const text = openJsonFile(getJsonResourcesPath('9-Press Enter.json'));
+            win.webContents.send('set-session', text);
+          },
+        },
       ],
     },
     {

@@ -65,6 +65,9 @@ async function handleActions(actions: Action[], isSaveEveryScreenshot?: boolean)
       case 'navigate':
         await handleNavigate(action, isSaveEveryScreenshot);
         break;
+      case 'enter':
+        await handleEnter(action, isSaveEveryScreenshot);
+        break;
       default:
         break;
     }
@@ -215,6 +218,19 @@ async function handleClickWaitResponse(
 async function handleNavigate(action: Action, isSaveEveryScreenshot?: boolean): Promise<void> {
   const input = action.inputs[0];
   await performNavigation(input.value!, isSaveEveryScreenshot);
+}
+
+async function handleEnter(action: Action, isSaveEveryScreenshot?: boolean): Promise<void> {
+  const t = translate.global.t;
+  const executionResult = await page.enter(action.id, isSaveEveryScreenshot);
+  navigationResults.push({
+    action: 'enter',
+    title: t('actionEnter'),
+    message: t('actionEnter'),
+    screenshot: executionResult.screenshot,
+    duration: parseFloat(executionResult.duration.toFixed(2)),
+    error: executionResult.error,
+  });
 }
 
 async function performNavigation(url: string, isSaveEveryScreenshot?: boolean): Promise<void> {

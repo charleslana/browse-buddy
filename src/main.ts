@@ -8,7 +8,6 @@ import './assets/lib/bulma-timeline.min.css';
 import './assets/lib/modal-fx.min.css';
 import 'bulma/css/bulma.css';
 import 'floating-vue/dist/style.css';
-import 'vue-loading-overlay/dist/css/index.css';
 
 const app = createApp(App);
 

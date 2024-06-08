@@ -36,7 +36,6 @@ export default defineConfig({
               'puppeteer',
               'vue-draggable-next',
               'vue-i18n',
-              'vue-loading-overlay',
               'winston',
               'zod',
             ],

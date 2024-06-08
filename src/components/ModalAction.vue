@@ -19,7 +19,8 @@
             <span>{{ $t('iconMessageTooltip') }}</span>
           </template>
         </VTooltip>
-        <div class="field" v-for="(input, index) in action.inputs" :key="index">
+        <div class="field" v-if="action.inputs.length === 0">{{ modalTitle }}</div>
+        <div class="field" v-for="(input, index) in action.inputs" :key="index" v-else>
           <div class="field" v-if="input.select">
             <label class="label">{{ $t('selectInput') }}</label>
             <div class="select">

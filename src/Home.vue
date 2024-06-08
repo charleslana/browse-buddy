@@ -73,12 +73,11 @@
       <FontAwesomeIcon :icon="faHandPointDown" />
     </button>
   </div>
-  <Loading
-    v-model:active="isLoading"
-    :is-full-page="true"
-    :lock-scroll="true"
-    background-color="#000"
-    color="#fff"
+  <LoadingOverlay
+    :active="isLoading"
+    :message="$t('loadingText')"
+    :lock-scroll="isLoading"
+    :fill-progress="fillProgress"
   />
 </template>
 
@@ -96,7 +95,7 @@ import { NavigationResult } from '@electron/interfaces/navigation-result';
 import Settings from './components/Settings.vue';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { faHandPointUp, faHandPointDown } from '@fortawesome/free-solid-svg-icons';
-import Loading from 'vue-loading-overlay';
+import LoadingOverlay from './components/LoadingOverlay.vue';
 import { RunTest } from '@electron/interfaces/run-test';
 
 const store = runTestStore();
@@ -110,6 +109,7 @@ const isSkeleton = ref(true);
 const isInputFilled = ref(false);
 const name = ref(store.runTest.name);
 const isLoading = ref(false);
+const fillProgress = ref(false);
 const defaultNameValues = [
   translate.global.messages.en.inputTestName,
   translate.global.messages.es.inputTestName,
@@ -225,7 +225,11 @@ function handleRunResult(results: NavigationResult[]): void {
     isNotificationMessage.value = t('testSuccessNotification');
   }
   isNotification.value = true;
-  isLoading.value = false;
+  fillProgress.value = true;
+  setTimeout(() => {
+    isLoading.value = false;
+    fillProgress.value = false;
+  }, 1000);
   scrollToTop();
 }
 

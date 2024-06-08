@@ -71,6 +71,8 @@ export default {
     labelTextToType: 'The text to enter',
     repeatInput: 'Number of repetitions',
     repeatTooltip: 'Set the test repetition quantity (min. 1, max. 100)',
+    actionEnter: 'Press Enter',
+    loadingText: 'Please wait, we are running the test...',
   },
   es: {
     importTest: 'Importar una prueba ya configurada',
@@ -144,6 +146,8 @@ export default {
     labelTextToType: 'El texto a ingresar',
     repeatInput: 'Cantidad de repetición',
     repeatTooltip: 'Establezca la cantidad de repetición de la prueba (mín. 1, máx. 100)',
+    actionEnter: 'Presione Entrar',
+    loadingText: 'Espere, estamos realizando la prueba...',
   },
   pt: {
     importTest: 'Importar um teste já configurado',
@@ -217,5 +221,7 @@ export default {
     labelTextToType: 'O texto a digitar',
     repeatInput: 'Quantidade de repetição',
     repeatTooltip: 'Defina a quantidade de repetição do teste (min. 1 , máx 100)',
+    actionEnter: 'Pressionar Enter',
+    loadingText: 'Aguarde, estamos executando o teste...',
   },
 };

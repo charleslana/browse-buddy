@@ -54,6 +54,7 @@
                 <button
                   class="button card-footer-item is-primary"
                   @click="handleActionUpdate(action)"
+                  v-if="action.inputs.length > 0"
                 >
                   {{ $t('editButton') }}
                 </button>
@@ -340,6 +341,13 @@ const actions = computed<BoxAction[]>(() => {
           placeholder: 'url',
         },
       ],
+    },
+    {
+      label: t('actionEnter'),
+      icon: faKeyboard,
+      category: 'fill',
+      type: 'enter',
+      inputs: [],
     },
   ];
   return translatedActions;
