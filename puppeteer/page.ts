@@ -285,6 +285,31 @@ export class Page {
     return { screenshot, duration, error };
   }
 
+  public async select(
+    selector: string,
+    value: string,
+    id: string,
+    saveScreenshot?: boolean
+  ): Promise<ExecutionResult> {
+    logger.warn(`Tentando aguardar elemento select com seletor ${selector} ...`);
+    let screenshot: string | undefined;
+    const startTime = Date.now();
+    let duration = 0;
+    let error: string | undefined;
+    try {
+      await this.page.select(selector, value);
+      logger.info(`Sucesso ao esperar o seletor ${selector} com valor ${value}`);
+    } catch (e) {
+      error = this.t('selectError', [selector, value]);
+      logger.info(`Erro ao esperar o seletor ${selector} com valor ${value}: ${e}`);
+    } finally {
+      screenshot = await this.saveScreenshot(id, saveScreenshot);
+      const endTime = Date.now();
+      duration = (endTime - startTime) / 1000;
+    }
+    return { screenshot, duration, error };
+  }
+
   public async closeBrowser(): Promise<void> {
     logger.warn('Tentando fechar o navegador ...');
     try {

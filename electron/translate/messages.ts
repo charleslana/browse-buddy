@@ -70,6 +70,9 @@ export default {
     actionEnter: 'Press Enter',
     actionReload: 'Reload page',
     reloadError: 'Error reloading page',
+    selectError: 'Error when selecting selector {0} with value {1}',
+    actionSelect: 'Select',
+    selectMessage: 'Select with selector: {0} and value: {1}',
   },
   es: {
     themes: 'Temas',
@@ -141,6 +144,9 @@ export default {
     actionEnter: 'Presione Entrar',
     actionReload: 'Actualizar página',
     reloadError: 'Error al actualizar la página',
+    selectError: 'Error al seleccionar selector {0} con valor {1}',
+    actionSelect: 'Seleccione el select',
+    selectMessage: 'Seleccione el select con selector: {0} y valor: {1}',
   },
   pt: {
     themes: 'Temas',
@@ -212,5 +218,8 @@ export default {
     actionEnter: 'Pressionar Enter',
     actionReload: 'Atualiza página',
     reloadError: 'Erro ao atualizar a página',
+    selectError: 'Erro ao selecionar o select do seletor {0} com valor {1}',
+    actionSelect: 'Selecionar o select',
+    selectMessage: 'Selecionar o select com seletor: {0} e valor: {1}',
   },
 };

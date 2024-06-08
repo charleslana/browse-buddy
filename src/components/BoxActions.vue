@@ -178,6 +178,7 @@ import {
   faReply,
   faRoute,
   faRotate,
+  faCaretDown,
 } from '@fortawesome/free-solid-svg-icons';
 import { computed, ref } from 'vue';
 import { VueDraggableNext } from 'vue-draggable-next';
@@ -356,6 +357,23 @@ const actions = computed<BoxAction[]>(() => {
       category: 'all',
       type: 'reload',
       inputs: [],
+    },
+    {
+      label: t('actionSelect'),
+      icon: faCaretDown,
+      category: 'all',
+      type: 'select',
+      inputs: [
+        {
+          label: t('labelSelectorText'),
+          placeholder: t('placeholderElement'),
+          select: '#',
+        },
+        {
+          label: t('labelSelectValue'),
+          placeholder: t('placeholderValue'),
+        },
+      ],
     },
   ];
   return translatedActions;

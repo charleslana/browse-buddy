@@ -10,4 +10,5 @@ export type ActionType =
   | 'wait-hidden'
   | 'click-wait-response'
   | 'enter'
-  | 'reload';
+  | 'reload'
+  | 'select';

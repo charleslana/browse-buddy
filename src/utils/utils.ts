@@ -11,6 +11,7 @@ import {
   faReply,
   faHourglassEnd,
   faRotate,
+  faCaretDown,
 } from '@fortawesome/free-solid-svg-icons';
 
 export function formatBreakLines(text: string): string {
@@ -44,6 +45,8 @@ export function getIcon(actionType: ActionType): IconDefinition {
       return faKeyboard;
     case 'reload':
       return faRotate;
+    case 'select':
+      return faCaretDown;
     default:
       return faRoute;
   }
