@@ -1,0 +1,47 @@
+{
+  "name": "9-Press Enter",
+  "url": "https://www.saucedemo.com/v1/",
+  "isSaveLastScreenshot": true,
+  "isSaveEveryScreenshot": true,
+  "isHeadless": true,
+  "defaultTimeout": 15000,
+  "actions": [
+    {
+      "id": "d66ad695-c2ec-44bd-8e1f-7c4692f032b2",
+      "type": "fill",
+      "inputs": [
+        {
+          "label": "The element selector text",
+          "placeholder": "element",
+          "select": "#",
+          "value": "user-name"
+        },
+        {
+          "label": "The text to fill (supports contenteditable, selectors and inputs)",
+          "placeholder": "text",
+          "value": "standard_user"
+        }
+      ],
+      "title": "Fill"
+    },
+    {
+      "id": "2abf0904-a9a9-4127-8048-cb9c4d5efb9f",
+      "type": "enter",
+      "inputs": [],
+      "title": "Press Enter"
+    },
+    {
+      "id": "1fc5af11-fcee-4fa0-930e-3f0781afd770",
+      "type": "wait-visible",
+      "inputs": [
+        {
+          "label": "The element selector text",
+          "placeholder": "element",
+          "select": "xpath/",
+          "value": "//h3[@data-test='error' and contains(text()[2], 'Password is required')]/text()[2]"
+        }
+      ],
+      "title": "Wait visible"
+    }
+  ]
+}

@@ -39,6 +39,8 @@ export function getIcon(actionType: ActionType): IconDefinition {
       return faReply;
     case 'end':
       return faHourglassEnd;
+    case 'enter':
+      return faKeyboard;
     default:
       return faRoute;
   }

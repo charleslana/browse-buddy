@@ -245,6 +245,26 @@ export class Page {
     return { screenshot, duration, error };
   }
 
+  public async enter(id: string, saveScreenshot?: boolean): Promise<ExecutionResult> {
+    logger.warn('Tentando pressionar a tecla Enter ...');
+    let screenshot: string | undefined;
+    const startTime = Date.now();
+    let duration = 0;
+    let error: string | undefined;
+    try {
+      await this.page.keyboard.press('Enter');
+      logger.info('Sucesso ao pressionar a tecla Enter com seletor');
+    } catch (e) {
+      error = this.t('enterError');
+      logger.error(`Erro ao pressionar a tecla Enter: ${e}`);
+    } finally {
+      screenshot = await this.saveScreenshot(id, saveScreenshot);
+      const endTime = Date.now();
+      duration = (endTime - startTime) / 1000;
+    }
+    return { screenshot, duration, error };
+  }
+
   public async closeBrowser(): Promise<void> {
     logger.warn('Tentando fechar o navegador ...');
     try {

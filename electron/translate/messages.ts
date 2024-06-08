@@ -66,6 +66,8 @@ export default {
     updateYesButton: 'Yes',
     updateLaterButton: 'Later',
     startMenu: 'Start',
+    enterError: 'Error when pressing the Enter key',
+    actionEnter: 'Press Enter',
   },
   es: {
     themes: 'Temas',
@@ -133,6 +135,8 @@ export default {
     updateYesButton: 'Sí',
     updateLaterButton: 'Más tarde',
     startMenu: 'Comenzar',
+    enterError: 'Error al presionar la tecla Enter',
+    actionEnter: 'Presione Entrar',
   },
   pt: {
     themes: 'Temas',
@@ -200,5 +204,7 @@ export default {
     updateYesButton: 'Sim',
     updateLaterButton: 'Depois',
     startMenu: 'Início',
+    enterError: 'Erro ao pressionar a tecla Enter',
+    actionEnter: 'Pressionar Enter',
   },
 };
