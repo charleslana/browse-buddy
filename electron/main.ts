@@ -1,7 +1,9 @@
-import { app, BrowserWindow, ipcMain } from 'electron';
+import logger from './utils/logger';
+import translate, { getLanguage } from './translate';
+import { app, BrowserWindow, dialog, ipcMain } from 'electron';
+import { autoUpdater } from 'electron-updater';
 import { createMenu } from './menu';
 import { exportReport } from './report';
-import { getLanguage } from './translate';
 import { openFileDialog, saveFileDialog } from './dialog';
 import { run } from './run';
 import { setTheme } from './theme';
@@ -52,6 +54,7 @@ function createWindow() {
   }
   setTheme();
   createMenu(win);
+  autoUpdater.checkForUpdatesAndNotify();
 }
 
 app.on('window-all-closed', () => {
@@ -104,4 +107,31 @@ ipcMain.on('save-session', (_, jsonData: string) => {
 
 ipcMain.on('delete-session', () => {
   deleteSessionPreference();
+});
+
+autoUpdater.on('update-available', () => {
+  logger.info('Update available.');
+  const t = translate.global.t;
+  dialog.showMessageBox({
+    type: 'info',
+    title: t('updateAvailableTitle'),
+    message: t('updateAvailableMessage'),
+  });
+});
+
+autoUpdater.on('update-downloaded', () => {
+  logger.info('Update downloaded; will install in 5 seconds');
+  const t = translate.global.t;
+  dialog
+    .showMessageBox({
+      type: 'info',
+      title: t('updateReadyTitle'),
+      message: t('updateReadyMessage'),
+      buttons: [t('updateYesButton'), t('updateLaterButton')],
+    })
+    .then((result) => {
+      if (result.response === 0) {
+        autoUpdater.quitAndInstall(false, true);
+      }
+    });
 });
