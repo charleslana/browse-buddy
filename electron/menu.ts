@@ -146,6 +146,13 @@ export function createMenu(win: BrowserWindow): void {
             win.webContents.send('set-session', text);
           },
         },
+        {
+          label: t('actionReload'),
+          click: () => {
+            const text = openJsonFile(getJsonResourcesPath('10-Reload page.json'));
+            win.webContents.send('set-session', text);
+          },
+        },
       ],
     },
     {

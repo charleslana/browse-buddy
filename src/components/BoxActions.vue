@@ -33,7 +33,7 @@
                 <a
                   class="card-header-icon"
                   @click.stop="toggleActionStatus(action.id)"
-                  v-tooltip="action.disabled ? 'Ativar' : 'Desativar'"
+                  v-tooltip="action.disabled ? $t('activeText') : $t('inactiveText')"
                 >
                   <FontAwesomeIcon :icon="action.disabled ? faEyeSlash : faEye" />
                 </a>
@@ -177,6 +177,7 @@ import {
   faEyeSlash,
   faReply,
   faRoute,
+  faRotate,
 } from '@fortawesome/free-solid-svg-icons';
 import { computed, ref } from 'vue';
 import { VueDraggableNext } from 'vue-draggable-next';
@@ -349,6 +350,13 @@ const actions = computed<BoxAction[]>(() => {
       type: 'enter',
       inputs: [],
     },
+    {
+      label: t('actionReload'),
+      icon: faRotate,
+      category: 'all',
+      type: 'reload',
+      inputs: [],
+    },
   ];
   return translatedActions;
 });
@@ -368,6 +376,7 @@ function handleSaveAction(): void {
   action.value = {} as Action;
   modalIsActive.value = false;
   isActive.value = false;
+  setDefaultSearchTerm();
 }
 
 function openModal(): void {
@@ -376,6 +385,10 @@ function openModal(): void {
 
 function closeModal(): void {
   isActive.value = false;
+  setDefaultSearchTerm();
+}
+
+function setDefaultSearchTerm(): void {
   searchTerm.value = '';
   currentCategory.value = 'all';
 }

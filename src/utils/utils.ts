@@ -10,6 +10,7 @@ import {
   faEyeSlash,
   faReply,
   faHourglassEnd,
+  faRotate,
 } from '@fortawesome/free-solid-svg-icons';
 
 export function formatBreakLines(text: string): string {
@@ -41,6 +42,8 @@ export function getIcon(actionType: ActionType): IconDefinition {
       return faHourglassEnd;
     case 'enter':
       return faKeyboard;
+    case 'reload':
+      return faRotate;
     default:
       return faRoute;
   }

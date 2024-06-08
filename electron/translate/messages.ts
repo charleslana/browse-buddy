@@ -68,6 +68,8 @@ export default {
     startMenu: 'Start',
     enterError: 'Error when pressing the Enter key',
     actionEnter: 'Press Enter',
+    actionReload: 'Reload page',
+    reloadError: 'Error reloading page',
   },
   es: {
     themes: 'Temas',
@@ -137,6 +139,8 @@ export default {
     startMenu: 'Comenzar',
     enterError: 'Error al presionar la tecla Enter',
     actionEnter: 'Presione Entrar',
+    actionReload: 'Actualizar página',
+    reloadError: 'Error al actualizar la página',
   },
   pt: {
     themes: 'Temas',
@@ -206,5 +210,7 @@ export default {
     startMenu: 'Início',
     enterError: 'Erro ao pressionar a tecla Enter',
     actionEnter: 'Pressionar Enter',
+    actionReload: 'Atualiza página',
+    reloadError: 'Erro ao atualizar a página',
   },
 };
