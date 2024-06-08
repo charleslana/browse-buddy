@@ -71,6 +71,9 @@ async function handleActions(actions: Action[], isSaveEveryScreenshot?: boolean)
       case 'reload':
         await handleReload(action, isSaveEveryScreenshot);
         break;
+      case 'select':
+        await handleSelect(action, isSaveEveryScreenshot);
+        break;
       default:
         break;
     }
@@ -243,6 +246,22 @@ async function handleReload(action: Action, isSaveEveryScreenshot?: boolean): Pr
     action: 'reload',
     title: t('actionReload'),
     message: t('actionReload'),
+    screenshot: executionResult.screenshot,
+    duration: parseFloat(executionResult.duration.toFixed(2)),
+    error: executionResult.error,
+  });
+}
+
+async function handleSelect(action: Action, isSaveEveryScreenshot?: boolean): Promise<void> {
+  const t = translate.global.t;
+  const input = action.inputs[0];
+  const element = `${input.select}${input.value}`;
+  const value = `${action.inputs[1].value}`;
+  const executionResult = await page.select(element, value, action.id, isSaveEveryScreenshot);
+  navigationResults.push({
+    action: 'select',
+    title: t('actionSelect'),
+    message: t('selectMessage', [element, value]),
     screenshot: executionResult.screenshot,
     duration: parseFloat(executionResult.duration.toFixed(2)),
     error: executionResult.error,

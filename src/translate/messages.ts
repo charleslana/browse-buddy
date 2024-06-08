@@ -76,6 +76,9 @@ export default {
     actionReload: 'Reload page',
     activeText: 'Active',
     inactiveText: 'Inactive',
+    actionSelect: 'Select',
+    labelSelectValue: 'The value of the select',
+    placeholderValue: 'value',
   },
   es: {
     importTest: 'Importar una prueba ya configurada',
@@ -154,6 +157,9 @@ export default {
     actionReload: 'Actualizar página',
     activeText: 'Activar',
     inactiveText: 'Desactivar',
+    actionSelect: 'Seleccione el select',
+    labelSelectValue: 'El valor del select',
+    placeholderValue: 'valor',
   },
   pt: {
     importTest: 'Importar um teste já configurado',
@@ -232,5 +238,8 @@ export default {
     actionReload: 'Atualiza página',
     activeText: 'Ativar',
     inactiveText: 'Desativar',
+    actionSelect: 'Selecionar o select',
+    labelSelectValue: 'O valor do select',
+    placeholderValue: 'valor',
   },
 };

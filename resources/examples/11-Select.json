@@ -1,0 +1,64 @@
+{
+  "name": "11-Select",
+  "url": "https://practice.expandtesting.com/dropdown",
+  "isSaveLastScreenshot": true,
+  "isSaveEveryScreenshot": true,
+  "isHeadless": true,
+  "defaultTimeout": 15000,
+  "actions": [
+    {
+      "id": "4d0695e7-fc7c-4e7b-9779-17b7ec5c43da",
+      "type": "select",
+      "inputs": [
+        {
+          "label": "The element selector text",
+          "placeholder": "element",
+          "select": "xpath/",
+          "value": "//select[@id=\"dropdown\"]"
+        },
+        {
+          "label": "The value of the select",
+          "placeholder": "value",
+          "value": "2"
+        }
+      ],
+      "title": "Select"
+    },
+    {
+      "id": "667f7741-8f8c-4ea0-8a39-a7b37bbf9c90",
+      "type": "select",
+      "inputs": [
+        {
+          "label": "The element selector text",
+          "placeholder": "element",
+          "select": ".",
+          "value": "form-control"
+        },
+        {
+          "label": "The value of the select",
+          "placeholder": "value",
+          "value": "100"
+        }
+      ],
+      "title": "Select"
+    },
+    {
+      "id": "9abf7f59-a29a-4ed0-b4b0-019777b6e2e2",
+      "type": "select",
+      "inputs": [
+        {
+          "label": "The element selector text",
+          "placeholder": "element",
+          "select": "#",
+          "value": "country"
+        },
+        {
+          "label": "The value of the select",
+          "placeholder": "value",
+          "value": "US"
+        }
+      ],
+      "title": "Select"
+    }
+  ]
+}
