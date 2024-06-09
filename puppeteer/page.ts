@@ -4,9 +4,9 @@ import path from 'path';
 import translate from '../electron/translate';
 import { Core } from './core';
 import { CoreError } from './error';
+import { ElementHandle, Page as PuppeteerPage } from 'puppeteer';
 import { ExecutionResult } from './interfaces/execution-result';
 import { generateUUID } from '../electron/utils/utils';
-import { Page as PuppeteerPage } from 'puppeteer';
 
 export class Page {
   constructor(core: Core) {
@@ -310,6 +310,37 @@ export class Page {
     return { screenshot, duration, error };
   }
 
+  public async dragAndDrop(
+    fromElement: string,
+    toElement: string,
+    id: string,
+    saveScreenshot?: boolean
+  ): Promise<ExecutionResult> {
+    logger.warn(
+      `Tentando arrastar seletor com ${fromElement} e soltar com seletor ${toElement} ...`
+    );
+    let screenshot: string | undefined;
+    const startTime = Date.now();
+    let duration = 0;
+    let error: string | undefined;
+    try {
+      await this.dragDrop(fromElement, toElement);
+      logger.info(
+        `Sucesso ao arrastar seletor com ${fromElement} e soltar com seletor ${toElement}`
+      );
+    } catch (e) {
+      error = this.t('dragAndDropError', [fromElement, toElement]);
+      logger.info(
+        `Erro ao arrastar seletor com ${fromElement} e soltar com seletor ${toElement}: ${e}`
+      );
+    } finally {
+      screenshot = await this.saveScreenshot(id, saveScreenshot);
+      const endTime = Date.now();
+      duration = (endTime - startTime) / 1000;
+    }
+    return { screenshot, duration, error };
+  }
+
   public async closeBrowser(): Promise<void> {
     logger.warn('Tentando fechar o navegador ...');
     try {
@@ -370,5 +401,36 @@ export class Page {
 
   private bufferToBase64(buffer: Buffer): string {
     return buffer.toString('base64');
+  }
+
+  private async dragDrop(fromElement: string, toElement: string): Promise<void> {
+    const startElement = await this.findElement(fromElement);
+    const targetElement = await this.findElement(toElement);
+    if (!startElement || !targetElement) {
+      throw new CoreError(
+        `Não foi possível encontrar um dos elementos: ${fromElement}, ${toElement}`
+      );
+    }
+    const startBoundingBox = await startElement.boundingBox();
+    const targetBoundingBox = await targetElement.boundingBox();
+    if (!startBoundingBox || !targetBoundingBox) {
+      throw new CoreError('Não foi possível obter a caixa delimitadora dos elementos');
+    }
+    const startX = startBoundingBox.x + startBoundingBox.width / 2;
+    const startY = startBoundingBox.y + startBoundingBox.height / 2;
+    const endX = targetBoundingBox.x + targetBoundingBox.width / 2;
+    const endY = targetBoundingBox.y + targetBoundingBox.height / 2;
+    await this.page.mouse.move(startX, startY);
+    await this.page.mouse.down();
+    await this.page.mouse.move(endX, endY, { steps: 10 });
+    await this.page.mouse.up();
+  }
+
+  private async findElement(selector: string): Promise<ElementHandle<Element> | null> {
+    try {
+      return await this.page.$(selector);
+    } catch (error) {
+      throw new CoreError(`Erro ao encontrar elemento com seletor ${selector}: ${error}`);
+    }
   }
 }

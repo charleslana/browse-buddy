@@ -74,6 +74,9 @@ async function handleActions(actions: Action[], isSaveEveryScreenshot?: boolean)
       case 'select':
         await handleSelect(action, isSaveEveryScreenshot);
         break;
+      case 'drag-and-drop':
+        await handleDragAndDrop(action, isSaveEveryScreenshot);
+        break;
       default:
         break;
     }
@@ -262,6 +265,28 @@ async function handleSelect(action: Action, isSaveEveryScreenshot?: boolean): Pr
     action: 'select',
     title: t('actionSelect'),
     message: t('selectMessage', [element, value]),
+    screenshot: executionResult.screenshot,
+    duration: parseFloat(executionResult.duration.toFixed(2)),
+    error: executionResult.error,
+  });
+}
+
+async function handleDragAndDrop(action: Action, isSaveEveryScreenshot?: boolean): Promise<void> {
+  const t = translate.global.t;
+  const startInput = action.inputs[0];
+  const targetInput = action.inputs[1];
+  const fromElement = `${startInput.select}${startInput.value}`;
+  const toElement = `${targetInput.select}${targetInput.value}`;
+  const executionResult = await page.dragAndDrop(
+    fromElement,
+    toElement,
+    action.id,
+    isSaveEveryScreenshot
+  );
+  navigationResults.push({
+    action: 'drag-and-drop',
+    title: t('actionDragAndDrop'),
+    message: t('dragAndDropMessage', [fromElement, toElement]),
     screenshot: executionResult.screenshot,
     duration: parseFloat(executionResult.duration.toFixed(2)),
     error: executionResult.error,

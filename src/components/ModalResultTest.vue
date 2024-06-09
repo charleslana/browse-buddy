@@ -10,7 +10,7 @@
           <button class="modal-button-close delete" aria-label="close" @click="closeModal"></button>
         </div>
       </header>
-      <section class="modal-card-body">
+      <section class="modal-card-body" ref="modalBody">
         <div class="timeline">
           <header class="timeline-header">
             <span class="tag is-medium is-link is-light">{{ $t('startReportResult') }}</span>
@@ -73,10 +73,18 @@
           </header>
         </div>
       </section>
-      <footer class="modal-card-foot">
+      <footer class="modal-card-foot is-justify-content-space-between">
         <button class="modal-button-close button" @click="closeModal">
           {{ $t('closeButton') }}
         </button>
+        <div class="buttons">
+          <button @click="goToTop" class="button is-medium">
+            <FontAwesomeIcon :icon="faHandPointUp" />
+          </button>
+          <button @click="goToBottom" class="button is-medium">
+            <FontAwesomeIcon :icon="faHandPointDown" />
+          </button>
+        </div>
       </footer>
     </div>
   </div>
@@ -85,7 +93,12 @@
 
 <script setup lang="ts">
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { faCheck, faXmark } from '@fortawesome/free-solid-svg-icons';
+import {
+  faCheck,
+  faXmark,
+  faHandPointUp,
+  faHandPointDown,
+} from '@fortawesome/free-solid-svg-icons';
 import { computed, onMounted, ref } from 'vue';
 import ModalImage from './ModalImage.vue';
 import { navigationResultStore } from '@/store/navigation-result-store';
@@ -99,6 +112,7 @@ const emit = defineEmits(['close']);
 const store = navigationResultStore();
 const isCloseModalImage = ref(false);
 const screenshot = ref('');
+const modalBody = ref<HTMLElement | null>(null);
 
 const totalDuration = computed(() => {
   return store.navigationResult.reduce((total, result) => total + (result.duration || 0), 0);
@@ -119,6 +133,14 @@ function changeScreenshot(newScreenshot: string): void {
 
 function exportReport(): void {
   window.ipcRenderer.send('export-report', JSON.stringify(store.navigationResult));
+}
+
+function goToTop() {
+  modalBody.value?.scrollTo({ top: 0 });
+}
+
+function goToBottom() {
+  modalBody.value?.scrollTo({ top: modalBody.value.scrollHeight });
 }
 </script>
 

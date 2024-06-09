@@ -160,6 +160,13 @@ export function createMenu(win: BrowserWindow): void {
             win.webContents.send('set-session', text);
           },
         },
+        {
+          label: t('actionDragAndDrop'),
+          click: () => {
+            const text = openJsonFile(getJsonResourcesPath('12-Drag and drop.json'));
+            win.webContents.send('set-session', text);
+          },
+        },
       ],
     },
     {
