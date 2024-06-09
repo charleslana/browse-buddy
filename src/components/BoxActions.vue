@@ -179,6 +179,7 @@ import {
   faRoute,
   faRotate,
   faCaretDown,
+  faHandBackFist,
 } from '@fortawesome/free-solid-svg-icons';
 import { computed, ref } from 'vue';
 import { VueDraggableNext } from 'vue-draggable-next';
@@ -372,6 +373,24 @@ const actions = computed<BoxAction[]>(() => {
         {
           label: t('labelSelectValue'),
           placeholder: t('placeholderValue'),
+        },
+      ],
+    },
+    {
+      label: t('actionDragAndDrop'),
+      icon: faHandBackFist,
+      category: 'all',
+      type: 'drag-and-drop',
+      inputs: [
+        {
+          label: t('labelStartSelectorText'),
+          placeholder: t('placeholderElement'),
+          select: '#',
+        },
+        {
+          label: t('labelTargetSelectorText'),
+          placeholder: t('placeholderElement'),
+          select: '#',
         },
       ],
     },

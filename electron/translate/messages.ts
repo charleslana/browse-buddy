@@ -73,6 +73,9 @@ export default {
     selectError: 'Error when selecting selector {0} with value {1}',
     actionSelect: 'Select',
     selectMessage: 'Select with selector: {0} and value: {1}',
+    dragAndDropError: 'Error when dragging selector with {0} and dropping with selector {1}',
+    actionDragAndDrop: 'Drag and drop',
+    dragAndDropMessage: 'Drag the selector with {0} and drop with selector {1}',
   },
   es: {
     themes: 'Temas',
@@ -147,6 +150,9 @@ export default {
     selectError: 'Error al seleccionar selector {0} con valor {1}',
     actionSelect: 'Seleccione el select',
     selectMessage: 'Seleccione el select con selector: {0} y valor: {1}',
+    dragAndDropError: 'Error al arrastrar selector con {0} y soltar con selector {1}',
+    actionDragAndDrop: 'Arrastrar y soltar',
+    dragAndDropMessage: 'Arrastre el selector con {0} y suéltelo con el selector {1}',
   },
   pt: {
     themes: 'Temas',
@@ -221,5 +227,8 @@ export default {
     selectError: 'Erro ao selecionar o select do seletor {0} com valor {1}',
     actionSelect: 'Selecionar o select',
     selectMessage: 'Selecionar o select com seletor: {0} e valor: {1}',
+    dragAndDropError: 'Erro ao arrastar seletor com {0} e soltar com seletor {1}',
+    actionDragAndDrop: 'Arrastar e soltar',
+    dragAndDropMessage: 'Arrastar o seletor com {0} e soltar com seletor {1}',
   },
 };

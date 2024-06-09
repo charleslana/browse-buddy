@@ -1,0 +1,60 @@
+{
+  "name": "12-Drag and drop",
+  "url": "https://practice.expandtesting.com/drag-and-drop",
+  "isSaveLastScreenshot": true,
+  "isSaveEveryScreenshot": true,
+  "isHeadless": true,
+  "defaultTimeout": 15000,
+  "actions": [
+    {
+      "id": "46ed39ff-1d2e-42a5-908f-698c710a1d5e",
+      "type": "drag-and-drop",
+      "inputs": [
+        {
+          "label": "The selector text of the first element",
+          "placeholder": "element",
+          "select": "#",
+          "value": "column-a"
+        },
+        {
+          "label": "The selector text of the target element",
+          "placeholder": "element",
+          "select": "#",
+          "value": "column-b"
+        }
+      ],
+      "title": "Drag and drop"
+    },
+    {
+      "id": "7c7c6fdc-bdb5-4d79-8bce-a394fc43f638",
+      "type": "navigate",
+      "inputs": [
+        {
+          "label": "URL",
+          "placeholder": "url",
+          "value": "https://practice.expandtesting.com/drag-and-drop-circles"
+        }
+      ],
+      "title": "Navigate to"
+    },
+    {
+      "id": "61a4fc14-4d8c-4582-858f-3c982794a6d8",
+      "type": "drag-and-drop",
+      "inputs": [
+        {
+          "label": "The selector text of the first element",
+          "placeholder": "element",
+          "select": ".",
+          "value": "red"
+        },
+        {
+          "label": "The selector text of the target element",
+          "placeholder": "element",
+          "select": "#",
+          "value": "target"
+        }
+      ],
+      "title": "Drag and drop"
+    }
+  ]
+}

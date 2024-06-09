@@ -12,6 +12,7 @@ import {
   faHourglassEnd,
   faRotate,
   faCaretDown,
+  faHandBackFist,
 } from '@fortawesome/free-solid-svg-icons';
 
 export function formatBreakLines(text: string): string {
@@ -47,6 +48,8 @@ export function getIcon(actionType: ActionType): IconDefinition {
       return faRotate;
     case 'select':
       return faCaretDown;
+    case 'drag-and-drop':
+      return faHandBackFist;
     default:
       return faRoute;
   }

@@ -79,6 +79,9 @@ export default {
     actionSelect: 'Select',
     labelSelectValue: 'The value of the select',
     placeholderValue: 'value',
+    actionDragAndDrop: 'Drag and drop',
+    labelStartSelectorText: 'The selector text of the first element',
+    labelTargetSelectorText: 'The selector text of the target element',
   },
   es: {
     importTest: 'Importar una prueba ya configurada',
@@ -160,6 +163,9 @@ export default {
     actionSelect: 'Seleccione el select',
     labelSelectValue: 'El valor del select',
     placeholderValue: 'valor',
+    actionDragAndDrop: 'Arrastrar y soltar',
+    labelStartSelectorText: 'El texto selector del primer elemento.',
+    labelTargetSelectorText: 'El texto del selector del elemento de destino.',
   },
   pt: {
     importTest: 'Importar um teste já configurado',
@@ -241,5 +247,8 @@ export default {
     actionSelect: 'Selecionar o select',
     labelSelectValue: 'O valor do select',
     placeholderValue: 'valor',
+    actionDragAndDrop: 'Arrastar e soltar',
+    labelStartSelectorText: 'O texto do seletor do primeiro elemento',
+    labelTargetSelectorText: 'O texto do seletor do alvo elemento',
   },
 };

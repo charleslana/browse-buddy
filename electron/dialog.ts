@@ -60,8 +60,10 @@ function isValidJsonStructure(data: string): boolean {
   try {
     const jsonData = JSON.parse(data);
     runTestSchema.parse(jsonData);
+    logger.info('Arquivo validado com sucesso.');
     return true;
   } catch (error) {
+    logger.error('Arquivo inválido.');
     return false;
   }
 }

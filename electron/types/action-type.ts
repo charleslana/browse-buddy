@@ -11,4 +11,5 @@ export type ActionType =
   | 'click-wait-response'
   | 'enter'
   | 'reload'
-  | 'select';
+  | 'select'
+  | 'drag-and-drop';
