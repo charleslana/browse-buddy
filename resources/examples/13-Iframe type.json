@@ -1,0 +1,34 @@
+{
+  "name": "13-Iframe type",
+  "url": "https://practice.expandtesting.com/iframe",
+  "isSaveLastScreenshot": true,
+  "isSaveEveryScreenshot": true,
+  "isHeadless": true,
+  "defaultTimeout": 15000,
+  "actions": [
+    {
+      "id": "42d296e0-bf19-4942-b944-1e12595fd70f",
+      "type": "iframe-type",
+      "inputs": [
+        {
+          "label": "The element iframe selector text",
+          "placeholder": "element",
+          "select": "#",
+          "value": "email-subscribe"
+        },
+        {
+          "label": "The element selector text",
+          "placeholder": "element",
+          "select": "#",
+          "value": "email"
+        },
+        {
+          "label": "The text to enter",
+          "placeholder": "text",
+          "value": "email@example.com"
+        }
+      ],
+      "title": "Enter text inside the iframe"
+    }
+  ]
+}

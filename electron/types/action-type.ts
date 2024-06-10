@@ -12,4 +12,5 @@ export type ActionType =
   | 'enter'
   | 'reload'
   | 'select'
-  | 'drag-and-drop';
+  | 'drag-and-drop'
+  | 'iframe-type';

@@ -76,6 +76,9 @@ export default {
     dragAndDropError: 'Error when dragging selector with {0} and dropping with selector {1}',
     actionDragAndDrop: 'Drag and drop',
     dragAndDropMessage: 'Drag the selector with {0} and drop with selector {1}',
+    actionIframeType: 'Enter text inside the iframe',
+    iframeTypeError: 'Error when typing the text {2} in the element {1} within the iframe {0}',
+    iframeTypeMessage: 'Enter the text {2} in the element {1} within the iframe {0}',
   },
   es: {
     themes: 'Temas',
@@ -153,6 +156,9 @@ export default {
     dragAndDropError: 'Error al arrastrar selector con {0} y soltar con selector {1}',
     actionDragAndDrop: 'Arrastrar y soltar',
     dragAndDropMessage: 'Arrastre el selector con {0} y suéltelo con el selector {1}',
+    actionIframeType: 'Escribir texto dentro del iframe',
+    iframeTypeError: 'Error al escribir el texto {2} en el elemento {1} dentro del iframe {0}',
+    iframeTypeMessage: 'Escribir el texto {2} en el elemento {1} dentro del iframe {0}',
   },
   pt: {
     themes: 'Temas',
@@ -230,5 +236,8 @@ export default {
     dragAndDropError: 'Erro ao arrastar seletor com {0} e soltar com seletor {1}',
     actionDragAndDrop: 'Arrastar e soltar',
     dragAndDropMessage: 'Arrastar o seletor com {0} e soltar com seletor {1}',
+    actionIframeType: 'Digitar texto dentro do iframe',
+    iframeTypeError: 'Erro ao digitar o texto {2} no elemento {1} dentro do iframe {0}',
+    iframeTypeMessage: 'Digitar o texto {2} no elemento {1} dentro do iframe {0}',
   },
 };

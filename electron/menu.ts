@@ -167,6 +167,13 @@ export function createMenu(win: BrowserWindow): void {
             win.webContents.send('set-session', text);
           },
         },
+        {
+          label: t('actionIframeType'),
+          click: () => {
+            const text = openJsonFile(getJsonResourcesPath('13-Iframe type.json'));
+            win.webContents.send('set-session', text);
+          },
+        },
       ],
     },
     {

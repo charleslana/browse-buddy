@@ -13,6 +13,7 @@ import {
   faRotate,
   faCaretDown,
   faHandBackFist,
+  faTriangleExclamation,
 } from '@fortawesome/free-solid-svg-icons';
 
 export function formatBreakLines(text: string): string {
@@ -50,7 +51,9 @@ export function getIcon(actionType: ActionType): IconDefinition {
       return faCaretDown;
     case 'drag-and-drop':
       return faHandBackFist;
+    case 'iframe-type':
+      return faKeyboard;
     default:
-      return faRoute;
+      return faTriangleExclamation;
   }
 }

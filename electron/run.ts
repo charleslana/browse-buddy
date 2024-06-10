@@ -77,6 +77,9 @@ async function handleActions(actions: Action[], isSaveEveryScreenshot?: boolean)
       case 'drag-and-drop':
         await handleDragAndDrop(action, isSaveEveryScreenshot);
         break;
+      case 'iframe-type':
+        await handleIframeType(action, isSaveEveryScreenshot);
+        break;
       default:
         break;
     }
@@ -287,6 +290,30 @@ async function handleDragAndDrop(action: Action, isSaveEveryScreenshot?: boolean
     action: 'drag-and-drop',
     title: t('actionDragAndDrop'),
     message: t('dragAndDropMessage', [fromElement, toElement]),
+    screenshot: executionResult.screenshot,
+    duration: parseFloat(executionResult.duration.toFixed(2)),
+    error: executionResult.error,
+  });
+}
+
+async function handleIframeType(action: Action, isSaveEveryScreenshot?: boolean): Promise<void> {
+  const t = translate.global.t;
+  const frameSelector = action.inputs[0];
+  const selector = action.inputs[1];
+  const text = action.inputs[2];
+  const frame = `${frameSelector.select}${frameSelector.value}`;
+  const element = `${selector.select}${selector.value}`;
+  const executionResult = await page.iframeType(
+    frame,
+    element,
+    text.value!,
+    action.id,
+    isSaveEveryScreenshot
+  );
+  navigationResults.push({
+    action: 'iframe-type',
+    title: t('actionIframeType'),
+    message: t('iframeTypeMessage', [frame, element, text.value]),
     screenshot: executionResult.screenshot,
     duration: parseFloat(executionResult.duration.toFixed(2)),
     error: executionResult.error,
