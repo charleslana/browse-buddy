@@ -82,6 +82,9 @@ export default {
     actionDragAndDrop: 'Drag and drop',
     labelStartSelectorText: 'The selector text of the first element',
     labelTargetSelectorText: 'The selector text of the target element',
+    actionIframeType: 'Enter text inside the iframe',
+    labelSelectorIFrameText: 'The element iframe selector text',
+    actionIframe: 'Iframe',
   },
   es: {
     importTest: 'Importar una prueba ya configurada',
@@ -166,6 +169,9 @@ export default {
     actionDragAndDrop: 'Arrastrar y soltar',
     labelStartSelectorText: 'El texto selector del primer elemento.',
     labelTargetSelectorText: 'El texto del selector del elemento de destino.',
+    actionIframeType: 'Escribir texto dentro del iframe',
+    labelSelectorIFrameText: 'El texto del selector de iframe del elemento.',
+    actionIframe: 'Iframe',
   },
   pt: {
     importTest: 'Importar um teste já configurado',
@@ -250,5 +256,8 @@ export default {
     actionDragAndDrop: 'Arrastar e soltar',
     labelStartSelectorText: 'O texto do seletor do primeiro elemento',
     labelTargetSelectorText: 'O texto do seletor do alvo elemento',
+    actionIframeType: 'Digitar texto dentro do iframe',
+    labelSelectorIFrameText: 'O texto do seletor do iframe do elemento',
+    actionIframe: 'Iframe',
   },
 };

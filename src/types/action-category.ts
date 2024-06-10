@@ -1,1 +1,1 @@
-export type ActionCategory = 'all' | 'click' | 'fill' | 'wait';
+export type ActionCategory = 'all' | 'click' | 'fill' | 'wait' | 'iframe';

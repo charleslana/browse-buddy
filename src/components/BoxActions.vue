@@ -101,6 +101,11 @@
               @click="currentCategory = 'wait'"
               >{{ $t('actionWait') }}</a
             >
+            <a
+              :class="{ 'is-active': currentCategory === 'iframe' }"
+              @click="currentCategory = 'iframe'"
+              >{{ $t('actionIframe') }}</a
+            >
           </p>
           <div class="panel-block">
             <p class="control has-icons-left">
@@ -391,6 +396,28 @@ const actions = computed<BoxAction[]>(() => {
           label: t('labelTargetSelectorText'),
           placeholder: t('placeholderElement'),
           select: '#',
+        },
+      ],
+    },
+    {
+      label: t('actionIframeType'),
+      icon: faKeyboard,
+      category: 'iframe',
+      type: 'iframe-type',
+      inputs: [
+        {
+          label: t('labelSelectorIFrameText'),
+          placeholder: t('placeholderElement'),
+          select: '#',
+        },
+        {
+          label: t('labelSelectorText'),
+          placeholder: t('placeholderElement'),
+          select: '#',
+        },
+        {
+          label: t('labelTextToType'),
+          placeholder: t('placeholderText'),
         },
       ],
     },

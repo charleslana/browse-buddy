@@ -4,7 +4,7 @@ import path from 'path';
 import translate from '../electron/translate';
 import { Core } from './core';
 import { CoreError } from './error';
-import { ElementHandle, Page as PuppeteerPage } from 'puppeteer';
+import { ElementHandle, Frame, Page as PuppeteerPage } from 'puppeteer';
 import { ExecutionResult } from './interfaces/execution-result';
 import { generateUUID } from '../electron/utils/utils';
 
@@ -341,6 +341,38 @@ export class Page {
     return { screenshot, duration, error };
   }
 
+  public async iframeType(
+    frameSelector: string,
+    selector: string,
+    text: string,
+    id: string,
+    saveScreenshot?: boolean
+  ): Promise<ExecutionResult> {
+    logger.warn(
+      `Tentando digitar ${text} no elemento ${selector} dentro do iframe ${frameSelector} ...`
+    );
+    let screenshot: string | undefined;
+    const startTime = Date.now();
+    let duration = 0;
+    let error: string | undefined;
+    try {
+      await this.handleIframeType(frameSelector, selector, text);
+      logger.info(
+        `Sucesso ao digitar ${text} no elemento ${selector} dentro do iframe ${frameSelector}`
+      );
+    } catch (e) {
+      error = this.t('iframeTypeError', [frameSelector, selector, text]);
+      logger.error(
+        `Erro ao digitar ${text} no elemento ${selector} dentro do iframe ${frameSelector}: ${e}`
+      );
+    } finally {
+      screenshot = await this.saveScreenshot(id, saveScreenshot);
+      const endTime = Date.now();
+      duration = (endTime - startTime) / 1000;
+    }
+    return { screenshot, duration, error };
+  }
+
   public async closeBrowser(): Promise<void> {
     logger.warn('Tentando fechar o navegador ...');
     try {
@@ -431,6 +463,33 @@ export class Page {
       return await this.page.$(selector);
     } catch (error) {
       throw new CoreError(`Erro ao encontrar elemento com seletor ${selector}: ${error}`);
+    }
+  }
+
+  private async findFrame(selector: string): Promise<Frame | null> {
+    const frameHandle = await this.findElement(selector);
+    if (frameHandle) {
+      const frame = await frameHandle.contentFrame();
+      return frame;
+    }
+    return null;
+  }
+
+  private async handleIframeType(
+    frameSelector: string,
+    selector: string,
+    text: string
+  ): Promise<void> {
+    const frame = await this.findFrame(frameSelector);
+    if (frame) {
+      const elementHandle = await frame.$(selector);
+      if (elementHandle) {
+        await elementHandle.type(text);
+      } else {
+        throw new CoreError(`Elemento ${selector} não encontrado no iframe`);
+      }
+    } else {
+      throw new CoreError(`Iframe com seletor ${frameSelector} não encontrado`);
     }
   }
 }
