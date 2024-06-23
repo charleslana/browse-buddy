@@ -34,8 +34,9 @@ process.env.VITE_PUBLIC = VITE_DEV_SERVER_URL
 let win: BrowserWindow | null;
 
 function createWindow() {
+  const icon = path.join(process.env.VITE_PUBLIC, getAppIconPath());
   win = new BrowserWindow({
-    icon: path.join(process.env.VITE_PUBLIC, getAppIconPath()),
+    icon: icon,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
     },
@@ -54,7 +55,7 @@ function createWindow() {
     win.loadFile(path.join(RENDERER_DIST, 'index.html'));
   }
   setTheme();
-  createMenu(win);
+  createMenu(win, icon);
   autoUpdater.checkForUpdatesAndNotify();
 }
 

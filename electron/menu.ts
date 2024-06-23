@@ -5,7 +5,7 @@ import { app, BrowserWindow, dialog, Menu, nativeTheme, shell } from 'electron';
 import { openJsonFile } from './dialog';
 import { setThemeModePreference } from './utils/store';
 
-export function createMenu(win: BrowserWindow): void {
+export function createMenu(win: BrowserWindow, icon: string): void {
   const t = translate.global.t;
   const menuTemplate: Electron.MenuItemConstructorOptions[] = [
     {
@@ -59,7 +59,7 @@ export function createMenu(win: BrowserWindow): void {
           click: () => {
             setLanguage('en');
             win?.webContents.send('set-language', 'en');
-            updateMenu(win);
+            updateMenu(win, icon);
           },
         },
         {
@@ -67,7 +67,7 @@ export function createMenu(win: BrowserWindow): void {
           click: () => {
             setLanguage('es');
             win?.webContents.send('set-language', 'es');
-            updateMenu(win);
+            updateMenu(win, icon);
           },
         },
         {
@@ -75,7 +75,7 @@ export function createMenu(win: BrowserWindow): void {
           click: () => {
             setLanguage('pt');
             win?.webContents.send('set-language', 'pt');
-            updateMenu(win);
+            updateMenu(win, icon);
           },
         },
       ],
@@ -192,9 +192,9 @@ export function createMenu(win: BrowserWindow): void {
           },
         },
         {
-          label: 'Discord',
+          label: 'LinkedIn',
           click: () => {
-            shell.openExternal('https://discord.gg/rWYTH7qNZ3');
+            shell.openExternal('https://www.linkedin.com/in/charleslana/');
           },
         },
         {
@@ -211,6 +211,7 @@ export function createMenu(win: BrowserWindow): void {
               type: 'info',
               title: 'Browse Buddy',
               message: `${t('developedBy')} Charles Lana\n${t('version')}: ${projectVersion}`,
+              icon: icon,
             });
           },
         },
@@ -225,8 +226,8 @@ function buildMenu(menuTemplate: Electron.MenuItemConstructorOptions[]): void {
   Menu.setApplicationMenu(menu);
 }
 
-function updateMenu(win: BrowserWindow): void {
-  createMenu(win);
+function updateMenu(win: BrowserWindow, icon: string): void {
+  createMenu(win, icon);
 }
 
 function getJsonResourcesPath(file: string): string {
