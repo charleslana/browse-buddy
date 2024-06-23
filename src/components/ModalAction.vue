@@ -75,9 +75,11 @@ import { Input } from '@electron/interfaces/input';
 import { generateUUID } from '@electron/utils/utils';
 
 onMounted(() => {
+  if (props.action.id) {
+    context.value = props.action.inputs[0].context;
+  }
   props.action.inputs.forEach((input, index) => {
     selectedType.value[index] = input.select ?? '#';
-    context.value = input.context;
   });
 });
 
