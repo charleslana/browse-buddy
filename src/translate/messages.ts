@@ -85,6 +85,8 @@ export default {
     actionIframeType: 'Enter text inside the iframe',
     labelSelectorIFrameText: 'The element iframe selector text',
     actionIframe: 'Iframe',
+    labelContext: 'Context',
+    labelContextExample: 'Eg.: Given that the user navigates to',
   },
   es: {
     importTest: 'Importar una prueba ya configurada',
@@ -172,6 +174,8 @@ export default {
     actionIframeType: 'Escribir texto dentro del iframe',
     labelSelectorIFrameText: 'El texto del selector de iframe del elemento.',
     actionIframe: 'Iframe',
+    labelContext: 'Contexto',
+    labelContextExample: 'Ej: Dado que el usuario navega a',
   },
   pt: {
     importTest: 'Importar um teste já configurado',
@@ -259,5 +263,7 @@ export default {
     actionIframeType: 'Digitar texto dentro do iframe',
     labelSelectorIFrameText: 'O texto do seletor do iframe do elemento',
     actionIframe: 'Iframe',
+    labelContext: 'Contexto',
+    labelContextExample: 'Ex: Dado que o usuário navega para',
   },
 };

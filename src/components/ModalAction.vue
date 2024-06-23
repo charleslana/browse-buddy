@@ -19,6 +19,15 @@
             <span>{{ $t('iconMessageTooltip') }}</span>
           </template>
         </VTooltip>
+        <div class="field">
+          <label class="label">{{ $t('labelContext') }}</label>
+          <input
+            class="input is-medium"
+            type="text"
+            :placeholder="$t('labelContextExample')"
+            v-model.trim="context"
+          />
+        </div>
         <div class="field" v-if="action.inputs.length === 0">{{ modalTitle }}</div>
         <div class="field" v-for="(input, index) in action.inputs" :key="index" v-else>
           <div class="field" v-if="input.select">
@@ -55,7 +64,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, onMounted } from 'vue';
+import { computed, ref, onMounted, watch } from 'vue';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { IconDefinition, faClock } from '@fortawesome/free-solid-svg-icons';
 import { runTestStore } from '@/store/run-test-store';
@@ -68,6 +77,7 @@ import { generateUUID } from '@electron/utils/utils';
 onMounted(() => {
   props.action.inputs.forEach((input, index) => {
     selectedType.value[index] = input.select ?? '#';
+    context.value = input.context;
   });
 });
 
@@ -93,6 +103,7 @@ const emit = defineEmits(['close-modal', 'save-action']);
 
 const selectedType = ref<SelectOption[]>([]);
 const store = runTestStore();
+const context = ref<string | undefined>();
 
 const t = translate.global.t;
 const selectOptions = computed<{ value: SelectOption; text: string }[]>(() => {
@@ -108,6 +119,12 @@ const isSaveButtonDisabled = computed(() => {
   return props.action.inputs.some((input) => input.value === undefined || input.value === '');
 });
 
+watch(context, (newValue) => {
+  if (newValue === '') {
+    context.value = undefined;
+  }
+});
+
 function handleSelectChange(input: Input, event: Event): void {
   const target = event.target as HTMLSelectElement;
   input.select = target.value as SelectOption;
@@ -119,6 +136,7 @@ function closeModal(): void {
 
 function saveAction(): void {
   emit('save-action');
+  props.action.inputs[0].context = context.value;
   if (props.action.id) {
     store.updateAction({
       ...props.action,

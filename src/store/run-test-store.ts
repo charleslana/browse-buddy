@@ -25,6 +25,9 @@ export const runTestStore = defineStore('runTest', {
     saveUrl(url: string): void {
       this.runTest.url = url;
     },
+    saveContextUrl(context?: string): void {
+      this.runTest.contextUrl = context;
+    },
     setIsSaveLastScreenshot(value: boolean): void {
       this.runTest.isSaveLastScreenshot = value;
     },

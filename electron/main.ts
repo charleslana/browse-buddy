@@ -4,6 +4,7 @@ import { app, BrowserWindow, dialog, ipcMain } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import { createMenu } from './menu';
 import { exportReport } from './report';
+import { getAppIconPath } from './utils/utils';
 import { openFileDialog, saveFileDialog } from './dialog';
 import { run } from './run';
 import { setTheme } from './theme';
@@ -34,7 +35,7 @@ let win: BrowserWindow | null;
 
 function createWindow() {
   win = new BrowserWindow({
-    icon: path.join(process.env.VITE_PUBLIC, 'favicon.ico'),
+    icon: path.join(process.env.VITE_PUBLIC, getAppIconPath()),
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
     },

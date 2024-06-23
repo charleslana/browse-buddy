@@ -46,6 +46,7 @@
             </header>
             <div class="card-content" :class="{ 'is-hidden': !isCardVisible(action.isVisible) }">
               <div class="content break-words" v-if="action.inputs.length > 0">
+                <div>{{ action.inputs[0].context }}</div>
                 <div v-for="(input, index) in action.inputs" :key="index">
                   {{ `${input.select ?? ''}${input.value}` }}
                 </div>

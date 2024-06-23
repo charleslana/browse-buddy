@@ -4,6 +4,9 @@
       <span class="mr-2"><FontAwesomeIcon :icon="faRoute" /></span>
       <span>{{ $t('navigateTo') }}</span>
     </div>
+    <div class="break-words mb-4" :class="{ 'is-skeleton': isSkeleton }" v-if="context">
+      {{ context }}
+    </div>
     <div class="is-flex is-align-items-center is-justify-content-space-between is-flex-wrap-wrap">
       <button class="button is-info mb-4" :class="{ 'is-skeleton': isSkeleton }" @click="openModal">
         {{ $t('selectUrl') }}
@@ -33,7 +36,17 @@
           </button>
         </div>
         <div class="field">
+          <label class="label">{{ $t('labelContext') }}</label>
+          <input
+            class="input is-medium"
+            type="text"
+            :placeholder="$t('labelContextExample')"
+            v-model.trim="context"
+          />
+        </div>
+        <div class="field">
           <div class="control">
+            <label class="label">URL</label>
             <input
               v-model.trim="inputUrl"
               class="input is-medium"
@@ -130,6 +143,7 @@ const urlRegister = ref(false);
 const urlChecked = ref('');
 const newUrl = ref('');
 const urls = ref<string[]>([]);
+const context = ref<string | undefined>();
 
 onMounted(() => {
   window.ipcRenderer.on('set-url', (_, response) => (urls.value = response));
@@ -152,6 +166,23 @@ watch(
   }
 );
 
+watch(
+  () => store.runTest.contextUrl,
+  (newValue) => {
+    if (newValue && newValue !== '') {
+      context.value = newValue;
+      return;
+    }
+    context.value = '';
+  }
+);
+
+watch(context, (newValue) => {
+  if (newValue === '') {
+    context.value = undefined;
+  }
+});
+
 function openModal(): void {
   isModalNavigateActive.value = true;
 }
@@ -160,6 +191,7 @@ function saveURL(): void {
   isModalNavigateActive.value = false;
   checkInput();
   store.saveUrl(inputUrl.value);
+  store.saveContextUrl(context.value);
 }
 
 function closeModal(): void {
