@@ -10,3 +10,12 @@ export function generateDateTime() {
   const timestamp = new Date().toISOString().replace(/[-:T]/g, '').slice(0, -5);
   return timestamp;
 }
+
+export function getAppIconPath(): string {
+  if (process.platform === 'linux') {
+    return 'icon256x.png';
+  } else if (process.platform === 'win32') {
+    return 'favicon.ico';
+  }
+  return '';
+}

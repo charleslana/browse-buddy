@@ -32,7 +32,7 @@ async function runTestFunction(runTest: RunTest): Promise<NavigationResult[]> {
 }
 
 async function navigate(runTest: RunTest): Promise<void> {
-  await performNavigation(runTest.url, runTest.isSaveEveryScreenshot);
+  await performNavigation(runTest.url, runTest.isSaveEveryScreenshot, runTest.contextUrl);
 }
 
 async function handleActions(actions: Action[], isSaveEveryScreenshot?: boolean): Promise<void> {
@@ -94,7 +94,7 @@ async function handleWaitClick(action: Action, isSaveEveryScreenshot?: boolean):
   navigationResults.push({
     action: 'wait-click',
     title: t('actionWaitClick'),
-    message: t('waitClickMessage', [element]),
+    message: input.context ?? t('waitClickMessage', [element]),
     screenshot: executionResult.screenshot,
     duration: parseFloat(executionResult.duration.toFixed(2)),
     error: executionResult.error,
@@ -109,7 +109,7 @@ async function handleClick(action: Action, isSaveEveryScreenshot?: boolean): Pro
   navigationResults.push({
     action: 'click',
     title: t('actionClick'),
-    message: t('clickMessage', [element]),
+    message: input.context ?? t('clickMessage', [element]),
     screenshot: executionResult.screenshot,
     duration: parseFloat(executionResult.duration.toFixed(2)),
     error: executionResult.error,
@@ -130,7 +130,7 @@ async function handleFill(action: Action, isSaveEveryScreenshot?: boolean): Prom
   navigationResults.push({
     action: 'fill',
     title: t('actionFill'),
-    message: t('fillMessage', [secondInput.value, element]),
+    message: input.context ?? t('fillMessage', [secondInput.value, element]),
     screenshot: executionResult.screenshot,
     duration: parseFloat(executionResult.duration.toFixed(2)),
     error: executionResult.error,
@@ -151,7 +151,7 @@ async function handleType(action: Action, isSaveEveryScreenshot?: boolean): Prom
   navigationResults.push({
     action: 'type',
     title: t('actionType'),
-    message: t('typeMessage', [secondInput.value, element]),
+    message: input.context ?? t('typeMessage', [secondInput.value, element]),
     screenshot: executionResult.screenshot,
     duration: parseFloat(executionResult.duration.toFixed(2)),
     error: executionResult.error,
@@ -166,7 +166,7 @@ async function handleClear(action: Action, isSaveEveryScreenshot?: boolean): Pro
   navigationResults.push({
     action: 'clear',
     title: t('actionClear'),
-    message: t('clearMessage', [element]),
+    message: input.context ?? t('clearMessage', [element]),
     screenshot: executionResult.screenshot,
     duration: parseFloat(executionResult.duration.toFixed(2)),
     error: executionResult.error,
@@ -181,7 +181,7 @@ async function handleWaitVisible(action: Action, isSaveEveryScreenshot?: boolean
   navigationResults.push({
     action: 'wait-visible',
     title: t('actionWaitVisible'),
-    message: t('waitVisibleMessage', [element]),
+    message: input.context ?? t('waitVisibleMessage', [element]),
     screenshot: executionResult.screenshot,
     duration: parseFloat(executionResult.duration.toFixed(2)),
     error: executionResult.error,
@@ -196,7 +196,7 @@ async function handleWaitHidden(action: Action, isSaveEveryScreenshot?: boolean)
   navigationResults.push({
     action: 'wait-hidden',
     title: t('actionWaitHidden'),
-    message: t('waitHiddenMessage', [element]),
+    message: input.context ?? t('waitHiddenMessage', [element]),
     screenshot: executionResult.screenshot,
     duration: parseFloat(executionResult.duration.toFixed(2)),
     error: executionResult.error,
@@ -220,7 +220,7 @@ async function handleClickWaitResponse(
   navigationResults.push({
     action: 'click-wait-response',
     title: t('actionClickWaitResponse'),
-    message: t('clickWaitResponseMessage', [element, urlPattern]),
+    message: input.context ?? t('clickWaitResponseMessage', [element, urlPattern]),
     screenshot: executionResult.screenshot,
     duration: parseFloat(executionResult.duration.toFixed(2)),
     error: executionResult.error,
@@ -229,16 +229,17 @@ async function handleClickWaitResponse(
 
 async function handleNavigate(action: Action, isSaveEveryScreenshot?: boolean): Promise<void> {
   const input = action.inputs[0];
-  await performNavigation(input.value!, isSaveEveryScreenshot);
+  await performNavigation(input.value!, isSaveEveryScreenshot, input.context);
 }
 
 async function handleEnter(action: Action, isSaveEveryScreenshot?: boolean): Promise<void> {
   const t = translate.global.t;
+  const input = action.inputs[0];
   const executionResult = await page.enter(action.id, isSaveEveryScreenshot);
   navigationResults.push({
     action: 'enter',
     title: t('actionEnter'),
-    message: t('actionEnter'),
+    message: input.context ?? t('actionEnter'),
     screenshot: executionResult.screenshot,
     duration: parseFloat(executionResult.duration.toFixed(2)),
     error: executionResult.error,
@@ -247,11 +248,12 @@ async function handleEnter(action: Action, isSaveEveryScreenshot?: boolean): Pro
 
 async function handleReload(action: Action, isSaveEveryScreenshot?: boolean): Promise<void> {
   const t = translate.global.t;
+  const input = action.inputs[0];
   const executionResult = await page.reload(action.id, isSaveEveryScreenshot);
   navigationResults.push({
     action: 'reload',
     title: t('actionReload'),
-    message: t('actionReload'),
+    message: input.context ?? t('actionReload'),
     screenshot: executionResult.screenshot,
     duration: parseFloat(executionResult.duration.toFixed(2)),
     error: executionResult.error,
@@ -267,7 +269,7 @@ async function handleSelect(action: Action, isSaveEveryScreenshot?: boolean): Pr
   navigationResults.push({
     action: 'select',
     title: t('actionSelect'),
-    message: t('selectMessage', [element, value]),
+    message: input.context ?? t('selectMessage', [element, value]),
     screenshot: executionResult.screenshot,
     duration: parseFloat(executionResult.duration.toFixed(2)),
     error: executionResult.error,
@@ -289,7 +291,7 @@ async function handleDragAndDrop(action: Action, isSaveEveryScreenshot?: boolean
   navigationResults.push({
     action: 'drag-and-drop',
     title: t('actionDragAndDrop'),
-    message: t('dragAndDropMessage', [fromElement, toElement]),
+    message: startInput.context ?? t('dragAndDropMessage', [fromElement, toElement]),
     screenshot: executionResult.screenshot,
     duration: parseFloat(executionResult.duration.toFixed(2)),
     error: executionResult.error,
@@ -313,20 +315,24 @@ async function handleIframeType(action: Action, isSaveEveryScreenshot?: boolean)
   navigationResults.push({
     action: 'iframe-type',
     title: t('actionIframeType'),
-    message: t('iframeTypeMessage', [frame, element, text.value]),
+    message: frameSelector.context ?? t('iframeTypeMessage', [frame, element, text.value]),
     screenshot: executionResult.screenshot,
     duration: parseFloat(executionResult.duration.toFixed(2)),
     error: executionResult.error,
   });
 }
 
-async function performNavigation(url: string, isSaveEveryScreenshot?: boolean): Promise<void> {
+async function performNavigation(
+  url: string,
+  isSaveEveryScreenshot?: boolean,
+  context?: string
+): Promise<void> {
   const t = translate.global.t;
   const executionResult = await page.navigate(url, isSaveEveryScreenshot);
   navigationResults.push({
     action: 'navigate',
     title: t('navigateTo'),
-    message: t('navigateMessage', [url]),
+    message: context ?? t('navigateMessage', [url]),
     screenshot: executionResult.screenshot,
     duration: parseFloat(executionResult.duration.toFixed(2)),
     error: executionResult.error,
