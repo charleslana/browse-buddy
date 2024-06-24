@@ -6,7 +6,7 @@
     {
       provider: 'github',
       owner: 'charleslana',
-      repo: 'browse-buddy-vite',
+      repo: 'browse-buddy',
     },
   ],
   copyright: 'Copyright © 2024 ${author}',
