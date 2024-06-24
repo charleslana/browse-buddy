@@ -15,17 +15,7 @@ npm i
 - Download for [Windows](https://download-chromium.appspot.com/dl/Win_x64?type=snapshots)
 - Download for [Linux](https://download-chromium.appspot.com/dl/Linux_x64?type=snapshots)
 
-### Linux users
-
-```bash
-npm run dev
-```
-
-### Windows users
-
-- Change settings in the .env file
-
-From EXEC=./resources/chrome-linux/chrome to EXEC=./resources/chrome-win/chrome.exe
+### Run
 
 ```bash
 npm run dev
