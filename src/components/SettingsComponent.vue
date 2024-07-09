@@ -1,49 +1,3 @@
-<template>
-  <div class="column mx-5">
-    <div class="is-size-4 has-text-weight-bold mb-5">{{ $t('runSettings') }}</div>
-    <label class="checkbox mb-4">
-      <input type="checkbox" v-model="saveLastScreenshot" @change="updateSaveLastScreenshot" />
-      {{ $t('saveScreenshotEndOfTest') }}
-    </label>
-    <label class="checkbox mb-4">
-      <input type="checkbox" v-model="saveEveryScreenshot" @change="updateSaveEveryScreenshot" />
-      {{ $t('saveScreenshotForEachAction') }}
-    </label>
-    <label class="checkbox mb-4">
-      <input type="checkbox" v-model="saveHeadless" @change="updateSaveHeadless" />
-      {{ $t('headlessMode') }}
-    </label>
-    <div class="field" v-tooltip="$t('defaultTimeTooltip')">
-      <div class="control">
-        <label class="label is-floating-label" for="default-timeout">{{ $t('defaultTime') }}</label>
-        <input
-          class="input is-medium"
-          :class="{ 'is-skeleton': isSkeleton }"
-          id="default-timeout"
-          placeholder=""
-          type="number"
-          v-model="saveDefaultTimeout"
-          @change="updateSaveDefaultTimeout"
-        />
-      </div>
-    </div>
-    <div class="field" v-tooltip="$t('repeatTooltip')">
-      <div class="control">
-        <label class="label is-floating-label" for="repeat-count">{{ $t('repeatInput') }}</label>
-        <input
-          class="input is-medium"
-          :class="{ 'is-skeleton': isSkeleton }"
-          id="repeat-count"
-          placeholder=""
-          type="number"
-          v-model="repeatedTimes"
-          @change="updateRepeatedTimes"
-        />
-      </div>
-    </div>
-  </div>
-</template>
-
 <script lang="ts" setup>
 import { runTestStore } from '@/store/run-test-store';
 import { onMounted, ref, watch } from 'vue';
@@ -126,5 +80,51 @@ function updateRepeatedTimes(): void {
   store.setRepeat(repeatedTimes.value);
 }
 </script>
+
+<template>
+  <div class="column mx-5">
+    <div class="is-size-4 has-text-weight-bold mb-5">{{ $t('runSettings') }}</div>
+    <label class="checkbox mb-4">
+      <input type="checkbox" v-model="saveLastScreenshot" @change="updateSaveLastScreenshot" />
+      {{ $t('saveScreenshotEndOfTest') }}
+    </label>
+    <label class="checkbox mb-4">
+      <input type="checkbox" v-model="saveEveryScreenshot" @change="updateSaveEveryScreenshot" />
+      {{ $t('saveScreenshotForEachAction') }}
+    </label>
+    <label class="checkbox mb-4">
+      <input type="checkbox" v-model="saveHeadless" @change="updateSaveHeadless" />
+      {{ $t('headlessMode') }}
+    </label>
+    <div class="field" v-tooltip="$t('defaultTimeTooltip')">
+      <div class="control">
+        <label class="label is-floating-label" for="default-timeout">{{ $t('defaultTime') }}</label>
+        <input
+          class="input is-medium"
+          :class="{ 'is-skeleton': isSkeleton }"
+          id="default-timeout"
+          placeholder=""
+          type="number"
+          v-model="saveDefaultTimeout"
+          @change="updateSaveDefaultTimeout"
+        />
+      </div>
+    </div>
+    <div class="field" v-tooltip="$t('repeatTooltip')">
+      <div class="control">
+        <label class="label is-floating-label" for="repeat-count">{{ $t('repeatInput') }}</label>
+        <input
+          class="input is-medium"
+          :class="{ 'is-skeleton': isSkeleton }"
+          id="repeat-count"
+          placeholder=""
+          type="number"
+          v-model="repeatedTimes"
+          @change="updateRepeatedTimes"
+        />
+      </div>
+    </div>
+  </div>
+</template>
 
 <style scoped></style>

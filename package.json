@@ -1,7 +1,7 @@
 {
   "name": "browse-buddy",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.2.0",
   "author": {
     "name": "Charles Lana",
     "email": "charleslanatester@gmail.com"
@@ -9,6 +9,9 @@
   "description": "Easily set up test automation interface",
   "homepage": "https://github.com/charleslana/browse-buddy",
   "scripts": {
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
+    "format": "prettier --write puppeteer/test",
+    "kill": "kill -9 $(lsof -ti:5173)",
     "dev": "vite",
     "build": "vue-tsc && vite build && electron-builder",
     "build-linux": "vue-tsc && vite build && electron-builder -l",
@@ -33,17 +36,21 @@
     "vue": "^3.4.27",
     "vue-draggable-next": "^2.2.1",
     "vue-i18n": "^9.13.1",
+    "vue-router": "^4.4.0",
     "winston": "^3.13.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.10.3",
     "@vitejs/plugin-vue": "^5.0.4",
+    "@vue/eslint-config-prettier": "^9.0.0",
+    "@vue/eslint-config-typescript": "^13.0.0",
     "electron": "^30.0.9",
     "electron-builder": "^24.13.3",
-    "eslint": "^9.4.0",
-    "eslint-plugin-vue": "^9.26.0",
+    "eslint": "^8.56.0",
+    "eslint-plugin-vue": "^9.27.0",
     "pinia": "^2.1.7",
+    "prettier": "^3.3.2",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.4.5",

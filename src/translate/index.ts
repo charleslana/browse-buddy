@@ -1,7 +1,8 @@
 import messages from './messages';
 import { createI18n } from 'vue-i18n';
+import { getLanguage } from '@/utils/local-storage-utils';
 
-const systemLanguage = navigator.language.split('-')[0];
+const systemLanguage = getLanguage() || navigator.language.split('-')[0];
 
 const defaultLocale = systemLanguage in messages ? systemLanguage : 'en';
 

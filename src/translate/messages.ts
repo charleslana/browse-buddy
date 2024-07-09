@@ -1,5 +1,6 @@
 export default {
   en: {
+    title: 'Client',
     importTest: 'Import an already configured test',
     clearTests: 'Clear tests',
     testName: 'Test name',
@@ -89,6 +90,7 @@ export default {
     labelContextExample: 'Eg.: Given that the user navigates to',
   },
   es: {
+    title: 'Cliente',
     importTest: 'Importar una prueba ya configurada',
     clearTests: 'Borrar pruebas',
     testName: 'Nombre de la prueba',
@@ -178,6 +180,7 @@ export default {
     labelContextExample: 'Ej: Dado que el usuario navega a',
   },
   pt: {
+    title: 'Cliente',
     importTest: 'Importar um teste já configurado',
     clearTests: 'Limpar testes',
     testName: 'Nome do teste',

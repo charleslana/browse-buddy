@@ -94,7 +94,7 @@ async function handleWaitClick(action: Action, isSaveEveryScreenshot?: boolean):
   navigationResults.push({
     action: 'wait-click',
     title: t('actionWaitClick'),
-    message: input.context ?? t('waitClickMessage', [element]),
+    message: action.context ?? t('waitClickMessage', [element]),
     screenshot: executionResult.screenshot,
     duration: parseFloat(executionResult.duration.toFixed(2)),
     error: executionResult.error,
@@ -109,7 +109,7 @@ async function handleClick(action: Action, isSaveEveryScreenshot?: boolean): Pro
   navigationResults.push({
     action: 'click',
     title: t('actionClick'),
-    message: input.context ?? t('clickMessage', [element]),
+    message: action.context ?? t('clickMessage', [element]),
     screenshot: executionResult.screenshot,
     duration: parseFloat(executionResult.duration.toFixed(2)),
     error: executionResult.error,
@@ -130,7 +130,7 @@ async function handleFill(action: Action, isSaveEveryScreenshot?: boolean): Prom
   navigationResults.push({
     action: 'fill',
     title: t('actionFill'),
-    message: input.context ?? t('fillMessage', [secondInput.value, element]),
+    message: action.context ?? t('fillMessage', [secondInput.value, element]),
     screenshot: executionResult.screenshot,
     duration: parseFloat(executionResult.duration.toFixed(2)),
     error: executionResult.error,
@@ -151,7 +151,7 @@ async function handleType(action: Action, isSaveEveryScreenshot?: boolean): Prom
   navigationResults.push({
     action: 'type',
     title: t('actionType'),
-    message: input.context ?? t('typeMessage', [secondInput.value, element]),
+    message: action.context ?? t('typeMessage', [secondInput.value, element]),
     screenshot: executionResult.screenshot,
     duration: parseFloat(executionResult.duration.toFixed(2)),
     error: executionResult.error,
@@ -166,7 +166,7 @@ async function handleClear(action: Action, isSaveEveryScreenshot?: boolean): Pro
   navigationResults.push({
     action: 'clear',
     title: t('actionClear'),
-    message: input.context ?? t('clearMessage', [element]),
+    message: action.context ?? t('clearMessage', [element]),
     screenshot: executionResult.screenshot,
     duration: parseFloat(executionResult.duration.toFixed(2)),
     error: executionResult.error,
@@ -181,7 +181,7 @@ async function handleWaitVisible(action: Action, isSaveEveryScreenshot?: boolean
   navigationResults.push({
     action: 'wait-visible',
     title: t('actionWaitVisible'),
-    message: input.context ?? t('waitVisibleMessage', [element]),
+    message: action.context ?? t('waitVisibleMessage', [element]),
     screenshot: executionResult.screenshot,
     duration: parseFloat(executionResult.duration.toFixed(2)),
     error: executionResult.error,
@@ -196,7 +196,7 @@ async function handleWaitHidden(action: Action, isSaveEveryScreenshot?: boolean)
   navigationResults.push({
     action: 'wait-hidden',
     title: t('actionWaitHidden'),
-    message: input.context ?? t('waitHiddenMessage', [element]),
+    message: action.context ?? t('waitHiddenMessage', [element]),
     screenshot: executionResult.screenshot,
     duration: parseFloat(executionResult.duration.toFixed(2)),
     error: executionResult.error,
@@ -220,7 +220,7 @@ async function handleClickWaitResponse(
   navigationResults.push({
     action: 'click-wait-response',
     title: t('actionClickWaitResponse'),
-    message: input.context ?? t('clickWaitResponseMessage', [element, urlPattern]),
+    message: action.context ?? t('clickWaitResponseMessage', [element, urlPattern]),
     screenshot: executionResult.screenshot,
     duration: parseFloat(executionResult.duration.toFixed(2)),
     error: executionResult.error,
@@ -229,17 +229,16 @@ async function handleClickWaitResponse(
 
 async function handleNavigate(action: Action, isSaveEveryScreenshot?: boolean): Promise<void> {
   const input = action.inputs[0];
-  await performNavigation(input.value!, isSaveEveryScreenshot, input.context);
+  await performNavigation(input.value!, isSaveEveryScreenshot, action.context);
 }
 
 async function handleEnter(action: Action, isSaveEveryScreenshot?: boolean): Promise<void> {
   const t = translate.global.t;
-  const input = action.inputs[0];
   const executionResult = await page.enter(action.id, isSaveEveryScreenshot);
   navigationResults.push({
     action: 'enter',
     title: t('actionEnter'),
-    message: input.context ?? t('actionEnter'),
+    message: action.context ?? t('actionEnter'),
     screenshot: executionResult.screenshot,
     duration: parseFloat(executionResult.duration.toFixed(2)),
     error: executionResult.error,
@@ -248,12 +247,11 @@ async function handleEnter(action: Action, isSaveEveryScreenshot?: boolean): Pro
 
 async function handleReload(action: Action, isSaveEveryScreenshot?: boolean): Promise<void> {
   const t = translate.global.t;
-  const input = action.inputs[0];
   const executionResult = await page.reload(action.id, isSaveEveryScreenshot);
   navigationResults.push({
     action: 'reload',
     title: t('actionReload'),
-    message: input.context ?? t('actionReload'),
+    message: action.context ?? t('actionReload'),
     screenshot: executionResult.screenshot,
     duration: parseFloat(executionResult.duration.toFixed(2)),
     error: executionResult.error,
@@ -269,7 +267,7 @@ async function handleSelect(action: Action, isSaveEveryScreenshot?: boolean): Pr
   navigationResults.push({
     action: 'select',
     title: t('actionSelect'),
-    message: input.context ?? t('selectMessage', [element, value]),
+    message: action.context ?? t('selectMessage', [element, value]),
     screenshot: executionResult.screenshot,
     duration: parseFloat(executionResult.duration.toFixed(2)),
     error: executionResult.error,
@@ -291,7 +289,7 @@ async function handleDragAndDrop(action: Action, isSaveEveryScreenshot?: boolean
   navigationResults.push({
     action: 'drag-and-drop',
     title: t('actionDragAndDrop'),
-    message: startInput.context ?? t('dragAndDropMessage', [fromElement, toElement]),
+    message: action.context ?? t('dragAndDropMessage', [fromElement, toElement]),
     screenshot: executionResult.screenshot,
     duration: parseFloat(executionResult.duration.toFixed(2)),
     error: executionResult.error,
@@ -315,7 +313,7 @@ async function handleIframeType(action: Action, isSaveEveryScreenshot?: boolean)
   navigationResults.push({
     action: 'iframe-type',
     title: t('actionIframeType'),
-    message: frameSelector.context ?? t('iframeTypeMessage', [frame, element, text.value]),
+    message: action.context ?? t('iframeTypeMessage', [frame, element, text.value]),
     screenshot: executionResult.screenshot,
     duration: parseFloat(executionResult.duration.toFixed(2)),
     error: executionResult.error,

@@ -1,3 +1,56 @@
+<script setup lang="ts">
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import {
+  faCheck,
+  faXmark,
+  faHandPointUp,
+  faHandPointDown,
+} from '@fortawesome/free-solid-svg-icons';
+import { computed, onMounted, ref } from 'vue';
+import ModalImage from './ModalImage.vue';
+import { navigationResultStore } from '@/store/navigation-result-store';
+import { formatBreakLines, getIcon } from '@/utils/utils';
+
+onMounted(() => {
+  window.scrollTo(0, 0);
+});
+
+const emit = defineEmits(['close']);
+const store = navigationResultStore();
+const isCloseModalImage = ref(false);
+const screenshot = ref('');
+const modalBody = ref<HTMLElement | null>(null);
+
+const totalDuration = computed(() => {
+  return store.navigationResult.reduce((total, result) => total + (result.duration || 0), 0);
+});
+
+function closeModal(): void {
+  emit('close');
+}
+
+function closeModalImage(): void {
+  isCloseModalImage.value = false;
+}
+
+function changeScreenshot(newScreenshot: string): void {
+  screenshot.value = newScreenshot;
+  isCloseModalImage.value = true;
+}
+
+function exportReport(): void {
+  window.ipcRenderer.send('export-report', JSON.stringify(store.navigationResult));
+}
+
+function goToTop() {
+  modalBody.value?.scrollTo({ top: 0 });
+}
+
+function goToBottom() {
+  modalBody.value?.scrollTo({ top: modalBody.value.scrollHeight });
+}
+</script>
+
 <template>
   <div class="modal is-active modal-full-screen modal-fx-fadeInScale">
     <div class="modal-content modal-card">
@@ -90,58 +143,5 @@
   </div>
   <ModalImage :screenshot="screenshot" v-if="isCloseModalImage" @close="closeModalImage" />
 </template>
-
-<script setup lang="ts">
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import {
-  faCheck,
-  faXmark,
-  faHandPointUp,
-  faHandPointDown,
-} from '@fortawesome/free-solid-svg-icons';
-import { computed, onMounted, ref } from 'vue';
-import ModalImage from './ModalImage.vue';
-import { navigationResultStore } from '@/store/navigation-result-store';
-import { formatBreakLines, getIcon } from '@/utils/utils';
-
-onMounted(() => {
-  window.scrollTo(0, 0);
-});
-
-const emit = defineEmits(['close']);
-const store = navigationResultStore();
-const isCloseModalImage = ref(false);
-const screenshot = ref('');
-const modalBody = ref<HTMLElement | null>(null);
-
-const totalDuration = computed(() => {
-  return store.navigationResult.reduce((total, result) => total + (result.duration || 0), 0);
-});
-
-function closeModal(): void {
-  emit('close');
-}
-
-function closeModalImage(): void {
-  isCloseModalImage.value = false;
-}
-
-function changeScreenshot(newScreenshot: string): void {
-  screenshot.value = newScreenshot;
-  isCloseModalImage.value = true;
-}
-
-function exportReport(): void {
-  window.ipcRenderer.send('export-report', JSON.stringify(store.navigationResult));
-}
-
-function goToTop() {
-  modalBody.value?.scrollTo({ top: 0 });
-}
-
-function goToBottom() {
-  modalBody.value?.scrollTo({ top: modalBody.value.scrollHeight });
-}
-</script>
 
 <style scoped></style>

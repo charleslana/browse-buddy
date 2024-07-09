@@ -1,3 +1,18 @@
+<script setup lang="ts">
+defineProps({
+  screenshot: {
+    type: String,
+    required: true,
+  },
+});
+
+const emit = defineEmits(['close']);
+
+function closeModal(): void {
+  emit('close');
+}
+</script>
+
 <template>
   <div class="modal is-active modal-full-screen modal-fx-fadeInScale">
     <div class="modal-content modal-card">
@@ -18,20 +33,5 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-defineProps({
-  screenshot: {
-    type: String,
-    required: true,
-  },
-});
-
-const emit = defineEmits(['close']);
-
-function closeModal(): void {
-  emit('close');
-}
-</script>
 
 <style scoped></style>

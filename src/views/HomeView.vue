@@ -17,7 +17,7 @@
             </div>
           </div>
         </div>
-        <Notification
+        <NotificationComponent
           :type="isNotificationType"
           :message="isNotificationMessage"
           @close="handleNotification"
@@ -57,7 +57,7 @@
           </div>
         </nav>
       </div>
-      <Settings :is-skeleton="isSkeleton" />
+      <SettingsComponent :is-skeleton="isSkeleton" />
     </div>
   </div>
   <ModalConfirm
@@ -83,19 +83,19 @@
 
 <script setup lang="ts">
 import { onBeforeUnmount, onMounted, ref, watch } from 'vue';
-import NavBar from './components/NavBar.vue';
-import ModalConfirm from './components/ModalConfirm.vue';
-import Notification from './components/Notification.vue';
-import translate from './translate';
-import BoxNavigate from './components/BoxNavigate.vue';
-import BoxActions from './components/BoxActions.vue';
-import { runTestStore } from './store/run-test-store';
-import { navigationResultStore } from './store/navigation-result-store';
+import NavBar from '@/components/NavBar.vue';
+import ModalConfirm from '@/components/ModalConfirm.vue';
+import NotificationComponent from '@/components/NotificationComponent.vue';
+import translate from '@/translate';
+import BoxNavigate from '@/components/BoxNavigate.vue';
+import BoxActions from '@/components/BoxActions.vue';
+import { runTestStore } from '@/store/run-test-store';
+import { navigationResultStore } from '@/store/navigation-result-store';
 import { NavigationResult } from '@electron/interfaces/navigation-result';
-import Settings from './components/Settings.vue';
+import SettingsComponent from '@/components/SettingsComponent.vue';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { faHandPointUp, faHandPointDown } from '@fortawesome/free-solid-svg-icons';
-import LoadingOverlay from './components/LoadingOverlay.vue';
+import LoadingOverlay from '@/components/LoadingOverlay.vue';
 import { RunTest } from '@electron/interfaces/run-test';
 
 const store = runTestStore();
@@ -137,7 +137,7 @@ watch(
 
 watch(
   () => store.runTest,
-  (newValue) => {
+  newValue => {
     window.ipcRenderer.send('save-session', JSON.stringify(newValue));
   },
   { deep: true }
@@ -145,7 +145,7 @@ watch(
 
 watch(
   () => name.value,
-  (newValue) => {
+  newValue => {
     if (newValue && newValue !== '') {
       store.runTest.name = newValue;
       return;
@@ -156,7 +156,7 @@ watch(
 
 watch(
   () => store.runTest.name,
-  async (newValue) => {
+  async newValue => {
     if (newValue && newValue !== '') {
       name.value = newValue;
     } else {
@@ -217,7 +217,7 @@ function scrollToTop(): void {
 
 function handleRunResult(results: NavigationResult[]): void {
   storeResult.save(results);
-  if (results.some((result) => result.error)) {
+  if (results.some(result => result.error)) {
     isNotificationType.value = 'is-danger';
     isNotificationMessage.value = t('testFailedNotification');
   } else {

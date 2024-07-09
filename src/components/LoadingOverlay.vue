@@ -1,12 +1,3 @@
-<template>
-  <div v-if="active" class="loading-overlay">
-    <div class="loading-content box">
-      <p class="title is-4">{{ message }}</p>
-      <progress class="progress is-primary" :value="progressValue" max="100"></progress>
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
 import { ref, watch } from 'vue';
 
@@ -60,6 +51,15 @@ function startProgress() {
   }, 100);
 }
 </script>
+
+<template>
+  <div v-if="active" class="loading-overlay">
+    <div class="loading-content box">
+      <p class="title is-4">{{ message }}</p>
+      <progress class="progress is-primary" :value="progressValue" max="100"></progress>
+    </div>
+  </div>
+</template>
 
 <style scoped>
 .loading-overlay {

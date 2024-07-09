@@ -1,4 +1,5 @@
 import App from './App.vue';
+import router from './router';
 import translate from '@/translate';
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
@@ -11,6 +12,7 @@ import 'floating-vue/dist/style.css';
 
 const app = createApp(App);
 
+app.use(router);
 app.use(createPinia());
 app.directive('tooltip', vTooltip);
 app.component('VTooltip', Tooltip);
