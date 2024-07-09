@@ -1,3 +1,15 @@
+<script setup lang="ts">
+const emit = defineEmits(['confirm-modal', 'close-modal']);
+
+function confirmModal(): void {
+  emit('confirm-modal');
+}
+
+function closeModal(): void {
+  emit('close-modal');
+}
+</script>
+
 <template>
   <div class="modal is-active">
     <div class="modal-background"></div>
@@ -12,17 +24,5 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-const emit = defineEmits(['confirm-modal', 'close-modal']);
-
-function confirmModal(): void {
-  emit('confirm-modal');
-}
-
-function closeModal(): void {
-  emit('close-modal');
-}
-</script>
 
 <style scoped></style>

@@ -1,3 +1,7 @@
+<script setup lang="ts">
+import images from '@/data/image';
+</script>
+
 <template>
   <nav class="navbar is-fixed-top mb-5" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
@@ -8,10 +12,6 @@
     </div>
   </nav>
 </template>
-
-<script setup lang="ts">
-import images from '@/data/image';
-</script>
 
 <style scoped>
 .logo {

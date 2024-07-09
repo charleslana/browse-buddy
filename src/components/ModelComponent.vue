@@ -1,14 +1,11 @@
-<template>
-  <div>{{ pageName }}</div>
-</template>
-
 <script setup lang="ts">
-defineProps({
-  pageName: {
-    type: String,
-    required: true,
-  },
-});
+defineProps<{
+  msg: string;
+}>();
 </script>
+
+<template>
+  <h1>{{ msg }}</h1>
+</template>
 
 <style scoped></style>

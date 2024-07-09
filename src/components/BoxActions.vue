@@ -1,170 +1,3 @@
-<template>
-  <div class="box">
-    <div class="is-size-4 has-text-weight-bold mb-2">
-      <span class="mr-2">
-        <FontAwesomeIcon :icon="faComputerMouse" />
-      </span>
-      <span>{{ $t('actions') }}</span>
-    </div>
-    <button class="button is-info" :disabled="disabled" @click="openModal">
-      <span class="icon">
-        <FontAwesomeIcon :icon="faPlus" />
-      </span>
-      <span>{{ $t('addActionsButton') }}</span>
-    </button>
-    <div class="py-4">
-      <div :class="{ 'skeleton-block': isSkeleton }"></div>
-      <VueDraggableNext :list="store.runTest.actions" @change="handleChangeAction">
-        <transition-group type="transition" name="flip-list">
-          <div
-            class="card is-fullwidth"
-            v-for="action in store.runTest.actions"
-            :key="action.id"
-            :class="{ 'disabled-card': action.disabled }"
-          >
-            <header class="card-header card-toggle is-clickable" @click="toggleCard(action.id)">
-              <p class="card-header-title">
-                <span class="mr-2">
-                  <FontAwesomeIcon :icon="getIcon(action.type)" />
-                </span>
-                {{ action.title }}
-              </p>
-              <div class="is-flex">
-                <a
-                  class="card-header-icon"
-                  @click.stop="toggleActionStatus(action.id)"
-                  v-tooltip="action.disabled ? $t('activeText') : $t('inactiveText')"
-                >
-                  <FontAwesomeIcon :icon="action.disabled ? faEyeSlash : faEye" />
-                </a>
-                <a class="card-header-icon">
-                  <FontAwesomeIcon
-                    :icon="isCardVisible(action.isVisible) ? faAngleUp : faAngleDown"
-                  />
-                </a>
-              </div>
-            </header>
-            <div class="card-content" :class="{ 'is-hidden': !isCardVisible(action.isVisible) }">
-              <div class="content break-words" v-if="action.inputs.length > 0">
-                <div>{{ action.inputs[0].context }}</div>
-                <div v-for="(input, index) in action.inputs" :key="index">
-                  {{ `${input.select ?? ''}${input.value}` }}
-                </div>
-              </div>
-              <footer class="buttons">
-                <button
-                  class="button card-footer-item is-primary"
-                  @click="handleActionUpdate(action)"
-                  v-if="action.inputs.length > 0"
-                >
-                  {{ $t('editButton') }}
-                </button>
-                <button class="button card-footer-item is-danger" @click="deleteAction(action.id)">
-                  {{ $t('deleteButton') }}
-                </button>
-                <button class="button card-footer-item" @click="duplicateAction(action)">
-                  <span class="icon is-left">
-                    <FontAwesomeIcon :icon="faCopy" />
-                  </span>
-                  <span>{{ $t('duplicateButton') }}</span>
-                </button>
-              </footer>
-            </div>
-          </div>
-        </transition-group>
-      </VueDraggableNext>
-    </div>
-  </div>
-  <div class="modal" :class="{ 'is-active': isActive }">
-    <div class="modal-background"></div>
-    <div class="modal-card">
-      <section class="modal-card-body">
-        <article class="panel is-primary">
-          <p class="panel-heading">{{ $t('chooseActions') }}</p>
-          <p class="panel-tabs">
-            <a
-              :class="{ 'is-active': currentCategory === 'all' }"
-              @click="currentCategory = 'all'"
-              >{{ $t('filterAll') }}</a
-            >
-            <a
-              :class="{ 'is-active': currentCategory === 'click' }"
-              @click="currentCategory = 'click'"
-              >{{ $t('actionClick') }}</a
-            >
-            <a
-              :class="{ 'is-active': currentCategory === 'fill' }"
-              @click="currentCategory = 'fill'"
-              >{{ $t('actionFill') }}</a
-            >
-            <a
-              :class="{ 'is-active': currentCategory === 'wait' }"
-              @click="currentCategory = 'wait'"
-              >{{ $t('actionWait') }}</a
-            >
-            <a
-              :class="{ 'is-active': currentCategory === 'iframe' }"
-              @click="currentCategory = 'iframe'"
-              >{{ $t('actionIframe') }}</a
-            >
-          </p>
-          <div class="panel-block">
-            <p class="control has-icons-left">
-              <input
-                class="input is-primary"
-                type="text"
-                :placeholder="t('inputSearch')"
-                v-model.trim="searchTerm"
-              />
-              <span class="icon is-left">
-                <FontAwesomeIcon :icon="faSearch" />
-              </span>
-            </p>
-          </div>
-          <a
-            class="panel-block"
-            v-for="boxAction in filteredActions"
-            :key="boxAction.label"
-            :class="{ 'is-active': activeAction === boxAction.label }"
-            @mouseover="activeAction = boxAction.label"
-            @mouseleave="activeAction = ''"
-            @click="handleActionClick(boxAction)"
-          >
-            <span class="panel-icon">
-              <FontAwesomeIcon :icon="boxAction.icon" />
-            </span>
-            <span class="buttons">
-              <span> {{ boxAction.label }}</span>
-              <span v-if="boxAction.tooltip" v-tooltip="boxAction.tooltip">
-                <FontAwesomeIcon :icon="faCircleInfo" class="is-size-7" />
-              </span>
-            </span>
-          </a>
-        </article>
-      </section>
-      <footer class="modal-card-foot">
-        <div class="buttons">
-          <button class="button" @click="closeModal">{{ $t('cancelButton') }}</button>
-        </div>
-      </footer>
-    </div>
-  </div>
-  <ModalConfirm
-    v-if="isConfirmModalActive"
-    @confirm-modal="confirmDeleteAction"
-    @close-modal="closeConfirmModal"
-  />
-  <ModalAction
-    :modal-icon="modalIcon"
-    :modal-title="modalTitle"
-    :wait-icon="waitIcon"
-    :action="action"
-    @close-modal="handleCloseModal"
-    @save-action="handleSaveAction"
-    v-if="modalIsActive"
-  />
-</template>
-
 <script setup lang="ts">
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import {
@@ -538,6 +371,172 @@ function toggleActionStatus(id: string): void {
   store.toggleActionStatus(id);
 }
 </script>
+
+<template>
+  <div class="box">
+    <div class="is-size-4 has-text-weight-bold mb-2">
+      <span class="mr-2">
+        <FontAwesomeIcon :icon="faComputerMouse" />
+      </span>
+      <span>{{ $t('actions') }}</span>
+    </div>
+    <button class="button is-info" :disabled="disabled" @click="openModal">
+      <span class="icon">
+        <FontAwesomeIcon :icon="faPlus" />
+      </span>
+      <span>{{ $t('addActionsButton') }}</span>
+    </button>
+    <div class="py-4">
+      <div :class="{ 'skeleton-block': isSkeleton }"></div>
+      <VueDraggableNext :list="store.runTest.actions" @change="handleChangeAction">
+        <transition-group type="transition" name="flip-list">
+          <div
+            class="card is-fullwidth"
+            v-for="action in store.runTest.actions"
+            :key="action.id"
+            :class="{ 'disabled-card': action.disabled }"
+          >
+            <header class="card-header card-toggle is-clickable" @click="toggleCard(action.id)">
+              <p class="card-header-title">
+                <span class="mr-2">
+                  <FontAwesomeIcon :icon="getIcon(action.type)" />
+                </span>
+                {{ action.title }}
+              </p>
+              <div class="is-flex">
+                <a
+                  class="card-header-icon"
+                  @click.stop="toggleActionStatus(action.id)"
+                  v-tooltip="action.disabled ? $t('activeText') : $t('inactiveText')"
+                >
+                  <FontAwesomeIcon :icon="action.disabled ? faEyeSlash : faEye" />
+                </a>
+                <a class="card-header-icon">
+                  <FontAwesomeIcon
+                    :icon="isCardVisible(action.isVisible) ? faAngleUp : faAngleDown"
+                  />
+                </a>
+              </div>
+            </header>
+            <div class="card-content" :class="{ 'is-hidden': !isCardVisible(action.isVisible) }">
+              <div class="content break-words">
+                <div>{{ action.context }}</div>
+                <div v-for="(input, index) in action.inputs" :key="index">
+                  {{ `${input.select ?? ''}${input.value}` }}
+                </div>
+              </div>
+              <footer class="buttons">
+                <button
+                  class="button card-footer-item is-primary"
+                  @click="handleActionUpdate(action)"
+                >
+                  {{ $t('editButton') }}
+                </button>
+                <button class="button card-footer-item is-danger" @click="deleteAction(action.id)">
+                  {{ $t('deleteButton') }}
+                </button>
+                <button class="button card-footer-item" @click="duplicateAction(action)">
+                  <span class="icon is-left">
+                    <FontAwesomeIcon :icon="faCopy" />
+                  </span>
+                  <span>{{ $t('duplicateButton') }}</span>
+                </button>
+              </footer>
+            </div>
+          </div>
+        </transition-group>
+      </VueDraggableNext>
+    </div>
+  </div>
+  <div class="modal" :class="{ 'is-active': isActive }">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+      <section class="modal-card-body">
+        <article class="panel is-primary">
+          <p class="panel-heading">{{ $t('chooseActions') }}</p>
+          <p class="panel-tabs">
+            <a
+              :class="{ 'is-active': currentCategory === 'all' }"
+              @click="currentCategory = 'all'"
+              >{{ $t('filterAll') }}</a
+            >
+            <a
+              :class="{ 'is-active': currentCategory === 'click' }"
+              @click="currentCategory = 'click'"
+              >{{ $t('actionClick') }}</a
+            >
+            <a
+              :class="{ 'is-active': currentCategory === 'fill' }"
+              @click="currentCategory = 'fill'"
+              >{{ $t('actionFill') }}</a
+            >
+            <a
+              :class="{ 'is-active': currentCategory === 'wait' }"
+              @click="currentCategory = 'wait'"
+              >{{ $t('actionWait') }}</a
+            >
+            <a
+              :class="{ 'is-active': currentCategory === 'iframe' }"
+              @click="currentCategory = 'iframe'"
+              >{{ $t('actionIframe') }}</a
+            >
+          </p>
+          <div class="panel-block">
+            <p class="control has-icons-left">
+              <input
+                class="input is-primary"
+                type="text"
+                :placeholder="t('inputSearch')"
+                v-model.trim="searchTerm"
+              />
+              <span class="icon is-left">
+                <FontAwesomeIcon :icon="faSearch" />
+              </span>
+            </p>
+          </div>
+          <a
+            class="panel-block"
+            v-for="boxAction in filteredActions"
+            :key="boxAction.label"
+            :class="{ 'is-active': activeAction === boxAction.label }"
+            @mouseover="activeAction = boxAction.label"
+            @mouseleave="activeAction = ''"
+            @click="handleActionClick(boxAction)"
+          >
+            <span class="panel-icon">
+              <FontAwesomeIcon :icon="boxAction.icon" />
+            </span>
+            <span class="buttons">
+              <span> {{ boxAction.label }}</span>
+              <span v-if="boxAction.tooltip" v-tooltip="boxAction.tooltip">
+                <FontAwesomeIcon :icon="faCircleInfo" class="is-size-7" />
+              </span>
+            </span>
+          </a>
+        </article>
+      </section>
+      <footer class="modal-card-foot">
+        <div class="buttons">
+          <button class="button" @click="closeModal">{{ $t('cancelButton') }}</button>
+        </div>
+      </footer>
+    </div>
+  </div>
+  <ModalConfirm
+    v-if="isConfirmModalActive"
+    @confirm-modal="confirmDeleteAction"
+    @close-modal="closeConfirmModal"
+  />
+  <ModalAction
+    :modal-icon="modalIcon"
+    :modal-title="modalTitle"
+    :wait-icon="waitIcon"
+    :action="action"
+    @close-modal="handleCloseModal"
+    @save-action="handleSaveAction"
+    v-if="modalIsActive"
+  />
+</template>
 
 <style scoped>
 .flip-list-move {

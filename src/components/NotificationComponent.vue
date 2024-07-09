@@ -1,16 +1,3 @@
-<template>
-  <div class="notification is-success is-light" :class="type">
-    <button class="delete" @click="closeNotification"></button>
-    <div class="buttons">
-      <p>{{ message }}</p>
-      <button class="button is-dark is-small" @click="openModalResult">
-        {{ $t('viewResultsButton') }}
-      </button>
-    </div>
-  </div>
-  <ModalResultTest v-if="isCloseModalResult" @close="closeModalResult" />
-</template>
-
 <script setup lang="ts">
 import { ref } from 'vue';
 import ModalResultTest from './ModalResultTest.vue';
@@ -45,5 +32,18 @@ function closeModalResult(): void {
   window.scrollTo(0, 0);
 }
 </script>
+
+<template>
+  <div class="notification is-success is-light" :class="type">
+    <button class="delete" @click="closeNotification"></button>
+    <div class="buttons">
+      <p>{{ message }}</p>
+      <button class="button is-dark is-small" @click="openModalResult">
+        {{ $t('viewResultsButton') }}
+      </button>
+    </div>
+  </div>
+  <ModalResultTest v-if="isCloseModalResult" @close="closeModalResult" />
+</template>
 
 <style scoped></style>
