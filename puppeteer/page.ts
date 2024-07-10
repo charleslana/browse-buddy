@@ -2,6 +2,7 @@ import fs from 'fs';
 import logger from '../electron/utils/logger';
 import path from 'path';
 import translate from '../electron/translate';
+import { BrowserWindow } from 'electron';
 import { Core } from './core';
 import { CoreError } from './error';
 import { ElementHandle, Frame, Page as PuppeteerPage } from 'puppeteer';
@@ -16,9 +17,16 @@ export class Page {
   private core: Core;
   private page: PuppeteerPage = <PuppeteerPage>{};
   private t = translate.global.t;
+  private window: BrowserWindow | null = null;
 
-  async navigate(url: string, saveScreenshot?: boolean): Promise<ExecutionResult> {
-    logger.warn(`Tentando navegar para ${url} ...`);
+  public setWindow(win: BrowserWindow | null): void {
+    this.window = win;
+  }
+
+  public async navigate(url: string, saveScreenshot?: boolean): Promise<ExecutionResult> {
+    const log = `Tentando navegar para ${url} ...`;
+    this.window?.webContents.send('log-result', log);
+    logger.warn(log);
     let screenshot: string | undefined;
     const startTime = Date.now();
     let duration = 0;
@@ -28,9 +36,12 @@ export class Page {
       await this.page.goto(url, {
         waitUntil: 'domcontentloaded',
       });
-      logger.info(`Sucesso ao navegar para ${url}`);
+      const log = `Sucesso ao navegar para ${url}`;
+      this.window?.webContents.send('log-result', log);
+      logger.info(log);
     } catch (e) {
       error = this.t('navigateError', [url]);
+      this.window?.webContents.send('log-result', error);
       logger.error(`Erro ao navegar para ${url}: ${e}`);
     } finally {
       if (!error) {
@@ -47,7 +58,9 @@ export class Page {
     id: string,
     saveScreenshot?: boolean
   ): Promise<ExecutionResult> {
-    logger.warn(`Tentando aguardar e clicar no elemento com seletor ${selector} ...`);
+    const log = `Tentando aguardar e clicar no elemento com seletor ${selector} ...`;
+    this.window?.webContents.send('log-result', log);
+    logger.warn(log);
     let screenshot: string | undefined;
     const startTime = Date.now();
     let duration = 0;
@@ -56,9 +69,12 @@ export class Page {
       const result = await this.waitForVisible(selector, id, saveScreenshot);
       error = result.error;
       await this.page.click(selector);
-      logger.info(`Sucesso ao aguardar e clicar no elemento com seletor ${selector}`);
+      const log = `Sucesso ao aguardar e clicar no elemento com seletor ${selector}`;
+      this.window?.webContents.send('log-result', log);
+      logger.info(log);
     } catch (e) {
       error += this.t('waitForClickError', [selector]);
+      this.window?.webContents.send('log-result', error);
       logger.error(`Erro ao aguardar e clicar no elemento com seletor ${selector}: ${e}`);
     } finally {
       screenshot = await this.saveScreenshot(id, saveScreenshot);
@@ -228,7 +244,7 @@ export class Page {
     let error: string | undefined;
     try {
       const regexPattern = new RegExp(urlPattern.replace(/\*\*/g, '.*?'));
-      const finalResponsePromise = this.page.waitForResponse((response) =>
+      const finalResponsePromise = this.page.waitForResponse(response =>
         regexPattern.test(response.url())
       );
       await this.click(selector, id, saveScreenshot);
@@ -387,7 +403,7 @@ export class Page {
   public async sleep(ms: number): Promise<void> {
     logger.warn(`Tentando aguardar o tempo em ${ms} ms`);
     try {
-      await new Promise((resolve) => setTimeout(resolve, ms));
+      await new Promise(resolve => setTimeout(resolve, ms));
       logger.info('Sucesso ao aguardar o tempo');
     } catch (error) {
       logger.error(`Erro ao aguardar ${ms} milissegundos: ${error}`);

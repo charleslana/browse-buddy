@@ -189,6 +189,7 @@ function confirmAction(): void {
     isHeadless: true,
     defaultTimeout: 15000,
     actions: [],
+    log: true,
   });
   window.ipcRenderer.send('delete-session');
 }

@@ -75,7 +75,7 @@ app.on('activate', () => {
 app.whenReady().then(createWindow);
 
 ipcMain.on('run', (_, jsonData: string) => {
-  run(jsonData).then((response) => {
+  run(jsonData, win).then((response) => {
     win?.webContents.send('run-complete', response);
   });
 });

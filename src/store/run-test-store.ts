@@ -16,6 +16,7 @@ export const runTestStore = defineStore('runTest', {
       defaultTimeout: 15000,
       actions: [],
       repeat: 1,
+      log: true,
     },
   }),
   actions: {
@@ -37,6 +38,9 @@ export const runTestStore = defineStore('runTest', {
     setIsSaveHeadless(value: boolean): void {
       this.runTest.isHeadless = value;
     },
+    setSaveLog(value: boolean): void {
+      this.runTest.log = value;
+    },
     setActions(actions: Action[]): void {
       this.runTest.actions = actions;
     },
@@ -44,26 +48,26 @@ export const runTestStore = defineStore('runTest', {
       this.runTest.actions.push(newAction);
     },
     removeAction(actionId: string): void {
-      this.runTest.actions = this.runTest.actions.filter((action) => action.id !== actionId);
+      this.runTest.actions = this.runTest.actions.filter(action => action.id !== actionId);
     },
     updateAction(updatedAction: Action): void {
-      const index = this.runTest.actions.findIndex((action) => action.id === updatedAction.id);
+      const index = this.runTest.actions.findIndex(action => action.id === updatedAction.id);
       if (index !== -1) {
         this.runTest.actions[index] = updatedAction;
       }
     },
     filterEnabledActions(): RunTest {
-      const enabledActions = this.runTest.actions.filter((action) => action.disabled !== true);
+      const enabledActions = this.runTest.actions.filter(action => action.disabled !== true);
       return { ...this.runTest, actions: enabledActions };
     },
     toggleActionStatus(actionId: string): void {
-      const index = this.runTest.actions.findIndex((action) => action.id === actionId);
+      const index = this.runTest.actions.findIndex(action => action.id === actionId);
       if (index !== -1) {
         this.runTest.actions[index].disabled = !this.runTest.actions[index].disabled;
       }
     },
     toggleActionVisible(actionId: string): void {
-      const index = this.runTest.actions.findIndex((action) => action.id === actionId);
+      const index = this.runTest.actions.findIndex(action => action.id === actionId);
       if (index !== -1) {
         const isVisible =
           this.runTest.actions[index].isVisible !== undefined
