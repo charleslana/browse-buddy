@@ -73,12 +73,7 @@
       <FontAwesomeIcon :icon="faHandPointDown" />
     </button>
   </div>
-  <LoadingOverlay
-    :active="isLoading"
-    :message="$t('loadingText')"
-    :lock-scroll="isLoading"
-    :fill-progress="fillProgress"
-  />
+  <LoadingOverlay :active="isLoading" :message="$t('loadingText')" />
 </template>
 
 <script setup lang="ts">
@@ -109,7 +104,6 @@ const isSkeleton = ref(true);
 const isInputFilled = ref(false);
 const name = ref(store.runTest.name);
 const isLoading = ref(false);
-const fillProgress = ref(false);
 const defaultNameValues = [
   translate.global.messages.en.inputTestName,
   translate.global.messages.es.inputTestName,
@@ -226,10 +220,8 @@ function handleRunResult(results: NavigationResult[]): void {
     isNotificationMessage.value = t('testSuccessNotification');
   }
   isNotification.value = true;
-  fillProgress.value = true;
   setTimeout(() => {
     isLoading.value = false;
-    fillProgress.value = false;
   }, 1000);
   scrollToTop();
 }

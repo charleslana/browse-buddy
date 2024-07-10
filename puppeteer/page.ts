@@ -89,16 +89,21 @@ export class Page {
     id: string,
     saveScreenshot?: boolean
   ): Promise<ExecutionResult> {
-    logger.warn(`Tentando clicar no elemento com seletor ${selector} ...`);
+    const log = `Tentando clicar no elemento com seletor ${selector} ...`;
+    this.window?.webContents.send('log-result', log);
+    logger.warn(log);
     let screenshot: string | undefined;
     const startTime = Date.now();
     let duration = 0;
     let error: string | undefined;
     try {
       await this.page.click(selector);
-      logger.info(`Sucesso ao clicar no elemento com seletor ${selector}`);
+      const log = `Sucesso ao clicar no elemento com seletor ${selector}`;
+      this.window?.webContents.send('log-result', log);
+      logger.info(log);
     } catch (e) {
       error = this.t('clickError', [selector]);
+      this.window?.webContents.send('log-result', error);
       logger.error(`Erro ao clicar no elemento com seletor ${selector}: ${e}`);
     } finally {
       screenshot = await this.saveScreenshot(id, saveScreenshot);
@@ -114,16 +119,21 @@ export class Page {
     id: string,
     saveScreenshot?: boolean
   ): Promise<ExecutionResult> {
-    logger.warn(`Tentando preencher o texto ${text} no seletor ${selector} ...`);
+    const log = `Tentando preencher o texto ${text} no seletor ${selector} ...`;
+    this.window?.webContents.send('log-result', log);
+    logger.warn(log);
     let screenshot: string | undefined;
     const startTime = Date.now();
     let duration = 0;
     let error: string | undefined;
     try {
       await this.page.locator(selector).fill(text);
-      logger.info(`Sucesso ao preencher o texto ${text} no seletor ${selector}`);
+      const log = `Sucesso ao preencher o texto ${text} no seletor ${selector}`;
+      this.window?.webContents.send('log-result', log);
+      logger.info(log);
     } catch (e) {
       error = this.t('fillError', [text, selector]);
+      this.window?.webContents.send('log-result', error);
       logger.error(`Erro ao preencher o texto ${text} no seletor ${selector}: ${e}`);
     } finally {
       screenshot = await this.saveScreenshot(id, saveScreenshot);
@@ -139,16 +149,21 @@ export class Page {
     id: string,
     saveScreenshot?: boolean
   ): Promise<ExecutionResult> {
-    logger.warn(`Tentando digitar o texto ${text} no seletor ${selector} ...`);
+    const log = `Tentando digitar o texto ${text} no seletor ${selector} ...`;
+    this.window?.webContents.send('log-result', log);
+    logger.warn(log);
     let screenshot: string | undefined;
     const startTime = Date.now();
     let duration = 0;
     let error: string | undefined;
     try {
       await this.page.type(selector, text);
-      logger.info(`Sucesso ao digitar o texto ${text} no seletor ${selector}`);
+      const log = `Sucesso ao digitar o texto ${text} no seletor ${selector}`;
+      this.window?.webContents.send('log-result', log);
+      logger.info(log);
     } catch (e) {
       error = this.t('typeError', [text, selector]);
+      this.window?.webContents.send('log-result', error);
       logger.error(`Erro ao digitar o texto ${text} no seletor ${selector}: ${e}`);
     } finally {
       screenshot = await this.saveScreenshot(id, saveScreenshot);
@@ -163,7 +178,9 @@ export class Page {
     id: string,
     saveScreenshot?: boolean
   ): Promise<ExecutionResult> {
-    logger.warn(`Tentando limpar o texto no seletor ${selector} ...`);
+    const log = `Tentando limpar o texto no seletor ${selector} ...`;
+    this.window?.webContents.send('log-result', log);
+    logger.warn(log);
     let screenshot: string | undefined;
     const startTime = Date.now();
     let duration = 0;
@@ -171,9 +188,12 @@ export class Page {
     try {
       await this.page.click(selector, { count: 3 });
       await this.page.keyboard.press('Backspace');
-      logger.info(`Sucesso ao limpar o texto no seletor ${selector}`);
+      const log = `Sucesso ao limpar o texto no seletor ${selector}`;
+      this.window?.webContents.send('log-result', log);
+      logger.info(log);
     } catch (e) {
       error = this.t('clearError', [selector]);
+      this.window?.webContents.send('log-result', error);
       logger.error(`Erro ao limpar o texto no seletor ${selector}: ${e}`);
     } finally {
       screenshot = await this.saveScreenshot(id, saveScreenshot);
@@ -188,16 +208,21 @@ export class Page {
     id: string,
     saveScreenshot?: boolean
   ): Promise<ExecutionResult> {
-    logger.warn(`Tentando aguardar elemento visível com seletor ${selector} ...`);
+    const log = `Tentando aguardar elemento visível com seletor ${selector} ...`;
+    this.window?.webContents.send('log-result', log);
+    logger.warn(log);
     let screenshot: string | undefined;
     const startTime = Date.now();
     let duration = 0;
     let error: string | undefined;
     try {
       await this.page.waitForSelector(selector, { visible: true });
-      logger.info(`Sucesso ao esperar o seletor ${selector} visível`);
+      const log = `Sucesso ao esperar o seletor ${selector} visível`;
+      this.window?.webContents.send('log-result', log);
+      logger.info(log);
     } catch (e) {
       error = this.t('waitVisibleError', [selector]);
+      this.window?.webContents.send('log-result', error);
       logger.error(`Erro ao aguardar elemento visível com seletor ${selector}: ${e}`);
     } finally {
       screenshot = await this.saveScreenshot(id, saveScreenshot);
@@ -212,16 +237,21 @@ export class Page {
     id: string,
     saveScreenshot?: boolean
   ): Promise<ExecutionResult> {
-    logger.warn(`Tentando aguardar elemento oculto com seletor ${selector} ...`);
+    const log = `Tentando aguardar elemento oculto com seletor ${selector} ...`;
+    this.window?.webContents.send('log-result', log);
+    logger.warn(log);
     let screenshot: string | undefined;
     const startTime = Date.now();
     let duration = 0;
     let error: string | undefined;
     try {
       await this.page.waitForSelector(selector, { hidden: true });
-      logger.info(`Sucesso ao esperar o seletor ${selector} oculto`);
+      const log = `Sucesso ao esperar o seletor ${selector} oculto`;
+      this.window?.webContents.send('log-result', log);
+      logger.info(log);
     } catch (e) {
       error = this.t('waitHiddenError', [selector]);
+      this.window?.webContents.send('log-result', error);
       logger.error(`Erro ao aguardar elemento oculto com seletor ${selector}: ${e}`);
     } finally {
       screenshot = await this.saveScreenshot(id, saveScreenshot);
@@ -237,7 +267,9 @@ export class Page {
     id: string,
     saveScreenshot?: boolean
   ): Promise<ExecutionResult> {
-    logger.warn(`Tentando aguardar a resposta com a url ${urlPattern} ...`);
+    const log = `Tentando aguardar a resposta com a url ${urlPattern} ...`;
+    this.window?.webContents.send('log-result', log);
+    logger.warn(log);
     let screenshot: string | undefined;
     const startTime = Date.now();
     let duration = 0;
@@ -249,9 +281,12 @@ export class Page {
       );
       await this.click(selector, id, saveScreenshot);
       const finalResponse = await finalResponsePromise;
-      logger.info(`Sucesso aguardar a resposta com a url ${urlPattern}: ${finalResponse.ok()}`);
+      const log = `Sucesso aguardar a resposta com a url ${urlPattern}: ${finalResponse.ok()}`;
+      this.window?.webContents.send('log-result', log);
+      logger.info(log);
     } catch (e) {
       error = this.t('clickWaitResponseError', [urlPattern]);
+      this.window?.webContents.send('log-result', error);
       logger.error(`Erro ao aguardar a resposta com a url ${urlPattern}: ${e}`);
     } finally {
       screenshot = await this.saveScreenshot(id, saveScreenshot);
@@ -262,16 +297,21 @@ export class Page {
   }
 
   public async enter(id: string, saveScreenshot?: boolean): Promise<ExecutionResult> {
-    logger.warn('Tentando pressionar a tecla Enter ...');
+    const log = 'Tentando pressionar a tecla Enter ...';
+    this.window?.webContents.send('log-result', log);
+    logger.warn(log);
     let screenshot: string | undefined;
     const startTime = Date.now();
     let duration = 0;
     let error: string | undefined;
     try {
       await this.page.keyboard.press('Enter');
-      logger.info('Sucesso ao pressionar a tecla Enter');
+      const log = 'Sucesso ao pressionar a tecla Enter';
+      this.window?.webContents.send('log-result', log);
+      logger.info(log);
     } catch (e) {
       error = this.t('enterError');
+      this.window?.webContents.send('log-result', error);
       logger.error(`Erro ao pressionar a tecla Enter: ${e}`);
     } finally {
       screenshot = await this.saveScreenshot(id, saveScreenshot);
@@ -282,16 +322,21 @@ export class Page {
   }
 
   public async reload(id: string, saveScreenshot?: boolean): Promise<ExecutionResult> {
-    logger.warn('Tentando atualizar a página ...');
+    const log = 'Tentando atualizar a página ...';
+    this.window?.webContents.send('log-result', log);
+    logger.warn(log);
     let screenshot: string | undefined;
     const startTime = Date.now();
     let duration = 0;
     let error: string | undefined;
     try {
       await this.page.reload({ waitUntil: 'domcontentloaded' });
-      logger.info('Sucesso ao atualizar a página');
+      const log = 'Sucesso ao atualizar a página';
+      this.window?.webContents.send('log-result', log);
+      logger.info(log);
     } catch (e) {
       error = this.t('reloadError');
+      this.window?.webContents.send('log-result', error);
       logger.error(`Erro ao atualizar a página: ${e}`);
     } finally {
       screenshot = await this.saveScreenshot(id, saveScreenshot);
@@ -307,16 +352,21 @@ export class Page {
     id: string,
     saveScreenshot?: boolean
   ): Promise<ExecutionResult> {
-    logger.warn(`Tentando aguardar elemento select com seletor ${selector} ...`);
+    const log = `Tentando aguardar elemento select com seletor ${selector} ...`;
+    this.window?.webContents.send('log-result', log);
+    logger.warn(log);
     let screenshot: string | undefined;
     const startTime = Date.now();
     let duration = 0;
     let error: string | undefined;
     try {
       await this.page.select(selector, value);
-      logger.info(`Sucesso ao esperar o seletor ${selector} com valor ${value}`);
+      const log = `Sucesso ao esperar o seletor ${selector} com valor ${value}`;
+      this.window?.webContents.send('log-result', log);
+      logger.info(log);
     } catch (e) {
       error = this.t('selectError', [selector, value]);
+      this.window?.webContents.send('log-result', error);
       logger.info(`Erro ao esperar o seletor ${selector} com valor ${value}: ${e}`);
     } finally {
       screenshot = await this.saveScreenshot(id, saveScreenshot);
@@ -332,20 +382,21 @@ export class Page {
     id: string,
     saveScreenshot?: boolean
   ): Promise<ExecutionResult> {
-    logger.warn(
-      `Tentando arrastar seletor com ${fromElement} e soltar com seletor ${toElement} ...`
-    );
+    const log = `Tentando arrastar seletor com ${fromElement} e soltar com seletor ${toElement} ...`;
+    this.window?.webContents.send('log-result', log);
+    logger.warn(log);
     let screenshot: string | undefined;
     const startTime = Date.now();
     let duration = 0;
     let error: string | undefined;
     try {
       await this.dragDrop(fromElement, toElement);
-      logger.info(
-        `Sucesso ao arrastar seletor com ${fromElement} e soltar com seletor ${toElement}`
-      );
+      const log = `Sucesso ao arrastar seletor com ${fromElement} e soltar com seletor ${toElement}`;
+      this.window?.webContents.send('log-result', log);
+      logger.info(log);
     } catch (e) {
       error = this.t('dragAndDropError', [fromElement, toElement]);
+      this.window?.webContents.send('log-result', error);
       logger.info(
         `Erro ao arrastar seletor com ${fromElement} e soltar com seletor ${toElement}: ${e}`
       );
@@ -364,20 +415,21 @@ export class Page {
     id: string,
     saveScreenshot?: boolean
   ): Promise<ExecutionResult> {
-    logger.warn(
-      `Tentando digitar ${text} no elemento ${selector} dentro do iframe ${frameSelector} ...`
-    );
+    const log = `Tentando digitar ${text} no elemento ${selector} dentro do iframe ${frameSelector} ...`;
+    this.window?.webContents.send('log-result', log);
+    logger.warn(log);
     let screenshot: string | undefined;
     const startTime = Date.now();
     let duration = 0;
     let error: string | undefined;
     try {
       await this.handleIframeType(frameSelector, selector, text);
-      logger.info(
-        `Sucesso ao digitar ${text} no elemento ${selector} dentro do iframe ${frameSelector}`
-      );
+      const log = `Sucesso ao digitar ${text} no elemento ${selector} dentro do iframe ${frameSelector}`;
+      this.window?.webContents.send('log-result', log);
+      logger.info(log);
     } catch (e) {
       error = this.t('iframeTypeError', [frameSelector, selector, text]);
+      this.window?.webContents.send('log-result', error);
       logger.error(
         `Erro ao digitar ${text} no elemento ${selector} dentro do iframe ${frameSelector}: ${e}`
       );
@@ -390,11 +442,16 @@ export class Page {
   }
 
   public async closeBrowser(): Promise<void> {
-    logger.warn('Tentando fechar o navegador ...');
+    const log = 'Tentando fechar o navegador ...';
+    this.window?.webContents.send('log-result', log);
+    logger.warn(log);
     try {
       await this.core.closeBrowser();
-      logger.info('Sucesso ao fechar o navegador');
+      const log = 'Sucesso ao fechar o navegador';
+      this.window?.webContents.send('log-result', log);
+      logger.info(log);
     } catch (error) {
+      this.window?.webContents.send('log-result', error);
       logger.error(`Erro ao fechar o navegador ${error}`);
       throw new CoreError(`Erro ao fechar o navegador: ${error}`);
     }
@@ -412,7 +469,9 @@ export class Page {
   }
 
   public async screenshot(name: string): Promise<string> {
-    logger.warn(`Tentando salvar tela de captura ${name} ...`);
+    const log = `Tentando salvar tela de captura ${name} ...`;
+    this.window?.webContents.send('log-result', log);
+    logger.warn(log);
     try {
       const screenshotsDir = this.getScreenshotDir();
       if (!fs.existsSync(screenshotsDir)) {
@@ -424,9 +483,12 @@ export class Page {
       });
       const buffer = fs.readFileSync(screenshotPath);
       const base64Image = this.bufferToBase64(buffer);
-      logger.info(`Sucesso ao salvar tela de captura ${name}`);
+      const log = `Sucesso ao salvar tela de captura ${name}`;
+      this.window?.webContents.send('log-result', log);
+      logger.info(log);
       return base64Image;
     } catch (error) {
+      this.window?.webContents.send('log-result', error);
       logger.error(`Erro ao salvar tela de captura: ${error}`);
       throw new CoreError(`Erro ao salvar tela de captura: ${error}`);
     }
