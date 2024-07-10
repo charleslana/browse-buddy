@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 
 interface Props {
   active: boolean;
@@ -11,10 +11,15 @@ interface Props {
 const props = defineProps<Props>();
 const progressValue = ref(0);
 const interval = ref<NodeJS.Timeout | null>(null);
+const logs = ref<string[]>([]);
+
+onMounted(() => {
+  window.ipcRenderer.on('log-result', (_, response) => handleLogResult(response));
+});
 
 watch(
   () => props.fillProgress,
-  (newVal) => {
+  newVal => {
     if (newVal) {
       progressValue.value = 100;
     } else {
@@ -25,9 +30,10 @@ watch(
 
 watch(
   () => props.lockScroll,
-  (newVal) => {
+  newVal => {
     if (newVal) {
       progressValue.value = 0;
+      logs.value.length = 0;
       document.documentElement.style.overflow = 'hidden';
       startProgress();
     } else {
@@ -50,6 +56,10 @@ function startProgress() {
     }
   }, 100);
 }
+
+function handleLogResult(result: string): void {
+  logs.value.push(result);
+}
 </script>
 
 <template>
@@ -57,6 +67,7 @@ function startProgress() {
     <div class="loading-content box">
       <p class="title is-4">{{ message }}</p>
       <progress class="progress is-primary" :value="progressValue" max="100"></progress>
+      <p v-for="(log, index) in logs" :key="index">{{ log }}</p>
     </div>
   </div>
 </template>

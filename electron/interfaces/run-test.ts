@@ -10,4 +10,5 @@ export interface RunTest {
   defaultTimeout: number;
   actions: Action[];
   repeat?: number;
+  log: boolean;
 }

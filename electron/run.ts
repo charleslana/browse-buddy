@@ -1,5 +1,6 @@
 import translate from './translate';
 import { Action } from './interfaces/action';
+import { BrowserWindow } from 'electron';
 import { Core } from '../puppeteer/core';
 import { generateUUID } from './utils/utils';
 import { NavigationResult } from './interfaces/navigation-result';
@@ -9,8 +10,14 @@ import { RunTest } from './interfaces/run-test';
 const navigationResults: NavigationResult[] = [];
 const page = new Page(Core.getInstance());
 
-export async function run(jsonData: string): Promise<NavigationResult[]> {
+export async function run(
+  jsonData: string,
+  win: BrowserWindow | null
+): Promise<NavigationResult[]> {
   const runTest: RunTest = JSON.parse(jsonData);
+  if (runTest.log) {
+    page.setWindow(win);
+  }
   Core.setHeadless(runTest.isHeadless);
   Core.setDefaultTimeout(runTest.defaultTimeout);
   const repeatCount = runTest.repeat ?? 1;
@@ -18,6 +25,7 @@ export async function run(jsonData: string): Promise<NavigationResult[]> {
   for (let i = 0; i < repeatCount; i++) {
     result = await runTestFunction(runTest);
     await page.closeBrowser();
+    page.setWindow(null);
   }
   navigationResults.length = 0;
   return result;

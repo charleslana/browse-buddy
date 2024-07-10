@@ -19,6 +19,7 @@ const saveEveryScreenshot = ref(store.runTest.isSaveEveryScreenshot);
 const saveHeadless = ref(store.runTest.isHeadless);
 const saveDefaultTimeout = ref(store.runTest.defaultTimeout);
 const repeatedTimes = ref(1);
+const saveLog = ref(store.runTest.log);
 
 watch(
   [
@@ -26,21 +27,24 @@ watch(
     () => store.runTest.isSaveEveryScreenshot,
     () => store.runTest.isHeadless,
     () => store.runTest.defaultTimeout,
+    () => store.runTest.log,
   ],
   ([
     saveLastScreenshotValue,
     saveEveryScreenshotValue,
     saveHeadlessValue,
     saveDefaultTimeoutValue,
+    saveLogValue,
   ]) => {
     saveLastScreenshot.value = saveLastScreenshotValue;
     saveEveryScreenshot.value = saveEveryScreenshotValue;
     saveHeadless.value = saveHeadlessValue;
     saveDefaultTimeout.value = saveDefaultTimeoutValue;
+    saveLog.value = saveLogValue;
   }
 );
 
-watch(saveDefaultTimeout, (newValue) => {
+watch(saveDefaultTimeout, newValue => {
   if (newValue < 1) {
     saveDefaultTimeout.value = 1;
     updateSaveDefaultTimeout();
@@ -50,7 +54,7 @@ watch(saveDefaultTimeout, (newValue) => {
   }
 });
 
-watch(repeatedTimes, (newValue) => {
+watch(repeatedTimes, newValue => {
   if (newValue < 1) {
     repeatedTimes.value = 1;
     updateRepeatedTimes();
@@ -78,6 +82,10 @@ function updateSaveDefaultTimeout(): void {
 
 function updateRepeatedTimes(): void {
   store.setRepeat(repeatedTimes.value);
+}
+
+function updateSaveLog(): void {
+  store.setSaveLog(saveLog.value);
 }
 </script>
 
@@ -124,6 +132,10 @@ function updateRepeatedTimes(): void {
         />
       </div>
     </div>
+    <label class="checkbox mb-4">
+      <input type="checkbox" v-model="saveLog" @change="updateSaveLog" />
+      Habilitar logs em tempo real (experimental)
+    </label>
   </div>
 </template>
 
