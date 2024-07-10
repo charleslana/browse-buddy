@@ -5,6 +5,7 @@
   "isSaveEveryScreenshot": true,
   "isHeadless": true,
   "defaultTimeout": 15000,
+  "log": true,
   "actions": [
     {
       "id": "42d296e0-bf19-4942-b944-1e12595fd70f",

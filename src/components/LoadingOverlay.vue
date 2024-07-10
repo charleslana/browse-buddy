@@ -1,72 +1,53 @@
 <script setup lang="ts">
-import { onMounted, ref, watch } from 'vue';
+import { nextTick, onMounted, ref, watch } from 'vue';
 
 interface Props {
   active: boolean;
   message: string;
-  lockScroll: boolean;
-  fillProgress: boolean;
 }
 
 const props = defineProps<Props>();
-const progressValue = ref(0);
-const interval = ref<NodeJS.Timeout | null>(null);
 const logs = ref<string[]>([]);
+const logsContainerRef = ref<HTMLDivElement | null>(null);
 
 onMounted(() => {
   window.ipcRenderer.on('log-result', (_, response) => handleLogResult(response));
 });
 
 watch(
-  () => props.fillProgress,
+  () => props.active,
   newVal => {
     if (newVal) {
-      progressValue.value = 100;
-    } else {
-      progressValue.value = 0;
-    }
-  }
-);
-
-watch(
-  () => props.lockScroll,
-  newVal => {
-    if (newVal) {
-      progressValue.value = 0;
       logs.value.length = 0;
       document.documentElement.style.overflow = 'hidden';
-      startProgress();
     } else {
       document.documentElement.style.overflow = 'auto';
-      if (interval.value) {
-        clearInterval(interval.value);
-      }
     }
   }
 );
-
-function startProgress() {
-  interval.value = setInterval(() => {
-    if (progressValue.value < 100) {
-      progressValue.value += 1;
-    } else {
-      if (interval.value) {
-        clearInterval(interval.value);
-      }
-    }
-  }, 100);
-}
 
 function handleLogResult(result: string): void {
   logs.value.push(result);
+  scrollToBottom();
+}
+
+function scrollToBottom(): void {
+  nextTick(() => {
+    if (logsContainerRef.value) {
+      logsContainerRef.value.scrollTop = logsContainerRef.value.scrollHeight;
+    }
+  });
 }
 </script>
 
 <template>
   <div v-if="active" class="loading-overlay">
-    <div class="loading-content box">
+    <div
+      ref="logsContainerRef"
+      class="loading-content box"
+      :class="{ 'scroll-down': logs.length > 0 }"
+    >
       <p class="title is-4">{{ message }}</p>
-      <progress class="progress is-primary" :value="progressValue" max="100"></progress>
       <p v-for="(log, index) in logs" :key="index">{{ log }}</p>
     </div>
   </div>
@@ -84,11 +65,18 @@ function handleLogResult(result: string): void {
   align-items: center;
   justify-content: center;
   z-index: 9999;
+  overflow-y: auto;
 }
 
 .loading-content {
   padding: 2rem;
   border-radius: 8px;
   text-align: center;
+  overflow-y: auto;
+  max-height: 80vh;
+}
+
+.scroll-down {
+  scroll-behavior: smooth;
 }
 </style>

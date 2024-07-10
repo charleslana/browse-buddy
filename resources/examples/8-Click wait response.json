@@ -5,10 +5,11 @@
   "isSaveEveryScreenshot": true,
   "isHeadless": true,
   "defaultTimeout": 15000,
+  "log": true,
   "actions": [
     {
-      "id": "2f0ce26b-6dd8-4040-965a-e52e820b7fdc",
-      "type": "click",
+      "id": "b9b4b419-4ef3-431e-bbf1-3b725b91a978",
+      "type": "wait-click",
       "inputs": [
         {
           "label": "The element selector text",
@@ -17,7 +18,7 @@
           "value": "//button[contains(@class, \"try-out__btn\")]"
         }
       ],
-      "title": "Click"
+      "title": "Wait and click"
     },
     {
       "id": "29c0f972-03e5-4709-89c9-a29b16bb643e",
