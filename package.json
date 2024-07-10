@@ -28,7 +28,7 @@
     "@fortawesome/vue-fontawesome": "^3.0.8",
     "bulma": "^1.0.1",
     "electron-store": "^8.2.0",
-    "electron-updater": "^6.1.8",
+    "electron-updater": ">=6.3.0-alpha.6",
     "floating-vue": "^5.2.2",
     "jspdf": "^2.5.1",
     "jspdf-autotable": "^3.8.2",
