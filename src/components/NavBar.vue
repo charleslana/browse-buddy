@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import images from '@/data/image';
+import { RouterLink } from 'vue-router';
 </script>
 
 <template>
@@ -9,6 +10,17 @@ import images from '@/data/image';
         <img :src="images.logo" alt="logo image" />
         <p class="logo is-size-4 ml-2">Browse Buddy</p>
       </span>
+    </div>
+    <div class="navbar-menu">
+      <div class="navbar-end">
+        <div class="navbar-item">
+          <div class="buttons">
+            <RouterLink to="/" class="button is-primary">
+              <strong>Voltar</strong>
+            </RouterLink>
+          </div>
+        </div>
+      </div>
     </div>
   </nav>
 </template>

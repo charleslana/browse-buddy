@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { nextTick, onMounted, ref, watch } from 'vue';
+import { nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 
 interface Props {
   active: boolean;
@@ -12,6 +12,10 @@ const logsContainerRef = ref<HTMLDivElement | null>(null);
 
 onMounted(() => {
   window.ipcRenderer.on('log-result', (_, response) => handleLogResult(response));
+});
+
+onBeforeUnmount(() => {
+  window.ipcRenderer.removeAllListeners('log-result');
 });
 
 watch(

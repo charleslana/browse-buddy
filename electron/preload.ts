@@ -17,4 +17,8 @@ contextBridge.exposeInMainWorld('ipcRenderer', {
     const [channel, ...omit] = args;
     return ipcRenderer.invoke(channel, ...omit);
   },
+  removeAllListeners(...args: Parameters<typeof ipcRenderer.invoke>) {
+    const [channel] = args;
+    return ipcRenderer.removeAllListeners(channel);
+  },
 });
