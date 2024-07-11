@@ -1,4 +1,6 @@
+import ApiView from '@/views/ApiView.vue';
 import HomeView from '@/views/HomeView.vue';
+import InterfaceView from '@/views/InterfaceView.vue';
 import translate from '@/translate';
 import { createRouter, createWebHistory } from 'vue-router';
 
@@ -12,6 +14,18 @@ const router = createRouter({
       name: 'home',
       component: HomeView,
       meta: { title: getTitle(`${t('title')}`) },
+    },
+    {
+      path: '/interface',
+      name: 'interface',
+      component: InterfaceView,
+      meta: { title: getTitle(`${t('title')} Interface`) },
+    },
+    {
+      path: '/api',
+      name: 'api',
+      component: ApiView,
+      meta: { title: getTitle(`${t('title')} API`) },
     },
     {
       path: '/:catchAll(.*)',

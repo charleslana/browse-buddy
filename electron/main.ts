@@ -45,8 +45,6 @@ function createWindow() {
   win.webContents.on('did-finish-load', () => {
     win?.webContents.send('main-process-message', new Date().toLocaleString());
     win?.webContents.send('set-language', getLanguage());
-    win?.webContents.send('set-url', getUrlsPreference());
-    win?.webContents.send('set-session', getSessionPreference());
   });
   if (VITE_DEV_SERVER_URL) {
     win.webContents.openDevTools();
@@ -75,7 +73,7 @@ app.on('activate', () => {
 app.whenReady().then(createWindow);
 
 ipcMain.on('run', (_, jsonData: string) => {
-  run(jsonData, win).then((response) => {
+  run(jsonData, win).then(response => {
     win?.webContents.send('run-complete', response);
   });
 });
@@ -107,6 +105,14 @@ ipcMain.on('save-session', (_, jsonData: string) => {
   saveSessionPreference(jsonData);
 });
 
+ipcMain.on('get-session', () => {
+  win?.webContents.send('set-session', getSessionPreference());
+});
+
+ipcMain.on('get-url', () => {
+  win?.webContents.send('set-url', getUrlsPreference());
+});
+
 ipcMain.on('delete-session', () => {
   deleteSessionPreference();
 });
@@ -131,7 +137,7 @@ autoUpdater.on('update-downloaded', () => {
       message: t('updateReadyMessage'),
       buttons: [t('updateYesButton'), t('updateLaterButton')],
     })
-    .then((result) => {
+    .then(result => {
       if (result.response === 0) {
         autoUpdater.quitAndInstall(false, true);
       }

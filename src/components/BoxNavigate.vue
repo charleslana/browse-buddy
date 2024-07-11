@@ -25,15 +25,17 @@ const context = ref<string | undefined>();
 
 onMounted(() => {
   window.ipcRenderer.on('set-url', (_, response) => (urls.value = response));
+  window.ipcRenderer.send('get-url');
+  emitUrl();
 });
 
 onBeforeUnmount(() => {
-  window.ipcRenderer.removeListener('set-url', (_, response) => (urls.value = response));
+  window.ipcRenderer.removeAllListeners('set-url');
 });
 
 watch(
   () => store.runTest.url,
-  (newValue) => {
+  newValue => {
     if (newValue && newValue !== '') {
       inputUrl.value = newValue;
       emit('input-filled', true);
@@ -46,7 +48,7 @@ watch(
 
 watch(
   () => store.runTest.contextUrl,
-  (newValue) => {
+  newValue => {
     if (newValue && newValue !== '') {
       context.value = newValue;
       return;
@@ -55,11 +57,18 @@ watch(
   }
 );
 
-watch(context, (newValue) => {
+watch(context, newValue => {
   if (newValue === '') {
     context.value = undefined;
   }
 });
+
+function emitUrl(): void {
+  inputUrl.value = store.runTest.url;
+  if (inputUrl.value !== '') {
+    emit('input-filled', true);
+  }
+}
 
 function openModal(): void {
   isModalNavigateActive.value = true;

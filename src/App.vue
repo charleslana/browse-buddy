@@ -10,7 +10,7 @@ onMounted(() => {
 });
 
 onBeforeUnmount(() => {
-  window.ipcRenderer.removeListener('set-language', (_, response) => handleLanguage(response));
+  window.ipcRenderer.removeAllListeners('set-language');
 });
 
 function handleLanguage(lang: SupportedLanguages | undefined) {
