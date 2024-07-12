@@ -15,14 +15,14 @@ export async function run(
   win: BrowserWindow | null
 ): Promise<NavigationResult[]> {
   const runTest: RunTest = JSON.parse(jsonData);
-  if (runTest.log) {
-    page.setWindow(win);
-  }
   Core.setHeadless(runTest.isHeadless);
   Core.setDefaultTimeout(runTest.defaultTimeout);
   const repeatCount = runTest.repeat ?? 1;
   let result: NavigationResult[] = [];
   for (let i = 0; i < repeatCount; i++) {
+    if (runTest.log) {
+      page.setWindow(win);
+    }
     result = await runTestFunction(runTest);
     await page.closeBrowser();
     page.setWindow(null);
