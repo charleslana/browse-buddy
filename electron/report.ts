@@ -19,7 +19,7 @@ export function exportReport(jsonData: string): void {
       defaultPath: path.join(defaultPath, `${name}.pdf`),
       filters: [{ name: 'PDF', extensions: ['pdf'] }],
     })
-    .then((fileName) => {
+    .then(fileName => {
       if (fileName && fileName.filePath.length > 0) {
         savePdfFile(fileName.filePath, doc);
       }
@@ -56,7 +56,7 @@ function createPDF(): jsPDF {
 
 function addTestResults(doc: jsPDF, results: NavigationResult[]): void {
   const t = translate.global.t;
-  const resultsData = results.map((result) => [
+  const resultsData = results.map(result => [
     result.title,
     result.message,
     result.duration || '',
@@ -70,7 +70,7 @@ function addTestResults(doc: jsPDF, results: NavigationResult[]): void {
     columnStyles: { 0: { halign: 'center' } },
     head: [[t('actionReport'), t('contextReport'), t('durationTimeReport'), t('statusReport')]],
     body: resultsData,
-    didParseCell: (data) => {
+    didParseCell: data => {
       if (data.section === 'body' && data.column.index === 3) {
         const raw = (data.row.raw as any)[data.column.index];
         data.cell.styles.textColor = raw === t('passedReport') ? 'green' : 'red';
@@ -100,7 +100,7 @@ function addSummaryInfo(doc: jsPDF, results: NavigationResult[]): void {
 }
 
 function calculatePassedTests(results: NavigationResult[]): number {
-  return results.filter((result) => result.error === undefined).length;
+  return results.filter(result => result.error === undefined).length;
 }
 
 function addFooter(doc: jsPDF): void {

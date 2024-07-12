@@ -45,7 +45,8 @@ export class Core {
   }
 
   public async closeBrowser(): Promise<void> {
-    if (this.browser) {
+    if (this.browser && this.page) {
+      await this.page.close();
       await this.browser.close();
       this.browser = null;
       this.page = null;

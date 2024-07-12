@@ -1,4 +1,4 @@
-import { SelectOption } from '../types/select-option';
+import { SelectOption } from '@electron/types/select-option';
 
 export interface Input {
   label: string;

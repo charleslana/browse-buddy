@@ -1,4 +1,4 @@
-import { ActionType } from '../types/action-type';
+import { ActionType } from '@electron/types/action-type';
 import { Input } from './input';
 
 export interface Action {

@@ -1,8 +1,8 @@
 import messages from './messages';
 import { app } from 'electron';
 import { createI18n } from 'vue-i18n';
-import { getLangPreference, setLangPreference } from '../utils/store';
-import { SupportedLanguages } from '../types/supported-languages';
+import { getLangPreference, setLangPreference } from '@electron/utils/store';
+import { SupportedLanguages } from '@electron/types/supported-languages';
 
 const systemLanguage = getLangPreference() || (app ? app.getLocale().split('-')[0] : 'en');
 

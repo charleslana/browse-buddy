@@ -11,4 +11,7 @@ module.exports = {
     node: true,
     commonjs: true,
   },
+  rules: {
+    'no-console': 'warn',
+  },
 };

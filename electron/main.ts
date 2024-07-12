@@ -8,16 +8,16 @@ import { getAppIconPath } from './utils/utils';
 import { openFileDialog, saveFileDialog } from './dialog';
 import { run } from './run';
 import { setTheme } from './theme';
-import {
-  addUrlPreference,
-  deleteSessionPreference,
-  deleteUrlPreference,
-  getSessionPreference,
-  getUrlsPreference,
-  saveSessionPreference,
-} from './utils/store';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
+import {
+  addUrlPreference,
+  getUrlsPreference,
+  deleteUrlPreference,
+  saveSessionPreference,
+  getSessionPreference,
+  deleteSessionPreference,
+} from './utils/store';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 

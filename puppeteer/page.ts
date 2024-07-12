@@ -1,23 +1,26 @@
 import fs from 'fs';
-import logger from '../electron/utils/logger';
+import logger from '@electron/utils/logger';
 import path from 'path';
-import translate from '../electron/translate';
+import translate from '@electron/translate';
+import { ApiPage } from './api-page';
 import { BrowserWindow } from 'electron';
 import { Core } from './core';
 import { CoreError } from './error';
 import { ElementHandle, Frame, Page as PuppeteerPage } from 'puppeteer';
 import { ExecutionResult } from './interfaces/execution-result';
-import { generateUUID } from '../electron/utils/utils';
+import { generateUUID, getDefaultDir } from '@electron/utils/utils';
 
 export class Page {
   constructor(core: Core) {
     this.core = core;
+    this.apiPage = new ApiPage();
   }
 
   private core: Core;
   private page: PuppeteerPage = <PuppeteerPage>{};
   private t = translate.global.t;
   private window: BrowserWindow | null = null;
+  private apiPage: ApiPage = <ApiPage>{};
 
   public setWindow(win: BrowserWindow | null): void {
     this.window = win;
@@ -473,7 +476,7 @@ export class Page {
     this.window?.webContents.send('log-result', log);
     logger.warn(log);
     try {
-      const screenshotsDir = this.getScreenshotDir();
+      const screenshotsDir = path.resolve(getDefaultDir(), 'screenshots');
       if (!fs.existsSync(screenshotsDir)) {
         fs.mkdirSync(screenshotsDir, { recursive: true });
       }
@@ -494,19 +497,20 @@ export class Page {
     }
   }
 
+  public async apiPost(): Promise<void> {
+    this.apiPage.page = await this.core.getPage();
+    await this.apiPage.post();
+  }
+
+  public async apiGet(): Promise<void> {
+    this.apiPage.page = await this.core.getPage();
+    await this.apiPage.get();
+  }
+
   private async saveScreenshot(id: string, saveScreenshot?: boolean): Promise<string | undefined> {
     if (saveScreenshot) {
       return await this.screenshot(id);
     }
-  }
-
-  private getScreenshotDir(): string {
-    if (process.platform === 'linux') {
-      return path.join(process.env.HOME || '', '.config', 'browse-buddy', 'screenshots');
-    } else if (process.platform === 'win32') {
-      return path.join(process.env.APPDATA || '', 'browse-buddy', 'screenshots');
-    }
-    throw new CoreError(`Sistema operacional não suportado: ${process.platform}`);
   }
 
   private bufferToBase64(buffer: Buffer): string {
