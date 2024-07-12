@@ -4,6 +4,7 @@ import translate, { setLanguage } from './translate';
 import { app, BrowserWindow, dialog, Menu, nativeTheme, shell } from 'electron';
 import { openJsonFile } from './dialog';
 import { setThemeModePreference } from './utils/store';
+import { getDefaultDir } from './utils/utils';
 
 export function createMenu(win: BrowserWindow, icon: string): void {
   const t = translate.global.t;
@@ -172,6 +173,23 @@ export function createMenu(win: BrowserWindow, icon: string): void {
           click: () => {
             const text = openJsonFile(getJsonResourcesPath('13-Iframe type.json'));
             win.webContents.send('set-session', text);
+          },
+        },
+      ],
+    },
+    {
+      label: 'Logs',
+      submenu: [
+        {
+          label: 'Telas de captura',
+          click: () => {
+            shell.openPath(path.resolve(getDefaultDir(), 'screenshots'));
+          },
+        },
+        {
+          label: 'Logs de execução',
+          click: () => {
+            shell.openPath(path.resolve(getDefaultDir(), 'logs'));
           },
         },
       ],
