@@ -42,6 +42,8 @@ export class ApiPage {
       }
     } catch (error) {
       logger.error('Erro durante a execução da requisição POST:', error);
+    } finally {
+      await this.page.setRequestInterception(false);
     }
   }
 
@@ -62,7 +64,7 @@ export class ApiPage {
       const response = await this.page.goto('https://postman-echo.com/get');
 
       if (response) {
-        if (response.status() !== 200) {
+        if (response.status() !== 201) {
           throw new CoreError(
             `Falha na requisição GET para ${response.url()}. Status ${response.status()}`
           );
@@ -74,6 +76,8 @@ export class ApiPage {
       }
     } catch (error) {
       logger.error('Erro durante a execução da requisição GET:', error);
+    } finally {
+      await this.page.setRequestInterception(false);
     }
   }
 
