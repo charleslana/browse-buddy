@@ -1,22 +1,12 @@
 import electron from 'vite-plugin-electron';
+import path from 'path';
 import vue from '@vitejs/plugin-vue';
 import { defineConfig } from 'vite';
-// import electron from 'vite-plugin-electron/simple';
-// import path from 'node:path';
 import { fileURLToPath, URL } from 'node:url';
 
 export default defineConfig({
   plugins: [
     vue(),
-    // electron({
-    //   main: {
-    //     entry: 'electron/main.ts',
-    //   },
-    //   preload: {
-    //     input: path.join(__dirname, 'electron/preload.ts'),
-    //   },
-    //   renderer: process.env.NODE_ENV === 'test' ? undefined : {},
-    // }),
     electron({
       entry: ['electron/main.ts', 'electron/preload.ts'],
       vite: {
@@ -38,6 +28,36 @@ export default defineConfig({
               'vue-i18n',
               'winston',
               'zod',
+            ],
+            plugins: [
+              {
+                name: 'alias',
+                resolveId(source) {
+                  const resolvedPath = source.endsWith('.ts') ? source : `${source}.ts`;
+                  if (source === '@') {
+                    return path.resolve(__dirname, 'src', resolvedPath);
+                  } else if (source.startsWith('@electron/translate')) {
+                    return path.resolve(
+                      __dirname,
+                      'electron',
+                      source.replace('@electron/', '') + '/index.ts'
+                    );
+                  } else if (source.startsWith('@electron')) {
+                    return path.resolve(
+                      __dirname,
+                      'electron',
+                      resolvedPath.replace('@electron/', '')
+                    );
+                  } else if (source.startsWith('@puppeteer')) {
+                    return path.resolve(
+                      __dirname,
+                      'puppeteer',
+                      resolvedPath.replace('@puppeteer/', '')
+                    );
+                  }
+                  return null;
+                },
+              },
             ],
           },
         },

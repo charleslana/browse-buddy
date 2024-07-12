@@ -1,7 +1,7 @@
 import translate from './translate';
 import { Action } from './interfaces/action';
 import { BrowserWindow } from 'electron';
-import { Core } from '../puppeteer/core';
+import { Core } from '@puppeteer/core';
 import { generateUUID } from './utils/utils';
 import { NavigationResult } from './interfaces/navigation-result';
 import { Page } from '../puppeteer/page';

@@ -31,7 +31,7 @@ export function saveFileDialog(jsonData: string): void {
       defaultPath: path.join(defaultPath, `${runTest.name}.json`),
       filters: [{ name: 'JSON', extensions: ['json'] }],
     })
-    .then((fileName) => {
+    .then(fileName => {
       if (fileName && fileName.filePath.length > 0) {
         saveJsonFile(fileName.filePath, updatedJsonData);
       }
