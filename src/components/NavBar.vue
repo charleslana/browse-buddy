@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import images from '@/data/image';
-import { RouterLink } from 'vue-router';
+import router from '@/router';
+
+function goBack(): void {
+  window.ipcRenderer.send('hide-menu');
+  router.push('/');
+}
 </script>
 
 <template>
@@ -15,9 +20,9 @@ import { RouterLink } from 'vue-router';
       <div class="navbar-end">
         <div class="navbar-item">
           <div class="buttons">
-            <RouterLink to="/" class="button is-primary">
+            <button class="button is-primary" @click="goBack">
               <strong>Voltar</strong>
-            </RouterLink>
+            </button>
           </div>
         </div>
       </div>

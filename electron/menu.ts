@@ -2,11 +2,12 @@ import packageJson from '../package.json';
 import path from 'path';
 import translate, { setLanguage } from './translate';
 import { app, BrowserWindow, dialog, Menu, nativeTheme, shell } from 'electron';
+import { getDefaultDir } from './utils/utils';
+import { MenuExample } from './interfaces/menu-example';
 import { openJsonFile } from './dialog';
 import { setThemeModePreference } from './utils/store';
-import { getDefaultDir } from './utils/utils';
 
-export function createMenu(win: BrowserWindow, icon: string): void {
+export function createMenu(win: BrowserWindow, icon: string, menu?: MenuExample): void {
   const t = translate.global.t;
   const menuTemplate: Electron.MenuItemConstructorOptions[] = [
     {
@@ -85,95 +86,106 @@ export function createMenu(win: BrowserWindow, icon: string): void {
       label: t('exampleMenu'),
       submenu: [
         {
-          label: t('actionWaitClick'),
-          click: () => {
-            const text = openJsonFile(getJsonResourcesPath('1-Wait and click.json'));
-            win.webContents.send('set-session', text);
-          },
+          label: 'Exemplos de interface',
+          enabled: menu ? menu.showInterface : false,
+          submenu: [
+            {
+              label: t('actionWaitClick'),
+              click: () => {
+                const text = openJsonFile(getJsonResourcesPath('1-Wait and click.json'));
+                win.webContents.send('set-session', text);
+              },
+            },
+            {
+              label: t('actionClick'),
+              click: () => {
+                const text = openJsonFile(getJsonResourcesPath('2-Click.json'));
+                win.webContents.send('set-session', text);
+              },
+            },
+            {
+              label: t('actionFill'),
+              click: () => {
+                const text = openJsonFile(getJsonResourcesPath('3-Fill.json'));
+                win.webContents.send('set-session', text);
+              },
+            },
+            {
+              label: t('actionType'),
+              click: () => {
+                const text = openJsonFile(getJsonResourcesPath('4-Type.json'));
+                win.webContents.send('set-session', text);
+              },
+            },
+            {
+              label: t('actionClear'),
+              click: () => {
+                const text = openJsonFile(getJsonResourcesPath('5-Clear.json'));
+                win.webContents.send('set-session', text);
+              },
+            },
+            {
+              label: t('actionWaitVisible'),
+              click: () => {
+                const text = openJsonFile(getJsonResourcesPath('6-Wait visible.json'));
+                win.webContents.send('set-session', text);
+              },
+            },
+            {
+              label: t('actionWaitHidden'),
+              click: () => {
+                const text = openJsonFile(getJsonResourcesPath('7-Wait hidden.json'));
+                win.webContents.send('set-session', text);
+              },
+            },
+            {
+              label: t('actionClickWaitResponse'),
+              click: () => {
+                const text = openJsonFile(getJsonResourcesPath('8-Click wait response.json'));
+                win.webContents.send('set-session', text);
+              },
+            },
+            {
+              label: t('actionEnter'),
+              click: () => {
+                const text = openJsonFile(getJsonResourcesPath('9-Press Enter.json'));
+                win.webContents.send('set-session', text);
+              },
+            },
+            {
+              label: t('actionReload'),
+              click: () => {
+                const text = openJsonFile(getJsonResourcesPath('10-Reload page.json'));
+                win.webContents.send('set-session', text);
+              },
+            },
+            {
+              label: t('actionSelect'),
+              click: () => {
+                const text = openJsonFile(getJsonResourcesPath('11-Select.json'));
+                win.webContents.send('set-session', text);
+              },
+            },
+            {
+              label: t('actionDragAndDrop'),
+              click: () => {
+                const text = openJsonFile(getJsonResourcesPath('12-Drag and drop.json'));
+                win.webContents.send('set-session', text);
+              },
+            },
+            {
+              label: t('actionIframeType'),
+              click: () => {
+                const text = openJsonFile(getJsonResourcesPath('13-Iframe type.json'));
+                win.webContents.send('set-session', text);
+              },
+            },
+          ],
         },
         {
-          label: t('actionClick'),
-          click: () => {
-            const text = openJsonFile(getJsonResourcesPath('2-Click.json'));
-            win.webContents.send('set-session', text);
-          },
-        },
-        {
-          label: t('actionFill'),
-          click: () => {
-            const text = openJsonFile(getJsonResourcesPath('3-Fill.json'));
-            win.webContents.send('set-session', text);
-          },
-        },
-        {
-          label: t('actionType'),
-          click: () => {
-            const text = openJsonFile(getJsonResourcesPath('4-Type.json'));
-            win.webContents.send('set-session', text);
-          },
-        },
-        {
-          label: t('actionClear'),
-          click: () => {
-            const text = openJsonFile(getJsonResourcesPath('5-Clear.json'));
-            win.webContents.send('set-session', text);
-          },
-        },
-        {
-          label: t('actionWaitVisible'),
-          click: () => {
-            const text = openJsonFile(getJsonResourcesPath('6-Wait visible.json'));
-            win.webContents.send('set-session', text);
-          },
-        },
-        {
-          label: t('actionWaitHidden'),
-          click: () => {
-            const text = openJsonFile(getJsonResourcesPath('7-Wait hidden.json'));
-            win.webContents.send('set-session', text);
-          },
-        },
-        {
-          label: t('actionClickWaitResponse'),
-          click: () => {
-            const text = openJsonFile(getJsonResourcesPath('8-Click wait response.json'));
-            win.webContents.send('set-session', text);
-          },
-        },
-        {
-          label: t('actionEnter'),
-          click: () => {
-            const text = openJsonFile(getJsonResourcesPath('9-Press Enter.json'));
-            win.webContents.send('set-session', text);
-          },
-        },
-        {
-          label: t('actionReload'),
-          click: () => {
-            const text = openJsonFile(getJsonResourcesPath('10-Reload page.json'));
-            win.webContents.send('set-session', text);
-          },
-        },
-        {
-          label: t('actionSelect'),
-          click: () => {
-            const text = openJsonFile(getJsonResourcesPath('11-Select.json'));
-            win.webContents.send('set-session', text);
-          },
-        },
-        {
-          label: t('actionDragAndDrop'),
-          click: () => {
-            const text = openJsonFile(getJsonResourcesPath('12-Drag and drop.json'));
-            win.webContents.send('set-session', text);
-          },
-        },
-        {
-          label: t('actionIframeType'),
-          click: () => {
-            const text = openJsonFile(getJsonResourcesPath('13-Iframe type.json'));
-            win.webContents.send('set-session', text);
-          },
+          label: 'Exemplos de API',
+          enabled: menu ? menu.showApi : false,
+          submenu: [],
         },
       ],
     },
@@ -239,13 +251,13 @@ export function createMenu(win: BrowserWindow, icon: string): void {
   buildMenu(menuTemplate);
 }
 
+export function updateMenu(win: BrowserWindow, icon: string, menu?: MenuExample): void {
+  createMenu(win, icon, menu);
+}
+
 function buildMenu(menuTemplate: Electron.MenuItemConstructorOptions[]): void {
   const menu = Menu.buildFromTemplate(menuTemplate);
   Menu.setApplicationMenu(menu);
-}
-
-function updateMenu(win: BrowserWindow, icon: string): void {
-  createMenu(win, icon);
 }
 
 function getJsonResourcesPath(file: string): string {
