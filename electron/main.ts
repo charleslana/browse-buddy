@@ -2,7 +2,7 @@ import logger from './utils/logger';
 import translate, { getLanguage } from './translate';
 import { app, BrowserWindow, dialog, ipcMain } from 'electron';
 import { autoUpdater } from 'electron-updater';
-import { createMenu } from './menu';
+import { createMenu, updateMenu } from './menu';
 import { exportReport } from './report';
 import { getAppIconPath } from './utils/utils';
 import { openFileDialog, saveFileDialog } from './dialog';
@@ -33,8 +33,9 @@ process.env.VITE_PUBLIC = VITE_DEV_SERVER_URL
 
 let win: BrowserWindow | null;
 
+const icon = path.join(process.env.VITE_PUBLIC, getAppIconPath());
+
 function createWindow() {
-  const icon = path.join(process.env.VITE_PUBLIC, getAppIconPath());
   win = new BrowserWindow({
     icon: icon,
     webPreferences: {
@@ -115,6 +116,18 @@ ipcMain.on('get-url', () => {
 
 ipcMain.on('delete-session', () => {
   deleteSessionPreference();
+});
+
+ipcMain.on('show-menu-interface', () => {
+  updateMenu(win!, icon, { showApi: false, showInterface: true });
+});
+
+ipcMain.on('show-menu-api', () => {
+  updateMenu(win!, icon, { showApi: true, showInterface: false });
+});
+
+ipcMain.on('hide-menu', () => {
+  updateMenu(win!, icon, { showApi: false, showInterface: false });
 });
 
 autoUpdater.on('update-available', () => {
