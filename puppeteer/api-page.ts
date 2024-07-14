@@ -1,6 +1,7 @@
 import logger from '@electron/utils/logger';
 import { ApiDetail } from './interfaces/api-detail';
 import { CoreError } from './error';
+import { ExecutionResult } from './interfaces/execution-result';
 import { HTTPResponse, Page as PuppeteerPage } from 'puppeteer';
 
 interface IResponse {
@@ -13,7 +14,10 @@ interface IResponse {
 export class ApiPage {
   public page: PuppeteerPage = <PuppeteerPage>{};
 
-  public async request(api: ApiDetail): Promise<void> {
+  public async request(api: ApiDetail): Promise<ExecutionResult> {
+    const startTime = Date.now();
+    let duration = 0;
+    let error: string | undefined;
     try {
       await this.page.setRequestInterception(true);
       this.requestData(api);
@@ -21,7 +25,7 @@ export class ApiPage {
       if (response) {
         if (response.status() !== api.expectStatusCode) {
           throw new CoreError(
-            `Falha na requisição ${api.type} para ${response.url()}. Status ${response.status()}`
+            `Falha na requisição ${api.type} para ${response.url()}. Status ${response.status()}. Response ${await response.text()}`
           );
         }
         logger.info(`Sucesso na requisição ${api.type}`);
@@ -29,11 +33,15 @@ export class ApiPage {
       } else {
         throw new CoreError(`Não foi possível obter resposta da requisição ${api.type}`);
       }
-    } catch (error) {
-      logger.error(`Erro durante a execução da requisição ${api.type}:`, error);
+    } catch (e) {
+      error = `Erro durante a execução da requisição ${api.type}: ${e}`;
+      logger.error(error);
     } finally {
+      const endTime = Date.now();
+      duration = (endTime - startTime) / 1000;
       await this.page.setRequestInterception(false);
     }
+    return { duration, error };
   }
 
   private async requestData(api: ApiDetail): Promise<void> {
