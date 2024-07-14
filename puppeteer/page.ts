@@ -2,6 +2,7 @@ import fs from 'fs';
 import logger from '@electron/utils/logger';
 import path from 'path';
 import translate from '@electron/translate';
+import { ApiDetail } from './interfaces/api-detail';
 import { ApiPage } from './api-page';
 import { BrowserWindow } from 'electron';
 import { Core } from './core';
@@ -497,14 +498,9 @@ export class Page {
     }
   }
 
-  public async apiPost(): Promise<void> {
+  public async apiRequest(api: ApiDetail): Promise<void> {
     this.apiPage.page = await this.core.getPage();
-    await this.apiPage.post();
-  }
-
-  public async apiGet(): Promise<void> {
-    this.apiPage.page = await this.core.getPage();
-    await this.apiPage.get();
+    await this.apiPage.request(api);
   }
 
   private async saveScreenshot(id: string, saveScreenshot?: boolean): Promise<string | undefined> {

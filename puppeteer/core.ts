@@ -8,6 +8,7 @@ export class Core {
   private static instance: Core;
   private static headless = false;
   private static defaultTimeout = 15000;
+  private static enableDevtools = false;
 
   private page: Page | null = null;
   private browser: Browser | null = null;
@@ -19,12 +20,24 @@ export class Core {
     return Core.instance;
   }
 
-  public static setHeadless(headless: boolean): void {
-    this.headless = headless;
+  public static showHeadless(): void {
+    this.headless = false;
+  }
+
+  public static hideHeadless(): void {
+    this.headless = true;
   }
 
   public static setDefaultTimeout(defaultTimeout: number): void {
     this.defaultTimeout = defaultTimeout;
+  }
+
+  public static showDevtools(): void {
+    this.enableDevtools = true;
+  }
+
+  public static hideDevtools(): void {
+    this.enableDevtools = false;
   }
 
   public async getPage(): Promise<Page> {
@@ -34,6 +47,7 @@ export class Core {
         headless: Core.headless,
         defaultViewport: null,
         args: ['--no-sandbox'],
+        devtools: Core.enableDevtools,
       });
       this.page = await this.browser.newPage();
       const getPages = await this.browser.pages();

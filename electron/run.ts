@@ -15,7 +15,11 @@ export async function run(
   win: BrowserWindow | null
 ): Promise<NavigationResult[]> {
   const runTest: RunTest = JSON.parse(jsonData);
-  Core.setHeadless(runTest.isHeadless);
+  if (runTest.isHeadless) {
+    Core.hideHeadless();
+  } else {
+    Core.showHeadless();
+  }
   Core.setDefaultTimeout(runTest.defaultTimeout);
   const repeatCount = runTest.repeat ?? 1;
   let result: NavigationResult[] = [];
