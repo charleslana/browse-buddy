@@ -6,4 +6,5 @@ export interface ApiDetail {
   authorization?: string;
   expectStatusCode: number;
   saveResponseProperty?: string;
+  saveScreenshot?: boolean;
 }

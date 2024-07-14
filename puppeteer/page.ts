@@ -498,9 +498,12 @@ export class Page {
     }
   }
 
-  public async apiRequest(api: ApiDetail): Promise<void> {
-    this.apiPage.page = await this.core.getPage();
-    await this.apiPage.request(api);
+  public async apiRequest(api: ApiDetail): Promise<ExecutionResult> {
+    this.page = await this.core.getPage();
+    this.apiPage.page = this.page;
+    const { duration, error } = await this.apiPage.request(api);
+    const screenshot = await this.saveScreenshot(generateUUID(), api.saveScreenshot);
+    return { duration, error, screenshot };
   }
 
   private async saveScreenshot(id: string, saveScreenshot?: boolean): Promise<string | undefined> {

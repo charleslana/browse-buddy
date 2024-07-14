@@ -9,6 +9,7 @@ import { Page } from '@puppeteer/page';
     type: 'GET',
     contentType: 'application/json',
     expectStatusCode: 200,
+    saveScreenshot: true,
   });
   await page.apiRequest({
     url: 'https://postman-echo.com/post',
@@ -19,6 +20,46 @@ import { Page } from '@puppeteer/page';
       bar: 'BAR',
     },
     expectStatusCode: 200,
+    saveScreenshot: true,
+  });
+  await page.apiRequest({
+    url: 'https://reqres.in/api/users/2',
+    type: 'PUT',
+    contentType: 'application/json',
+    data: {
+      name: 'NAME',
+      job: 'JOB',
+    },
+    expectStatusCode: 200,
+    saveScreenshot: true,
+  });
+  await page.apiRequest({
+    url: 'https://reqres.in/api/login',
+    type: 'POST',
+    contentType: 'application/json',
+    data: {
+      email: 'EMAIL',
+    },
+    expectStatusCode: 200,
+    saveScreenshot: true,
+  });
+  await page.apiRequest({
+    url: 'https://reqres.in/api/users/2',
+    type: 'PATCH',
+    contentType: 'application/json',
+    data: {
+      name: 'NAME',
+      job: 'JOB',
+    },
+    expectStatusCode: 200,
+    saveScreenshot: true,
+  });
+  await page.apiRequest({
+    url: 'https://postman-echo.com/delete',
+    type: 'DELETE',
+    contentType: 'application/json',
+    expectStatusCode: 200,
+    saveScreenshot: true,
   });
   await page.closeBrowser();
 })();
