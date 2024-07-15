@@ -93,15 +93,30 @@ function updateSaveLog(): void {
   <div class="column mx-5">
     <div class="is-size-4 has-text-weight-bold mb-5">{{ $t('runSettings') }}</div>
     <label class="checkbox mb-4">
-      <input type="checkbox" v-model="saveLastScreenshot" @change="updateSaveLastScreenshot" />
+      <input
+        type="checkbox"
+        v-model="saveLastScreenshot"
+        @change="updateSaveLastScreenshot"
+        :disabled="isSkeleton"
+      />
       {{ $t('saveScreenshotEndOfTest') }}
     </label>
     <label class="checkbox mb-4">
-      <input type="checkbox" v-model="saveEveryScreenshot" @change="updateSaveEveryScreenshot" />
+      <input
+        type="checkbox"
+        v-model="saveEveryScreenshot"
+        @change="updateSaveEveryScreenshot"
+        :disabled="isSkeleton"
+      />
       {{ $t('saveScreenshotForEachAction') }}
     </label>
     <label class="checkbox mb-4">
-      <input type="checkbox" v-model="saveHeadless" @change="updateSaveHeadless" />
+      <input
+        type="checkbox"
+        v-model="saveHeadless"
+        @change="updateSaveHeadless"
+        :disabled="isSkeleton"
+      />
       {{ $t('headlessMode') }}
     </label>
     <div class="field" v-tooltip="$t('defaultTimeTooltip')">
@@ -133,8 +148,8 @@ function updateSaveLog(): void {
       </div>
     </div>
     <label class="checkbox mb-4">
-      <input type="checkbox" v-model="saveLog" @change="updateSaveLog" />
-      Habilitar logs em tempo real (experimental)
+      <input type="checkbox" v-model="saveLog" @change="updateSaveLog" :disabled="isSkeleton" />
+      {{ $t('enableLogs') }}
     </label>
   </div>
 </template>

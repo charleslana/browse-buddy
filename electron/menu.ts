@@ -86,7 +86,7 @@ export function createMenu(win: BrowserWindow, icon: string, menu?: MenuExample)
       label: t('exampleMenu'),
       submenu: [
         {
-          label: 'Exemplos de interface',
+          label: t('interfaceExamplesMenu'),
           enabled: menu ? menu.showInterface : false,
           submenu: [
             {
@@ -183,7 +183,7 @@ export function createMenu(win: BrowserWindow, icon: string, menu?: MenuExample)
           ],
         },
         {
-          label: 'Exemplos de API',
+          label: t('apiExamplesMenu'),
           enabled: menu ? menu.showApi : false,
           submenu: [],
         },
@@ -193,13 +193,13 @@ export function createMenu(win: BrowserWindow, icon: string, menu?: MenuExample)
       label: 'Logs',
       submenu: [
         {
-          label: 'Telas de captura',
+          label: t('captureScreensMenu'),
           click: () => {
             shell.openPath(path.resolve(getDefaultDir(), 'screenshots'));
           },
         },
         {
-          label: 'Logs de execução',
+          label: t('executionLogsMenu'),
           click: () => {
             shell.openPath(path.resolve(getDefaultDir(), 'logs'));
           },

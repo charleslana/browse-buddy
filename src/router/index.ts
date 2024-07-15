@@ -13,19 +13,19 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: HomeView,
-      meta: { title: getTitle(`${t('title')}`) },
+      meta: { title: getTitle(`${t('mainTitle')}`) },
     },
     {
       path: '/interface',
       name: 'interface',
       component: InterfaceView,
-      meta: { title: getTitle(`${t('title')} Interface`) },
+      meta: { title: getTitle(`${t('interfaceTitle')}`) },
     },
     {
       path: '/api',
       name: 'api',
       component: ApiView,
-      meta: { title: getTitle(`${t('title')} API`) },
+      meta: { title: getTitle(`${t('apiTitle')}`) },
     },
     {
       path: '/:catchAll(.*)',

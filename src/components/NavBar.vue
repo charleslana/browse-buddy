@@ -21,7 +21,7 @@ function goBack(): void {
         <div class="navbar-item">
           <div class="buttons">
             <button class="button is-primary" @click="goBack">
-              <strong>Voltar</strong>
+              <strong>{{ $t('backButton') }}</strong>
             </button>
           </div>
         </div>
