@@ -79,6 +79,10 @@ export default {
     actionIframeType: 'Enter text inside the iframe',
     iframeTypeError: 'Error when typing the text {2} in the element {1} within the iframe {0}',
     iframeTypeMessage: 'Enter the text {2} in the element {1} within the iframe {0}',
+    interfaceExamplesMenu: 'Interface Examples',
+    apiExamplesMenu: 'API Examples',
+    captureScreensMenu: 'Capture screens',
+    executionLogsMenu: 'Execution logs',
   },
   es: {
     themes: 'Temas',
@@ -159,6 +163,10 @@ export default {
     actionIframeType: 'Escribir texto dentro del iframe',
     iframeTypeError: 'Error al escribir el texto {2} en el elemento {1} dentro del iframe {0}',
     iframeTypeMessage: 'Escribir el texto {2} en el elemento {1} dentro del iframe {0}',
+    interfaceExamplesMenu: 'Ejemplos de interfaz',
+    apiExamplesMenu: 'Ejemplos de API',
+    captureScreensMenu: 'Capturar pantallas',
+    executionLogsMenu: 'Registros de ejecución',
   },
   pt: {
     themes: 'Temas',
@@ -239,5 +247,9 @@ export default {
     actionIframeType: 'Digitar texto dentro do iframe',
     iframeTypeError: 'Erro ao digitar o texto {2} no elemento {1} dentro do iframe {0}',
     iframeTypeMessage: 'Digitar o texto {2} no elemento {1} dentro do iframe {0}',
+    interfaceExamplesMenu: 'Exemplos de interface',
+    apiExamplesMenu: 'Exemplos de API',
+    captureScreensMenu: 'Telas de captura',
+    executionLogsMenu: 'Histórico de execução',
   },
 };

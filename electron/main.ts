@@ -116,6 +116,7 @@ ipcMain.on('get-url', () => {
 
 ipcMain.on('delete-session', () => {
   deleteSessionPreference();
+  win?.webContents.send('set-session', getSessionPreference());
 });
 
 ipcMain.on('show-menu-interface', () => {

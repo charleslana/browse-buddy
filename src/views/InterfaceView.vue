@@ -3,20 +3,7 @@
   <div class="container">
     <div class="columns">
       <div class="column is-two-thirds mx-5">
-        <div class="box">
-          <div class="level">
-            <div class="level-left">
-              <button class="button is-responsive" @click="openFile">
-                {{ $t('importTest') }}
-              </button>
-            </div>
-            <div class="level-right">
-              <button class="button is-ghost" @click="isConfirmModalActive = true">
-                {{ $t('clearTests') }}
-              </button>
-            </div>
-          </div>
-        </div>
+        <ImportClearTestBox :is-skeleton="isSkeleton" />
         <NotificationComponent
           :type="isNotificationType"
           :message="isNotificationMessage"
@@ -60,11 +47,6 @@
       <SettingsComponent :is-skeleton="isSkeleton" />
     </div>
   </div>
-  <ModalConfirm
-    v-if="isConfirmModalActive"
-    @confirm-modal="confirmAction"
-    @close-modal="closeConfirmModal"
-  />
   <div class="floating-buttons buttons">
     <button @click="goToTop" class="button is-medium">
       <FontAwesomeIcon :icon="faHandPointUp" />
@@ -79,7 +61,6 @@
 <script setup lang="ts">
 import { onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import NavBar from '@/components/NavBar.vue';
-import ModalConfirm from '@/components/ModalConfirm.vue';
 import NotificationComponent from '@/components/NotificationComponent.vue';
 import translate from '@/translate';
 import BoxNavigate from '@/components/BoxNavigate.vue';
@@ -92,11 +73,11 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { faHandPointUp, faHandPointDown } from '@fortawesome/free-solid-svg-icons';
 import LoadingOverlay from '@/components/LoadingOverlay.vue';
 import { RunTest } from '@electron/interfaces/run-test';
+import ImportClearTestBox from '@/components/ImportClearTestBox.vue';
 
 const store = runTestStore();
 const storeResult = navigationResultStore();
 const t = translate.global.t;
-const isConfirmModalActive = ref(false);
 const isNotification = ref(false);
 const isNotificationType = ref<'is-danger' | 'is-success'>('is-success');
 const isNotificationMessage = ref(t('testSuccessNotification'));
@@ -163,34 +144,10 @@ watch(
 function handleSession(session: RunTest | undefined) {
   if (session) {
     store.saveRunTest(session);
-    isNotification.value = false;
   }
+  isNotification.value = false;
   isSkeleton.value = false;
   isLoading.value = false;
-}
-
-function openFile(): void {
-  window.ipcRenderer.send('open-file');
-}
-
-function confirmAction(): void {
-  isConfirmModalActive.value = false;
-  isNotification.value = false;
-  store.saveRunTest({
-    name: t('inputTestName'),
-    url: '',
-    isSaveLastScreenshot: true,
-    isSaveEveryScreenshot: true,
-    isHeadless: true,
-    defaultTimeout: 15000,
-    actions: [],
-    log: true,
-  });
-  window.ipcRenderer.send('delete-session');
-}
-
-function closeConfirmModal(): void {
-  isConfirmModalActive.value = false;
 }
 
 function handleNotification(): void {

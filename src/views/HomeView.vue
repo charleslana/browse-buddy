@@ -20,16 +20,16 @@ function goToMenuApi(): void {
       <div class="column is-half">
         <div class="card is-clickable" @click="goToMenuInterface">
           <div class="card-content">
-            <p class="title">Testes de interfaces</p>
-            <p class="subtitle">Normalmente usado para testes de elementos na página</p>
+            <p class="title">{{ $t('interfaceTitle') }}</p>
+            <p class="subtitle">{{ $t('interfaceDescription') }}</p>
           </div>
         </div>
       </div>
       <div class="column is-half">
         <div class="card is-clickable" @click="goToMenuApi">
           <div class="card-content">
-            <p class="title">Testes de API</p>
-            <p class="subtitle">Normalmente usado para testes de requisição de API</p>
+            <p class="title">{{ $t('apiTitle') }}</p>
+            <p class="subtitle">{{ $t('apiDescription') }}</p>
           </div>
         </div>
       </div>
